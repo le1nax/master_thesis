@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.4.1)  16 SEP 2025 12:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.4.1)  16 SEP 2025 16:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1057,7 +1057,12 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ] [6
 
 
-] (./Thesis.lof)
+] (./Thesis.lof
+Overfull \hbox (12.86052pt too wide) in paragraph at lines 7--7
+ [][] [][][]\T1/cmr/m/n/12 Different in-stance seg-ment-a-tion meth-ods, A: ori-ginal im-age, B: Bottom- 
+ []
+
+)
 \tf@lof=\write7
 \openout7 = `Thesis.lof'.
 
@@ -1065,17 +1070,16 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \tf@lot=\write8
 \openout8 = `Thesis.lot'.
 
- (./Thesis.lst)
+ [7{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] (./Thesis.lst)
 \tf@lst=\write9
 \openout9 = `Thesis.lst'.
 
- [7{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [8
-
-
-]
+ [8]
 \openout2 = `Chapters/002_styleguidelines.aux'.
 
  (./Chapters/002_styleguidelines.tex) [9
+
+
 
 
 ] [10
@@ -1120,81 +1124,104 @@ chapter 2.
 
 
 ]
-<Images/SOTA/ImageNet.png, id=148, 837.88031pt x 289.08pt>
+<Images/SOTA/ImageNet.png, id=159, 837.88031pt x 289.08pt>
 File: Images/SOTA/ImageNet.png Graphic file (type png)
 <use Images/SOTA/ImageNet.png>
 Package pdftex.def Info: Images/SOTA/ImageNet.png  used on input line 22.
 (pdftex.def)             Requested size: 422.52348pt x 145.77472pt.
  [4 <./Images/SOTA/ImageNet.png>]
-<Images/SOTA/u-net-architecture.png, id=161, 1560.83125pt x 1039.885pt>
+<Images/SOTA/u-net-architecture.png, id=171, 1560.83125pt x 1039.885pt>
 File: Images/SOTA/u-net-architecture.png Graphic file (type png)
 <use Images/SOTA/u-net-architecture.png>
-Package pdftex.def Info: Images/SOTA/u-net-architecture.png  used on input line 139.
+Package pdftex.def Info: Images/SOTA/u-net-architecture.png  used on input line 131.
 (pdftex.def)             Requested size: 338.02007pt x 225.18938pt.
- [5] [6 <./Images/SOTA/u-net-architecture.png>] [7] [8]
-<Images/SOTA/attention.png, id=189, 1061.46562pt x 352.31625pt>
+ [5 <./Images/SOTA/u-net-architecture.png>]
+<Images/SOTA/SemanticSeg.png, id=180, 414.04688pt x 151.3153pt>
+File: Images/SOTA/SemanticSeg.png Graphic file (type png)
+<use Images/SOTA/SemanticSeg.png>
+Package pdftex.def Info: Images/SOTA/SemanticSeg.png  used on input line 157.
+(pdftex.def)             Requested size: 253.51666pt x 92.65083pt.
+ [6 <./Images/SOTA/SemanticSeg.png>]
+<Images/SOTA/stardist.png, id=189, 930.47626pt x 251.43938pt>
+File: Images/SOTA/stardist.png Graphic file (type png)
+<use Images/SOTA/stardist.png>
+Package pdftex.def Info: Images/SOTA/stardist.png  used on input line 173.
+(pdftex.def)             Requested size: 380.26855pt x 102.75702pt.
+<Images/SOTA/cellpose_learning_objective.png, id=190, 930.47626pt x 304.13625pt>
+File: Images/SOTA/cellpose_learning_objective.png Graphic file (type png)
+<use Images/SOTA/cellpose_learning_objective.png>
+Package pdftex.def Info: Images/SOTA/cellpose_learning_objective.png  used on input line 184.
+(pdftex.def)             Requested size: 380.26855pt x 124.29292pt.
+ [7 <./Images/SOTA/stardist.png>]
+<Images/SOTA/tSNE_cellpose.png, id=197, 590.205pt x 587.19376pt>
+File: Images/SOTA/tSNE_cellpose.png Graphic file (type png)
+<use Images/SOTA/tSNE_cellpose.png>
+Package pdftex.def Info: Images/SOTA/tSNE_cellpose.png  used on input line 195.
+(pdftex.def)             Requested size: 253.51666pt x 252.21959pt.
+ [8 <./Images/SOTA/cellpose_learning_objective.png>] [9 <./Images/SOTA/tSNE_cellpose.png>] [10]
+<Images/SOTA/attention.png, id=218, 1061.46562pt x 352.31625pt>
 File: Images/SOTA/attention.png Graphic file (type png)
 <use Images/SOTA/attention.png>
-Package pdftex.def Info: Images/SOTA/attention.png  used on input line 258.
+Package pdftex.def Info: Images/SOTA/attention.png  used on input line 299.
 (pdftex.def)             Requested size: 338.02007pt x 112.19516pt.
- [9]
-<Images/SOTA/transformer.png, id=205, 401.24907pt x 545.78906pt>
+ [11]
+<Images/SOTA/transformer.png, id=233, 401.24907pt x 545.78906pt>
 File: Images/SOTA/transformer.png Graphic file (type png)
 <use Images/SOTA/transformer.png>
-Package pdftex.def Info: Images/SOTA/transformer.png  used on input line 273.
+Package pdftex.def Info: Images/SOTA/transformer.png  used on input line 314.
 (pdftex.def)             Requested size: 211.26173pt x 287.36803pt.
- [10 <./Images/SOTA/attention.png>]
-<Images/SOTA/vit.png, id=213, 897.3525pt x 457.71pt>
+ [12 <./Images/SOTA/attention.png>]
+<Images/SOTA/vit.png, id=241, 897.3525pt x 457.71pt>
 File: Images/SOTA/vit.png Graphic file (type png)
 <use Images/SOTA/vit.png>
-Package pdftex.def Info: Images/SOTA/vit.png  used on input line 290.
+Package pdftex.def Info: Images/SOTA/vit.png  used on input line 331.
 (pdftex.def)             Requested size: 380.26855pt x 193.96196pt.
-<Images/SOTA/SegFormer.png, id=214, 1001.99344pt x 527.72156pt>
+<Images/SOTA/SegFormer.png, id=242, 1001.99344pt x 527.72156pt>
 File: Images/SOTA/SegFormer.png Graphic file (type png)
 <use Images/SOTA/SegFormer.png>
-Package pdftex.def Info: Images/SOTA/SegFormer.png  used on input line 302.
+Package pdftex.def Info: Images/SOTA/SegFormer.png  used on input line 343.
 (pdftex.def)             Requested size: 380.26855pt x 200.2786pt.
- [11 <./Images/SOTA/transformer.png>] [12 <./Images/SOTA/vit.png> <./Images/SOTA/SegFormer.png>]
-<Images/SOTA/MAnet.png, id=227, 721.19438pt x 302.63063pt>
+ [13 <./Images/SOTA/transformer.png>] [14 <./Images/SOTA/vit.png> <./Images/SOTA/SegFormer.png>]
+<Images/SOTA/MAnet.png, id=255, 721.19438pt x 302.63063pt>
 File: Images/SOTA/MAnet.png Graphic file (type png)
 <use Images/SOTA/MAnet.png>
-Package pdftex.def Info: Images/SOTA/MAnet.png  used on input line 317.
+Package pdftex.def Info: Images/SOTA/MAnet.png  used on input line 358.
 (pdftex.def)             Requested size: 422.52348pt x 177.2991pt.
-<Images/SOTA/PAB.png, id=229, 1101.36469pt x 310.15875pt>
+<Images/SOTA/PAB.png, id=257, 1101.36469pt x 310.15875pt>
 File: Images/SOTA/PAB.png Graphic file (type png)
 <use Images/SOTA/PAB.png>
-Package pdftex.def Info: Images/SOTA/PAB.png  used on input line 334.
+Package pdftex.def Info: Images/SOTA/PAB.png  used on input line 375.
 (pdftex.def)             Requested size: 507.02689pt x 142.7836pt.
- [13 <./Images/SOTA/MAnet.png>]
-<Images/SOTA/MFAB.png, id=240, 1395.71437pt x 322.20375pt>
+ [15 <./Images/SOTA/MAnet.png>]
+<Images/SOTA/MFAB.png, id=269, 1395.71437pt x 322.20375pt>
 File: Images/SOTA/MFAB.png Graphic file (type png)
 <use Images/SOTA/MFAB.png>
-Package pdftex.def Info: Images/SOTA/MFAB.png  used on input line 359.
+Package pdftex.def Info: Images/SOTA/MFAB.png  used on input line 400.
 (pdftex.def)             Requested size: 507.02689pt x 117.04536pt.
- [14 <./Images/SOTA/PAB.png>]
-<Images/SOTA/MAE.png, id=247, 989.94844pt x 548.0475pt>
+ [16 <./Images/SOTA/PAB.png>]
+<Images/SOTA/MAE.png, id=276, 989.94844pt x 548.0475pt>
 File: Images/SOTA/MAE.png Graphic file (type png)
 <use Images/SOTA/MAE.png>
-Package pdftex.def Info: Images/SOTA/MAE.png  used on input line 403.
+Package pdftex.def Info: Images/SOTA/MAE.png  used on input line 444.
 (pdftex.def)             Requested size: 422.52348pt x 233.90807pt.
- [15 <./Images/SOTA/MFAB.png>] [16 <./Images/SOTA/MAE.png>]
-<Images/SOTA/SAM1.png, id=262, 864.98157pt x 197.23688pt>
+ [17 <./Images/SOTA/MFAB.png>] [18 <./Images/SOTA/MAE.png>]
+<Images/SOTA/SAM1.png, id=290, 864.98157pt x 197.23688pt>
 File: Images/SOTA/SAM1.png Graphic file (type png)
 <use Images/SOTA/SAM1.png>
-Package pdftex.def Info: Images/SOTA/SAM1.png  used on input line 424.
+Package pdftex.def Info: Images/SOTA/SAM1.png  used on input line 465.
 (pdftex.def)             Requested size: 422.52348pt x 96.34595pt.
- [17 <./Images/SOTA/SAM1.png>]
-<Images/SOTA/Hiera.png, id=270, 1015.54407pt x 234.8775pt>
+ [19 <./Images/SOTA/SAM1.png>]
+<Images/SOTA/Hiera.png, id=298, 1015.54407pt x 234.8775pt>
 File: Images/SOTA/Hiera.png Graphic file (type png)
 <use Images/SOTA/Hiera.png>
-Package pdftex.def Info: Images/SOTA/Hiera.png  used on input line 452.
+Package pdftex.def Info: Images/SOTA/Hiera.png  used on input line 493.
 (pdftex.def)             Requested size: 422.52348pt x 97.72322pt.
- [18]) [19 <./Images/SOTA/Hiera.png>]
+ [20]) [21 <./Images/SOTA/Hiera.png>]
 \openout2 = `Chapters/030_methods.aux'.
 
  (./Chapters/030_methods.tex
 chapter 3.
-) [20
+) [22
 
 
 
@@ -1250,18 +1277,18 @@ Package rerunfilecheck Info: File `Thesis.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 48428 strings out of 474222
- 1172797 string characters out of 5748734
- 1940975 words of memory out of 5000000
- 69827 multiletter control sequences out of 15000+600000
+ 48466 strings out of 474222
+ 1174022 string characters out of 5748734
+ 1941975 words of memory out of 5000000
+ 69858 multiletter control sequences out of 15000+600000
  579883 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,20n,133p,10931b,1534s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx2488.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsl1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx2488.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/txfonts/t1xbtt.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/txfonts/t1xtt.pfb>
-Output written on Thesis.pdf (34 pages, 2934056 bytes).
+Output written on Thesis.pdf (36 pages, 4464203 bytes).
 PDF statistics:
- 509 PDF objects out of 1000 (max. 8388607)
- 386 compressed objects within 4 object streams
- 92 named destinations out of 1000 (max. 500000)
- 214 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 536 PDF objects out of 1000 (max. 8388607)
+ 402 compressed objects within 5 object streams
+ 99 named destinations out of 1000 (max. 500000)
+ 226 words of extra memory for PDF output out of 10000 (max. 10000000)
 

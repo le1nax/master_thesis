@@ -126,6 +126,14 @@ While the developement of CNNs has benefitted a lot from the ImageNet dataset, a
 
 A widely adopted convolutional neural network architecture for biomedical image segmentation is the \textit{U-Net}, introduced by Ronneberger et al. in 2015. The U-Net was specifically designed for tasks where precise localization is essential, such as cell segmentation in microscopy images. Its name derives from its characteristic U-shaped architecture, consisting of a contracting path (encoder) and an expansive path (decoder).
 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/SOTA/u-net-architecture.png}
+    \caption{Schematic illustration of the U-Net architecture for image segmentation. The network consists of a contracting path (left side) to capture context via successive convolutional (3×3, ReLU) and max pooling (2×2) operations, and an expansive path (right side) that enables precise localization through up-convolutions (2×2) and concatenation with high-resolution features from the contracting path. The final segmentation map is generated using a 1×1 convolution. Feature map sizes and channel numbers are indicated for each layer.}
+    \label{fig:unet}
+\end{figure}
+
+
 The \textbf{contracting path} progressively reduces the spatial dimensions of the input while increasing the number of feature channels. This is achieved through repeated applications of convolutional layers followed by non-linear activations and downsampling operations such as max pooling. The purpose of this path is to capture the contextual and semantic information of the input image at various scales.
 
 The \textbf{expansive path}, on the other hand, restores the spatial resolution through a sequence of upsampling operations (e.g., transposed convolutions) and concatenations with corresponding feature maps from the contracting path via \textit{skip connections}. These skip connections provide fine-grained spatial details from earlier layers, improving the precision of the segmentation boundaries.
@@ -134,30 +142,63 @@ Formally, the segmentation prediction can be seen as a pixel-wise classification
 
 U-Net and its derivatives have since become the backbone of many state-of-the-art cell segmentation pipelines in both fluorescence and label-free imaging modalities.
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.8\textwidth]{Images/SOTA/u-net-architecture.png}
-    \caption{Schematic illustration of the U-Net architecture for image segmentation. The network consists of a contracting path (left side) to capture context via successive convolutional (3×3, ReLU) and max pooling (2×2) operations, and an expansive path (right side) that enables precise localization through up-convolutions (2×2) and concatenation with high-resolution features from the contracting path. The final segmentation map is generated using a 1×1 convolution. Feature map sizes and channel numbers are indicated for each layer.}
-    \label{fig:unet}
-\end{figure}
-
 \section{Image Segmentation}
 
 In this section, we will introduce the main types of segmentation in image data and will further explain the techniques that help us achieve an accurate segmentation result. We will learn how modified learning objectives will lead to better results and 
 
 
-\section{Semantic and Instance Segmentation}
+\subsection{Semantic and Instance Segmentation}
 
 
 The vanilla U-Net assigns pixels to distinct, predifined classes. Usually, at the last layer of the decoder path, the original image resolution is restored (neglecting the missing pixels from unpadded convolutions). At this point, one would map the channel feature map depth (e.g. 64 for vanilla U-Net) via a 1x1 convolution to the amount of classes each pixel can be assigned to. Thereby one ends up having a probability distribution of predefined classes over all pixels. Logits are mapped to probabilities with Soft-Max and with Non-Maximum-Supression (NMS), each pixel is assigned to a class, so in the end the resolution corresponds to $\mathbf{H \times W}$ with each pixel integer value corresponding to a certain class. These classes can represent all kinds of types, such as binarary values like foreground/background (cell or no cell), or for modern use cases, surrounding objects on a street. This type of segmentation is refered to as \textit{semantic segmentation}. Oftentimes some other sophisticated post processing methods like binary closing or removal objects with size below a certain threshold are applied.
 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Images/SOTA/SemanticSeg.png}
+    \caption{Semantic Segmentation in the Traffic Environment using the DeepLabv3+ Model}
+    \label{fig:semanticSeg}
+\end{figure}
+
+
 For many applications, it is desirable to use a framework that not only separates image regions into semantic classes, but also assigns each object instance within the same class a unique identifier. This task is known as instance segmentation.
+
 A common strategy is to first perform semantic segmentation and then separate individual instances in a post-processing step (a bottom-up approach). However, such methods are often prone to errors, for example when adjacent objects of the same class touch or overlap, leading to under-segmentation (merging of multiple cells) or over-segmentation (splitting a single cell into several fragments).
+
 Alternatively, instance segmentation can be formulated as detecting object proposals via bounding boxes, which are then refined into masks, as done in methods like Mask R-CNN. While effective in many domains, this top-down approach becomes inaccurate in dense cellular images where bounding boxes frequently overlap, making NMS unreliable.
+
 For cellular instance segmentation, it is therefore common to edit the learning objective itself so that the model directly predicts instance-specific features (e.g., object centers, flow fields, or boundary cues). These features can then be leveraged during post-processing to produce accurate boundaries and clearly separated instances. StarDist for example, directly predicts a set of ray distances to the object boundary for every pixel. Fusing this feature with a per pixel cell probability map, the set of proposed polygon shaped objects can be accurately post processed with NMS to predict even spatially dense distributed cells.
 
-%%%%%%%%%todo: insert rows for processing segmentation for different methods (bottom up, topdown maskrcnn, stardist)
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Images/SOTA/stardist.png}
+    \caption{Different instance segmentation methods, A: original image, B: Bottom-up approach, C: Top-down approach, D: Direct instance segmentation, where the model predicts instance-specific features that are used to delineate individual objects.}
+    \label{fig:StarDist}
+\end{figure}
 
+\subsection{Cellpose}
+
+While StarDist aims to predict distance maps to the object boundary, Cellpose introduced a novel approach by predicting spatial gradients that point toward the center of each cell. Classical approaches such as the watershed algorithm rely on intensity basins in the image to define object regions, but in many microscopy images, cells exhibit multiple intensity basins due to inhomogeneous labeling or nuclear exclusion of fluorescent markers. To overcome this limitation, Cellpose constructs an intermediate representation of each cell as a single smooth topological basin.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Images/SOTA/cellpose_learning_objective.png}
+    \caption{t-SNE embeddings of image styles from cellpose pretraining data.}
+    \label{fig:cellpose_learning_objective}
+\end{figure}
+
+These topological maps are generated from manually annotated masks using a simulated diffusion process, which produces horizontal and vertical gradients pointing toward the center of each cell. The network is then trained to predict three channels: Two channels for xy gradients together with a channel per pixel cell probability. At post processing, the predicted gradients define a vector field through which pixels are iteratively routed toward their corresponding cell centers. By grouping pixels that converge to the same point, the network recovers individual cell instances with accurate shapes, which are further refined using the predicted binary mask to remove pixels outside of cells.
+
+Similarly to StarDist, the first launch of cellpose transforms manually annotated masks to the learning objective shape and uses a U-Net which maps the features to the learning objective channels with conv2d layers. Global average pooling of the lowest-resolution features is used to extract an image 'style' vector, which is incorporated throughout the upsampling stages to account for differences in imaging modalities and staining patterns. Insterestingly, plotting the style vectors with t-SNE shows clear distinctions in cell modalities, as k-means clustering groups similar cell types together.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Images/SOTA/tSNE_cellpose.png}
+    \caption{t-SNE embedding of image styles from cellpose pretraining data.}
+    \label{fig:t-SNE}
+\end{figure}
+
+
+In practice, it turns out that this feature representation performs best across many benchmarks and is considered state-of-the-art for cell segmentation. Although for specialized datasets, StarDist performs very similarly well, Cellpose's learning objective generalizes better across diverse cell types and imaging modalities. The model itself is considered a foundation model for cell segmentation, due to its very heavy pretraining. Therefore, it performs very well on unseen data, even without any finetuning. 
 
 
 \subsection{Loss Functions and Metrics}

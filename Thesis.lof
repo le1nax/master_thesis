@@ -2,17 +2,21 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Example Images from the ImageNet dataset.}}{4}{figure.caption.8}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Schematic illustration of the U-Net architecture for image segmentation. The network consists of a contracting path (left side) to capture context via successive convolutional (3×3, ReLU) and max pooling (2×2) operations, and an expansive path (right side) that enables precise localization through up-convolutions (2×2) and concatenation with high-resolution features from the contracting path. The final segmentation map is generated using a 1×1 convolution. Feature map sizes and channel numbers are indicated for each layer.}}{6}{figure.caption.9}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Encoder self-attention for a set of reference points. The encoder is able to separate individual instances (A-D). }}{10}{figure.caption.10}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Transformer architecture. For vision tasks, usually the left part (encoder) is taken.}}{11}{figure.caption.11}%
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Vision transformer as presented in }}{12}{figure.caption.12}%
-\contentsline {figure}{\numberline {2.6}{\ignorespaces SegFormer architecture as presented in}}{12}{figure.caption.13}%
-\contentsline {figure}{\numberline {2.7}{\ignorespaces Architecture of the MA-Net. }}{13}{figure.caption.14}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Low-level view of the PAB block.}}{14}{figure.caption.15}%
-\contentsline {figure}{\numberline {2.9}{\ignorespaces Multi-scale Fusion Attention Block (MFAB) structure. }}{15}{figure.caption.16}%
-\contentsline {figure}{\numberline {2.10}{\ignorespaces MAE architecture as presented in \cite {LeCun.1989}.}}{16}{figure.caption.17}%
-\contentsline {figure}{\numberline {2.11}{\ignorespaces MAE architecture as presented in \cite {LeCun.1989}.}}{17}{figure.caption.18}%
-\contentsline {figure}{\numberline {2.12}{\ignorespaces MAE architecture as presented in \cite {LeCun.1989}.}}{19}{figure.caption.19}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Schematic illustration of the U-Net architecture for image segmentation. The network consists of a contracting path (left side) to capture context via successive convolutional (3×3, ReLU) and max pooling (2×2) operations, and an expansive path (right side) that enables precise localization through up-convolutions (2×2) and concatenation with high-resolution features from the contracting path. The final segmentation map is generated using a 1×1 convolution. Feature map sizes and channel numbers are indicated for each layer.}}{5}{figure.caption.9}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Semantic Segmentation in the Traffic Environment using the DeepLabv3+ Model}}{6}{figure.caption.10}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Different instance segmentation methods, A: original image, B: Bottom-up approach, C: Top-down approach, D: Direct instance segmentation, where the model predicts instance-specific features that are used to delineate individual objects.}}{7}{figure.caption.11}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces t-SNE embeddings of image styles from cellpose pretraining data.}}{8}{figure.caption.12}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces t-SNE embedding of image styles from cellpose pretraining data.}}{9}{figure.caption.13}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Encoder self-attention for a set of reference points. The encoder is able to separate individual instances (A-D). }}{12}{figure.caption.14}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Transformer architecture. For vision tasks, usually the left part (encoder) is taken.}}{13}{figure.caption.15}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Vision transformer as presented in }}{14}{figure.caption.16}%
+\contentsline {figure}{\numberline {2.10}{\ignorespaces SegFormer architecture as presented in}}{14}{figure.caption.17}%
+\contentsline {figure}{\numberline {2.11}{\ignorespaces Architecture of the MA-Net. }}{15}{figure.caption.18}%
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Low-level view of the PAB block.}}{16}{figure.caption.19}%
+\contentsline {figure}{\numberline {2.13}{\ignorespaces Multi-scale Fusion Attention Block (MFAB) structure. }}{17}{figure.caption.20}%
+\contentsline {figure}{\numberline {2.14}{\ignorespaces MAE architecture as presented in \cite {LeCun.1989}.}}{18}{figure.caption.21}%
+\contentsline {figure}{\numberline {2.15}{\ignorespaces MAE architecture as presented in \cite {LeCun.1989}.}}{19}{figure.caption.22}%
+\contentsline {figure}{\numberline {2.16}{\ignorespaces MAE architecture as presented in \cite {LeCun.1989}.}}{21}{figure.caption.23}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

@@ -8,21 +8,22 @@
 \contentsline {section}{\numberline {2.1}Convolutional Neural Networks (CNNs)}{3}{section.2.1}%
 \contentsline {subsection}{\numberline {2.1.1}ImageNet}{4}{subsection.2.1.1}%
 \contentsline {subsection}{\numberline {2.1.2}U-Net Architecture}{5}{subsection.2.1.2}%
-\contentsline {section}{\numberline {2.2}Image Segmentation}{5}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Semantic and Instance Segmentation}{5}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Loss Functions and Metrics}{7}{subsection.2.3.1}%
-\contentsline {section}{\numberline {2.4}Foundation Models}{8}{section.2.4}%
-\contentsline {section}{\numberline {2.5}Transformer}{8}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}The Attention Mechanism}{9}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}Transformer}{10}{subsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.5.3}Vision Transformer}{10}{subsection.2.5.3}%
-\contentsline {subsection}{\numberline {2.5.4}SegFormer}{11}{subsection.2.5.4}%
-\contentsline {subsection}{\numberline {2.5.5}MA-Net: Multi-Scale Attention Network}{13}{subsection.2.5.5}%
-\contentsline {section}{\numberline {2.6}Masked Autoencoders}{15}{section.2.6}%
-\contentsline {section}{\numberline {2.7}Segment Anything}{16}{section.2.7}%
-\contentsline {subsection}{\numberline {2.7.1}Segment Anything 2}{18}{subsection.2.7.1}%
-\contentsline {subsection}{\numberline {2.7.2}Hiera}{18}{subsection.2.7.2}%
-\contentsline {chapter}{\numberline {3}Methods}{20}{chapter.3}%
+\contentsline {section}{\numberline {2.2}Image Segmentation}{6}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Semantic and Instance Segmentation}{6}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Cellpose}{7}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Loss Functions and Metrics}{8}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Foundation Models}{10}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Transformer}{10}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}The Attention Mechanism}{11}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Transformer}{12}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Vision Transformer}{12}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}SegFormer}{13}{subsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}MA-Net: Multi-Scale Attention Network}{15}{subsection.2.4.5}%
+\contentsline {section}{\numberline {2.5}Masked Autoencoders}{17}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Segment Anything}{18}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Segment Anything 2}{20}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Hiera}{20}{subsection.2.6.2}%
+\contentsline {chapter}{\numberline {3}Methods}{22}{chapter.3}%
 \contentsline {chapter}{Bibliography}{i}{chapter.3}%
 \contentsline {chapter}{\numberline {A}Erstes Anhang-Kapitel}{iii}{appendix.A}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
