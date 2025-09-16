@@ -1,0 +1,67 @@
+\ProvidesPackage{lfbdasa}
+\RequirePackage{ifthen}
+\RequirePackage{graphicx}
+\RequirePackage{hyperref}
+
+\pagenumbering{Roman}
+
+\usepackage[export]{adjustbox}
+\usepackage[utf8]{inputenc}
+
+\newcommand{\lfbdasatitle}[8]{
+\begin{titlepage}
+	\begin{figure}[h]
+		\hfuzz=32pt
+		\vspace{-2cm} \hspace{1.5cm} \includegraphics[width=9cm,right]{Images/lfbeye.pdf}
+	\end{figure}
+
+	\begin{center}
+		
+
+				\begin{huge}
+					\vspace{2cm}
+					\textbf{#2}\\
+				\end {huge}
+
+			\vspace{3cm}
+			\textbf{{\huge #1}}
+
+		\vspace{2cm}
+		{presented by}\\
+		\vspace{0.3cm}
+			\textbf{{\Large #4}}
+
+		\vfill
+		
+
+		Supervisor:\\
+		#5\\
+
+		\vspace{0.5cm}
+
+		Institute of Imaging \& Computer Vision\\
+		#8\\
+		RWTH Aachen University
+
+
+	\end{center}
+\end{titlepage}
+
+\cleardoublepage
+\chapter*{}
+\thispagestyle{empty}
+
+
+
+{\Large \textbf{Erkl\"arung nach \S 18 Abs. 1 ÜPO}}\\
+\vspace{2cm}\\
+\noindent Hiermit versichere ich, dass ich die vorgelegte #1 selbst\"andig angefertigt habe. Es sind keine anderen als die angegebenen Quellen und Hilfsmittel benutzt worden. Zitate wurden kenntlich gemacht.\\
+\vspace{1cm}\\
+\noindent I hereby confirm that I have written this #1 independently using no sources or aids other than those indicated. I have appropriately declared all citations.
+
+
+
+\vfill
+\noindent #4 \\
+\noindent #7 
+}
