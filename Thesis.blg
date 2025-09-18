@@ -8,9 +8,11 @@ A level-1 auxiliary file: Chapters/030_methods.aux
 The style file: ieeetr.bst
 A level-1 auxiliary file: Chapters/090_appendix.aux
 Database file #1: Literature/literature.bib
+Warning--I didn't find a database entry for "caruana"
+Warning--I didn't find a database entry for "ctc"
 You've used 1 entry,
             1876 wiz_defined-function locations,
-            490 strings with 3901 characters,
+            492 strings with 3911 characters,
 and the built_in function-call counts, 293 in all, are:
 = -- 14
 > -- 27
@@ -49,3 +51,4 @@ warning$ -- 0
 while$ -- 2
 width$ -- 2
 write$ -- 12
+(There were 2 warnings)

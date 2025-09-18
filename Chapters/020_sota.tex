@@ -499,9 +499,47 @@ The model is constructed as a stack of transformer blocks organized into stages.
 
 A key advantage of Hiera is its flexibility as a general-purpose backbone. It can be pretrained on large-scale image classification tasks and subsequently fine-tuned for a wide range of downstream applications, including semantic segmentation, instance segmentation, and object detection. Empirical studies have shown that Hiera achieves competitive accuracy compared to state-of-the-art transformer backbones, while offering improved efficiency and scalability across different model sizes. 
 
+\section{Mediar}
+
+Mediar is yet another encoder decoder style architecture, designed specifically for cell segmentation. It was developed in the context of the 2022 NeurIPS Cell Segmentation Challenge, where it achieved top performance across a variety of imaging modalities. Their approach is based on the Cellpose learning objective, but instead of using a U-Net style CNN backbone, they adopt the encoder part of SegFormer and combine it with the decoder blocks of MA-Net. This still ensures a hierarchical feature integration from the SegFormer multi-resolution features, to the MFAB blocks of the MA-Net via skip connections. They use Mish in the encoder and decoder for better generalization.  Although prior work use a single segmentation head, meaning they map the features to a single output tensor with multiple channels for each output (cell probability, x- and y- flows), the authors used two seperate heads to map features to the cell probability and flows, respectively. They argue that semantic prediction for the objects and mse regression for the spatial gradient field interfers with each other, while using the same feature space \cite{caruana}. Therefore, they use two seperate conv2d layers with batch norm to map the features to the respective outputs.
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/SOTA/mediar_net.png}%
+    }
+    \caption{Encoder embeddings of the train set clustered with k-mean and intuition of amlplified sampling \cite{LeCun.1989}.}
+    \label{fig:mediar_net}
+\end{figure}
 
 
+They pretrained MEDIAR on a large set of public datasets, namely Omnipose, Cellpose, Livecell and DataScienceBowl-2018, which makes a combined total of 7,242 labeled images. For the Challenge Dataset, they came up with a sophisticated way of training two seperate models (phases) with each different subsets of challenge data in the pretraining set, to perform ensembling prediction at test time. In the first phase, the net is initialized with ImageNet-1k pretrained encoder weights, and further trained on the public datasets for 80 epochs to establish strong general-purpose cell representations. In the second phase, this model was further trained for 60 epochs on the combined set of public datasets and the challenge training data, allowing the network to bridge between general cell morphologies and the specific modalities of the target domain. Fine-tuning was then conducted separately on the models from both phases. The phase 1 model was fine-tuned for 200 epochs on the challenge training set, specializing it to modalities present only in the target data. The phase 2 model was fine-tuned for 25 epochs, leveraging its broader knowledge of both public and challenge domains. Interestingly, the two models exhibited complementary behavior: the phase 1 fine-tuned model excelled at adapting to unseen modalities in the challenge, whereas the phase 2 fine-tuned model maintained stronger generalization across shared modalities. To further enhance robustness, they introduced a relabeling step at phase 2 fine-tuning, correcting images where the pretrained and phase 1 fine-tuned models produced misaligned predictions, thereby mitigating the impact of noisy annotations.
+Similarly to the style embeddings from Cellpose, they examine modality dependent embeddings in the pretraining dataset. To do that, they cluster the encoder embeddings from the phase-1 pretrained model using k-means with 40 clusters. They observed an uneven distribution across samples and concluded it might negatively impact model performance on underrepresented modalities. To mitigate this, they balance the sampling ratio in training by over-sampling underrepresented clusters, ensuring that the model receives a more uniform exposure to all modalities. Figure \ref{fig:latent_modalities} illustrates the discovered latent modalities and the corresponding sample amplification strategy.
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/SOTA/latent_modalities.png}%
+    }
+    \caption{Encoder embeddings of the train set clustered with k-mean and intuition of amlplified sampling \cite{LeCun.1989}.}
+    \label{fig:latent_modalities}
+\end{figure}
+
+This transformer-based backbone performed really well in the challenge, but the authors of Cellpose were sceptical about the benchmarkings, claiming that conditions for pretraining of the Cellpose model were impaired. This sparked a debate about the feasibility of transformer-based models being superior to CNN backbones in the cell segmentation domain. From a theoretical perspective, this is not very simple. While the inductive bias of CNNs makes them limited to a certain receptive field but also very data efficient, transformers are able to capture long-range dependencies and global context, which may or may not be beneficial, depending on the specific task and dataset.
 
 
+\section{CellposeSAM}
 
+CellposeSAM is a very recent extention of the original Cellpose model. Since the initial launch of Cellpose1, the field of computer vision has seen significant advancements, particularly with the introduction of foundation models like the Segment Anything Model (SAM). These models have demonstrated remarkable capabilities in generalizing across diverse image domains. Motivated by these developments, the authors of CellposeSAM decided to integrate the strengths of SAM into the Cellpose framework to enhance its segmentation performance and versatility. Interestingly, they did not use the original SAM decoder, but rather combined the image encoder of SAM1 with the Cellpose learning objective. So from a high-level perspective, CellposeSAM is just Cellpose1 with a ViT, instead of the CNN backbone. For the ViT, there are only minor adjustments such as reduced patch size from 16x16 to 8x8 and input spatial dimensions from 1024x1024 to 256x256. For the local attention layers in the original SAM1, they changed all layers to global attention instead of only global in layers 6, 12, 18 and 24. In contrast to MEDIAR and Cellpose1, they do not use hierarchical features from different stages of the encoder, but only the output of the last encoder layer. So decoder of the network is composed of just one conv2d layer, which converts the ViT encoder neck to the cellpose learning objective. An additional, deterministic fixed kernel transposeConv2d layer is used to transform the image from token to pixel space. The resulting model with an order of magnitude more parameters (305M vs 44M) compared to the original Cellpose-1, which makes it impractical to run without a GPU. 
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/SOTA/cellposeSam.png}%
+    }
+    \caption{Encoder embeddings of the train set clustered with k-mean and intuition of amlplified sampling \cite{LeCun.1989}.}
+    \label{fig:cellposesam}
+\end{figure}
+
+A major strength of CellposeSAM is the broad range of pretraining data. Weights are initialized with the SAM weights pretrained on the SA-1B dataset \ref{Kirillov}, and further trained on an updated dataset of cells and nuclei containing 22,826 train images with a combined 3,341,254 training regions of interest (ROIs). This leads to a really good performance on various types of cell- and imaging modalities, as they outperform or match other models on all datasets they tested on, setting a new state-of-the-art on cellular segmentation benchmarks.
 
