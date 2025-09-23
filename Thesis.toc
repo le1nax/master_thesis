@@ -29,9 +29,19 @@
 \contentsline {section}{\numberline {3.1}Datasets}{25}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Mediar3D}{25}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}3D Flowfield Prediction}{25}{subsection.3.2.1}%
-\contentsline {section}{\numberline {3.3}Hiera3D}{26}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Training Challenges and Solutions}{26}{section.3.4}%
-\contentsline {section}{\numberline {3.5}3D Feature Network}{26}{section.3.5}%
+\contentsline {subsection}{\numberline {3.2.2}Post-Processing of 3D Flows}{26}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Segmentation Network Design Choices}{27}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}High-Level Network Design}{28}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}SAM2 Encoder Registry}{29}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Merging SAM2 Image Encoder with Mediar}{29}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Lightweight Decoder}{30}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Training Challenges and Solutions}{30}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Training Pipeline}{30}{subsection.3.4.1}%
+\contentsline {subsubsection}{\nonumberline Data preperation and sampling}{31}{subsubsection*.29}%
+\contentsline {subsubsection}{\nonumberline Forward pass}{31}{subsubsection*.31}%
+\contentsline {subsubsection}{\nonumberline Backward pass}{32}{subsubsection*.33}%
+\contentsline {subsection}{\numberline {3.4.2}Loss Calculation}{32}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}3D Feature Network}{32}{section.3.5}%
 \contentsline {chapter}{Bibliography}{i}{section.3.5}%
 \contentsline {chapter}{\numberline {A}Erstes Anhang-Kapitel}{iii}{appendix.A}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

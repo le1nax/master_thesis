@@ -9,22 +9,143 @@ In this section, we introduce a way of extending Mediar to 3D. First, we present
 
 \subsection{3D Flowfield Prediction}
 
-For the extention to 3D flow predictions, we adapt the flow accumulation of Cellpose. 
+The first design choice we can implement to 
 
+For the extension to 3D flow predictions, we adapt the flow accumulation of Cellpose. For 2D inference, a two-dimensional vector field is predicted. A simple way to perform inference on 3D data, would be to loop over the depth $z$ of the image, to obtain the vertical and horizontal flows $dx$ and $dy$ related to $z$. Now when permuting the spatial dimensions to slice over $x$ instead of $z$, essentially treating $x$ as the new depth dimension, one obtains the $dy$ and $dz$ flows. Finally, repeating this over the $y$ dimension grants $dx$ and $dz$. While this sounds very intuitive, it is important to keep track of the correct way of inversely permuting the flows back to the original coordinate system. This is achieved by accumulating them into a resulting 3D flow-field vector at the correct indices. To threshold invalid flows, predicted cell probabilities are accumulated along flows as well.
+
+\begin{algorithm}
+\caption{3D Flow Accumulation with Iterative Permutations}
+\label{algo:3dflows}
+\begin{algorithmic}[1]
+\STATE Initialize 3D flow-probability volume $\mathbf{F} \in \mathbb{R}^{4 \times H \times W \times D}$ with zeros
+\STATE Define permutations $\pi_p$ and inverse permutations $\pi_p^{-1}$ for $p \in \{x,y,z\}$
+\FOR{each spatial dimension $p \in \{x,y,z\}$}
+    \STATE Permute input volume $I$ to $I^p = \pi_p(I)$
+    \FOR{each slice $s$ along depth of $I^p$}
+        \STATE Compute 2D flow $\mathbf{f}_s = (dx_s, dy_s)$ and cell probability $P_s = \sigma(I_s)$ via 2D inference
+    \ENDFOR
+    \STATE Stack slices to form 3D block of flows $\mathbf{F}^p \in \mathbb{R}^{4 \times H \times W \times D}$
+    \STATE Inversely permute flows back: $\mathbf{F}^{p}_{\text{orig}} = \pi_p^{-1}(\mathbf{F}^p)$
+    \STATE Accumulate: $\mathbf{F} \gets \mathbf{F} + \mathbf{F}^{p}_{\text{orig}}$
+\ENDFOR
+\RETURN $\mathbf{F}$ (final 3D flow field and cell probability map)
+\end{algorithmic}
+\end{algorithm}
 \begin{figure}[!ht]
     \centering
     \makebox[\textwidth]{%
-    \includegraphics[width=1.0\textwidth]{Images/Methods/slicing_zebra.png}%
+    \includegraphics[width=1.0\textwidth]{Images/Methods/zflow.png}%
     }
     \caption{Encoder embeddings of the train set clustered with k-mean and intuition of amlplified sampling \cite{LeCun.1989}.}
     \label{fig:slicing}
 \end{figure}
 
-\section{Hiera3D}
+\subsection{Post-Processing of 3D Flows} %todo, removebadflowmasks
+
+We now take a look at computing instance masks. Given the network forward outputs, we optain spatial gradients $\mathbf{dP} \in \mathbb{R}^{3 \times L_z \times L_y \times L_x}$ and cell probabilities $\mathbf{P} \in [0,1]^{L_z \times L_y \times L_x}$ to process the resulting cell instances. Candidate voxels are first identified by thresholding the probability map, defining the foreground region
+\begin{equation}
+\Omega = \{ (z,y,x) \mid \mathbf{P}(z,y,x) > \tau_p \},
+\end{equation}
+where $\tau_p$ is the cell probability threshold. For each voxel $(z,y,x) \in \Omega$, the position is iteratively advected along the predicted flow vectors according to
+\begin{equation}
+\mathbf{p}_{t+1} = \mathrm{clip}\!\left( \mathbf{p}_{t} + \mathbf{dP}(\mathbf{p}_{t}), \, -1, 1 \right),
+\end{equation}
+where $\mathbf{p}_t \in \mathbb{R}^3$ denotes the normalized voxel position at iteration $t$. The integration is performed for a fixed number of steps $T$ (typically $T=200$) using Euler dynamics, which drives voxels belonging to the same object towards common attractors in the flow field. The final positions $\mathbf{p}_T$ of all advected voxels are accumulated into a discrete histogram volume
+\begin{equation}
+H(\mathbf{u}) = \sum_{i=1}^{|\Omega|} \delta(\mathbf{p}_T^{(i)} - \mathbf{u}),
+\end{equation}
+where $\delta(\mathbf{p}_T^{(i)} - \mathbf{u})$ acts as a one-hot indicator function that evaluates to $1$ if the advected voxel $\mathbf{p}_T^{(i)}$ coincides with the discrete location $\mathbf{u}$ and to $0$ otherwise. Local maxima of $H$ are detected by $n$-dimensional max pooling with kernel size $5$, and peaks with histogram counts above a fixed threshold are retained as seeds, which represent candidate cell centers. Around each seed, a local neighborhood of size $11 \times 11 \times 11$ voxels is extracted and iteratively expanded using morphological max pooling under the constraint $H(\mathbf{u}) > 2$, thereby forming seed masks corresponding to attraction basins of the detected maxima. The converged voxel positions $\mathbf{p}_T$ are then mapped to these seed regions, and each voxel in $\Omega$ is assigned a label $m \in \{1,2,\dots,N\}$, where $N$ is \#detected seeds. This produces an initial labeled segmentation.
+Finally, masks that are larger than a fraction $\tau_s$ of the total image volume are discarded, very small masks are removed and filled, and masks that exhibit insufficient alignment with the flow vectors are pruned using a flow-consistency criterion. Remaining masks are renumbered to enforce consecutive integer labels, resulting in the final instance segmentation.
+
+
+\section{Segmentation Network Design Choices}
+
+In this section, we introduce different approaches to improve the Mediar architecture by using different encoder and decoder building blocks. First, we will sketch the fundamental structure of our segmentation networks on a high-level view. Based on this concept, we will be build new models by modifying indivial components. Inspired by the release of CellposeSAM, we will present a model that uses the SAM2 pretrained Hiera image encoder instead of the SegFormer MiT blocks for the Mediar Network. Furthermore, we will consider the use of plain convolutional decoder blocks instead of the MA-Net decoder. We will also attempt to reason the rationale behind these design choices and, in doing so, set our expectations for the resulting performance of the network modifications.
+
+\subsection{High-Level Network Design}
+
+In this subsection, we deduce some general concepts to our network design and point out their design choices on a high level. As previous work such as CellposeSAM, Mediar and other segmentation networks suggest the encoder-decoder style learning, we adapt this as our underlying concept for our network architecture. 
+
+For the encoder part, the image is transformed into a latent feature space by alternating channel size while downsampling spatial dimensions as the network gets deeper. From a high-level perspective, this can be regarded as a module $E(\mathbf{I})$, that inputs an image $\mathbf{I} \in \mathbb{R}^{3 \times H \times W}$ and outputs a tuple of multiple feature spaces:
+
+\begin{equation}
+E(\mathbf{I}) =
+{\mathbf{F}_i \in \mathbb{R}^{C_i \times H/{2^i} \times W/{2^i}} \mid i = 1, \dots, N },
+\end{equation}
+
+where the tuple $\mathbf{F}_i$ may contain an arbitrary number of feature resolutions $i$, each with its own channel dimension $C_i$ and spatial size $H \times W$. Note that while it is not necessary to reduce spatial size to integer powers of 2, this is commonly the case due to the nature of downsampling mechanisms such as strided convolutions or pooling operations.
+
+The decoder fuses all information gathered by the encoder into an overall network prediction by mapping the features to the learning objective of the network. This includes upsampling the spatial dimensions back to pixel space and reducing the channel dimensions to the desired output shape. From a high-level perspective, the decoder can be written as a mapping
+
+\begin{equation}
+D({\mathbf{F}_i}) = \hat{\mathbf{Y}} \in \mathbb{R}^{C\text{out} \times H \times W},
+\end{equation}
+
+where $C_\text{out}$ denotes the number of output channels, depending on the learning objective. In semantic segmentation, this corresponds to the number of semantic classes, with a softmax distribution assigning each pixel to a class. For cellular instance segmentation, the decoder instead maps the features to outputs such as flow fields or probability maps, which are subsequently post-processed into instance masks, as done in StarDist or Cellpose.
+
+Beyond this high-level network layout, which already involves many design decisions, each building block obviously contains numerous other parameters and layer configurations that must be carefully chosen. But focussing on the above mentioned high-level design criterions is important to keep track of the bigger picture when it comes to a large change in network layout, which will be presented in the following subsections. Understanding the changes made on the above described high-level layout, will make a seemingly completely new architecture, very tangible and the low-level design choices a lot more intuitive.
+
+For instance, the authors of Cellpose launched a completely revised version of their network a few weeks after the start of my thesis. What seems to be a major rework of their repository, turns out to be just a few lines of code, as they barely touch the low-level components of the modules they take from established methods. So from a high-level view, they switched the CNN based encoder part of their network with the image encoder of SAM1, and used just a single 1x1 convolutional layer (along non-learnable layer to convert patch- to pixel space) to fuse their single resolutional feature map to the cellpose learning objective.
+
+
+
+\subsection{SAM2 Encoder Registry}
+
+First, we want to setup experiments using the Hiera encoder of the SAM2 model instead of the SegFormer encoder blocks for the Mediar model. The SegFormer backbone blocks are composed of multiple Mix Transformer(MiT) blocks with consecutive overlapping patch merging, efficient self-attention and Mix-FFN, which provide multi-scale features due to the patch merging process at multiple stages. From a high-level perspective, the MiT B5 encoder blocks produce 4 feature maps with different channel sizes and spatial resolutions. 
+The Hiera image encoder is composed of standard ViT blocks, except global attention is replaced by Mask Unit Attention at shallow layers with high spatial resolution. A total of 3 pooling layers enables the encoder to output features at four different resolutions. This excatly matches the SegFormer encoder outputs on a high-level, except the feature maps produced by the Hiera encoder all have 256 channels, whereas the feature maps of the MiT B5 module all have increasing channel sizes for deeper feature maps. Note that also the default config used to build the SAM2 registry defines a parameter that makes the image encoder discard the lowest resolution feature after forwarding the neck, resulting in only 3 feature resolutions instead of 4. Hardcoding this value or editing the default registry config fixes this problem because the powerful pretrained weights from the SAM2 registry are not effected by the amount of feature outputs of the image encoder. This is because the features are computed in the forward pass regardless of the parameter that discards them afterwards by parameterized indexing in the neck forward function.
+
+\subsection{Merging SAM2 Image Encoder with Mediar}
+
+The actual integration of the SAM2 model into the Mediar network architecture is not too difficult if conducted carefully with debugging tools. Challenging aspects include dealing with cryptic, undocumented backend code of MA-Net and MixTransformer and more importantly, editing the MA-Net blocks with regard to numerical stability and compability with the SAM2 registry. Pseudo QKV operations in the PAB Block of the MA-Net decoder are now normed with respect to the embedding dimension as suggested in \ref{attentionisallyouneed}, to prevent float16 overflow in network training. Also, MA-Net assumes the first feature to be the encoder input image and thus discards the shallowest feature per default. This is now adjusted to match the backbone outputs from Hiera. Skip connections have been removed for the Decoder Block 1, as this block was connected to a dummy feature from the SegFormer output. 
+
+\subsection{Lightweight Decoder}
+
+Many segmentation networks \cite{Segformer, CellposeSAM} have shown great performance without relying on heavy-weight decoder modules such as it is the case for Mediar and its MA-Net decoder blocks. We therefore want to conduct experiments using leight-weight decoder blocks and the SAM2 image encoder. 
+
+The decoder blocks take a feature map as input and a skip connection from the encoder if there it is not the center block. The input is first upsampled by a factor of two using nearest-neighbor interpolation. When a skip connection is provided, the upsampled features are concatenated with the skip features along the channel dimension, increasing the input dimensionality of the subsequent convolution. The combined tensor is then processed by two sequential conv2dReLU units, each consisting of a $3 \times 3$ convolution with padding of $1$, followed by a ReLU activation, and a batch normalization layer. The first convolution reduces the concatenated feature channels to the target output dimensionality, and the second further refines the representation while maintaining the same number of channels. This design focusses on spatial resolution recovery and integration of encoder features at corresponding scales, without using the heavy-weight pseudo attention modules of the MA-Net. 
+
+
 
 
 \section{Training Challenges and Solutions}
 
+In this section we will analyse the training procedure of our networks. First, the general training pipeline is outlined, describing the main components. After setting the baseline for cellpose learning objective training, we will look into challenges that come along training with only partly annotated data. 
+
+\subsection{Training Pipeline}
+
+Now we look into the general pipeline for our network training. In general, we want to train our models in such a way, that it is capable of performing well on zero-shot predictions. To achieve this, we follow the approach of previous work about generalizable model training. This includes \textit{pretraining} the data on a large, diverse dataset. This model can be further \textit{finetuned} on a specific downstream modality. The original Mediar training config suggests a multi-phase training of two seperate models that predict in an ensembling manner (this multi-phase training is described in \ref{chapter:Mediar}). Since this multi-phase training is tailored for the best performance on a large challenge dataset, this method is unsuitable for small target datasets, especially if the target datasets have limited annotations. Within this thesis, we therefore aim to produce a single phase, generalizable model, which Mediar refers to as their \textit{from\_phase1.pth} model.
+
+\subsubsection{Data preperation and sampling}
+Since pretraining and finetuning share mostly the same pipeline, adjustments should be configured in a seperate train config json file. The main difference between pretraining and finetuning configs lies the data preperation and sampling. Pretraining mainly focusses on using a very large, diverse dataset. This can also be improved, by the discovery of latent modalites, as the original Mediar paper suggests \ref{fig:latent_modalities}. By clustering the encoder embeddings from the phase-1 pretrained model using k-means with 40 clusters, they amplify the sampling ratio in favour of underrepresented modalities. We adapt this method as the majority of pretraining images are worm images from the Livecell-dataset. Other than the amount of data, it is also important to handle the dimensionality of the target data for the finetuning. Since we want to finetune our model to perfrom well on specific 3D data, we train our model to predict the 2D flows and cell probablities on the 2D slices of the volume in each orientation. This requires to prepare slices of the 3D finetuning data for every direction. 
+
+
+Loading the training data into the training pipeline requires the mapping of train images and ground truth masks to json file. This is done via a modified version of the mediar mapping script, which enables the user to map multiple datasets at once, without naming constraints. The json files are loaded and split into train and validation data with a custom dataloader, that is configured via user inputs defined in a seperate train config json file. Using the monai package, which is a precompiled library for biomedical image processing, certain train and validation transformations are defined in the dataloader to augment the batch data once its loaded in a training iteration.
+
+\subsubsection{Forward pass}
+After loading the batch data in each training epoch, the network forward pass predicts 2D flows and cell probability logits, which are passed into the metric function to compute the loss. For the ground truth data, the flow representation is computed runtime. While this sounds very inefficient, precomputing the flow ground truths comes along with a few challenges. The precomputed flows have to be integrated into the dataloading pipeline. This includes applying the same spatially deforming augmentation transformations to the flows as the training data. Since the flow generation of ground truth data is not invariant to all spatial transformations, the precomputed flows dont match the flows computed at runtime after the transformation. The unit test for this matter has shown, that in most cases the reconstructed masks from the precomputed and runtime computed flows differed significantly, while the time costs saved was in the magnitude of a few milliseconds. Although this scales up pretty quickly to a 1-2 hours for 80 epochs at 5500 iterations per epoch, the performance loss can not be justified. Eschweiler et al \cite{eschweiler} suggested to simplify the learning objective to a variant of the tanh to speed up the expensive generation of flows at neglectable performance loss. While this might be a promising alternative, it has not been implemented and tested yet.
+
+With runtime computed ground truth flows, the loss can be calculated after the forward pass with a binary cross-entropy term for the cell probabilities and a mean squared error term for the flow components:
+
+\begin{equation} 
+\mathcal{L} \;=\; \| \hat{y}_0 - 5 F_x \|^2 \;+\; \| \hat{y}_1 - 5 F_y \|^2 
+\;+\; \mathcal{L}_{\text{BCE}} \bigl(\sigma(\hat{y}_2), P \bigr),
+\end{equation}
+
+Here, $\hat{y}_0$ and $\hat{y}_1$ denote the predicted horizontal and vertical flow channels, while $F_x$ and $F_y$ represent the corresponding ground-truth flow fields. The term $\hat{y}_2$ refers to the raw (logit) prediction of the cell probability map, and $P$ denotes the ground-truth binary mask of cell locations. The function $\sigma(\cdot)$ corresponds to the sigmoid activation, which maps logits to probabilities, and $\mathcal{L}_{\text{BCE}}(\cdot,\cdot)$ is the binary cross-entropy loss between the predicted and ground-truth probabilities. The ground-truth flows are scaled by a factor of $5$ to match relative contribution of the L2 loss and cross-entropy loss. Although it may seem like a semantical error to scale the ground truth flows before substraction, it works well in practice. Unfortunetely, there was no explaination given in the paper on why they implemented it like this. A raised github issue addressing this issue remained unanswered. Usually, it is common to scale loss contributions after the whole loss component is calculated. Either way, experiments with a different way of scaling the loss contribution have shown no difference in performance. 
+
+
+\subsubsection{Backward pass}
+
+
+In practice, the individual loss components are computed seperately for logging purpose. Interestingly, the Mediar code logs the summed loss components as dice loss, although the dice loss is neither computed in valid epochs, nor in the training iterations. Loss is instead logged to Weights and Biases, which is an interactive cli and webtool that can be integrated into the training pipeline to plot losses and performance while training. It can be used for free with an academic license.
+The per-pixel MSE flow and BCE cell probablity loss is aggregated into a scalar value with the build-in mean reduction method from torch and backpropagated with the AdamW optimizer.
+
+
+Since all networks share the same learning objective, the training pipeline can be mostly reused. Apart from hyperparameters that depend on the network's feature aquisition and amount of pretraining, the metric function and dataloading including module for ground truth flow representation stays the same.
+
+
+
+\subsection{Loss Calculation}
 
 \section{3D Feature Network}
 

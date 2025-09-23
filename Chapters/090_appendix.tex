@@ -6,20 +6,43 @@
 Tja, hier schreibst du halt deinen Anhang rein. Bei der Gelegenheit: Falls du mal Python-Code schreiben musst, dafür gibt es lustige Funktionen, die ich in der thesis.tex definiert habe. Zum Beispiel für \pythoninline{in line code ()} und auch für ein ganzes Listing:
 
 
-\begin{listing}[htp]
-\begin{python}
-class LucasKanadeAAMFitter(AAMFitter):
-    def __init__(self, params=None):
-        # [...]
-        self.do_stuff(params)
-
-    def .do_stuff(self, params=None):
-        # [...]
-        print('oiski poiski')
-        
-\end{python}
-\caption[Code]{Code Blubb Blubb.}
-\end{listing}
-
-
-
+\begin{algorithm}
+\caption{3D Post-processing and Mask Reconstruction}
+\label{algo:maskrecon}
+\begin{algorithmic}[1]
+\STATE \textbf{Input:} Flow field $\mathbf{dP} \in \mathbb{R}^{3 \times L_z \times L_y \times L_x}$, probability map $\mathbf{P} \in [0,1]^{L_z \times L_y \times L_x}$, thresholds $\tau_p, \tau_s$, iterations $T$
+\STATE \textbf{Output:} Segmentation volume $M$
+\STATE Identify foreground voxels: $\Omega = \{ (z,y,x) \mid \mathbf{P}(z,y,x) > \tau_p \}$
+\FOR{each voxel $(z,y,x) \in \Omega$}
+    \STATE Initialize $\mathbf{p}_0 \gets$ normalized position of $(z,y,x)$
+    \FOR{$t = 0$ to $T-1$}
+        \STATE Update position: $\mathbf{p}_{t+1} \gets \mathrm{clip}(\mathbf{p}_t + \mathbf{dP}(\mathbf{p}_t), -1, 1)$
+    \ENDFOR
+    \STATE Store final position $\mathbf{p}_T$
+\ENDFOR
+\STATE Initialize histogram $H(\mathbf{u}) = 0$
+\FOR{each voxel $i$ with final position $\mathbf{p}_T^{(i)}$}
+    \STATE Increment histogram: $H(\mathbf{p}_T^{(i)}) \gets H(\mathbf{p}_T^{(i)}) + 1$
+\ENDFOR
+\STATE Detect local maxima in $H$ using $n$D max pooling (kernel size = 5)
+\STATE Retain peaks with counts above threshold as seeds
+\FOR{each seed $s$}
+    \STATE Initialize seed mask in $11 \times 11 \times 11$ neighborhood
+    \STATE Expand by morphological max pooling under constraint $H(\mathbf{u}) > 2$
+\ENDFOR
+\FOR{each voxel $i \in \Omega$}
+    \STATE Assign voxel to label $m$ of corresponding seed region
+\ENDFOR
+\FOR{each mask}
+    \IF{mask size $> \tau_s \cdot$ image volume} 
+        \STATE Discard mask
+    \ELSIF{mask size $<$ min\_size}
+        \STATE Remove and fill mask
+    \ELSIF{flow-consistency is low}
+        \STATE Prune mask
+    \ENDIF
+\ENDFOR
+\STATE Renumber masks to enforce consecutive labels $\{1,\dots,N\}$
+\RETURN $M$
+\end{algorithmic}
+\end{algorithm}
