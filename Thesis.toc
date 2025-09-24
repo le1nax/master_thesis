@@ -40,8 +40,9 @@
 \contentsline {subsubsection}{\nonumberline Data preperation and sampling}{31}{subsubsection*.29}%
 \contentsline {subsubsection}{\nonumberline Forward pass}{31}{subsubsection*.31}%
 \contentsline {subsubsection}{\nonumberline Backward pass}{32}{subsubsection*.33}%
-\contentsline {subsection}{\numberline {3.4.2}Loss Calculation}{32}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.2}Training with limited annotations}{32}{subsection.3.4.2}%
 \contentsline {section}{\numberline {3.5}3D Feature Network}{32}{section.3.5}%
 \contentsline {chapter}{Bibliography}{i}{section.3.5}%
 \contentsline {chapter}{\numberline {A}Erstes Anhang-Kapitel}{iii}{appendix.A}%
+\def \@chapapp {\appendixname }
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
