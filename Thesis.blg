@@ -1,18 +1,12 @@
-This is BibTeX, Version 0.99d
+This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Thesis.aux
-Reallocating 'name_of_file' (item size: 1) to 33 items.
 A level-1 auxiliary file: Chapters/002_styleguidelines.aux
-Reallocating 'name_of_file' (item size: 1) to 30 items.
 A level-1 auxiliary file: Chapters/010_introduction.aux
-Reallocating 'name_of_file' (item size: 1) to 22 items.
 A level-1 auxiliary file: Chapters/020_sota.aux
-Reallocating 'name_of_file' (item size: 1) to 25 items.
 A level-1 auxiliary file: Chapters/030_methods.aux
-Reallocating 'name_of_file' (item size: 1) to 7 items.
+A level-1 auxiliary file: Chapters/040_experiments.aux
 The style file: ieeetr.bst
-Reallocating 'name_of_file' (item size: 1) to 22 items.
-Reallocating 'name_of_file' (item size: 1) to 26 items.
 A level-1 auxiliary file: Chapters/090_appendix.aux
 Database file #1: Literature/literature.bib
 Warning--I didn't find a database entry for "caruana"
@@ -20,9 +14,11 @@ Warning--I didn't find a database entry for "ctc"
 Warning--I didn't find a database entry for "Segformer"
 Warning--I didn't find a database entry for "CellposeSAM"
 Warning--I didn't find a database entry for "eschweiler"
+Warning--I didn't find a database entry for "Primus"
+Warning--I didn't find a database entry for "3dfeautreslicingpaper"
 You've used 1 entry,
             1876 wiz_defined-function locations,
-            497 strings with 3961 characters,
+            501 strings with 4022 characters,
 and the built_in function-call counts, 293 in all, are:
 = -- 14
 > -- 27
@@ -61,4 +57,4 @@ warning$ -- 0
 while$ -- 2
 width$ -- 2
 write$ -- 12
-(There were 5 warnings)
+(There were 7 warnings)

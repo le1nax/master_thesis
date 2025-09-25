@@ -9,8 +9,6 @@ In this section, we introduce a way of extending Mediar to 3D. First, we present
 
 \subsection{3D Flowfield Prediction}
 
-The first design choice we can implement to 
-
 For the extension to 3D flow predictions, we adapt the flow accumulation of Cellpose. For 2D inference, a two-dimensional vector field is predicted. A simple way to perform inference on 3D data, would be to loop over the depth $z$ of the image, to obtain the vertical and horizontal flows $dx$ and $dy$ related to $z$. Now when permuting the spatial dimensions to slice over $x$ instead of $z$, essentially treating $x$ as the new depth dimension, one obtains the $dy$ and $dz$ flows. Finally, repeating this over the $y$ dimension grants $dx$ and $dz$. While this sounds very intuitive, it is important to keep track of the correct way of inversely permuting the flows back to the original coordinate system. This is achieved by accumulating them into a resulting 3D flow-field vector at the correct indices. To threshold invalid flows, predicted cell probabilities are accumulated along flows as well.
 
 \begin{algorithm}
@@ -137,16 +135,92 @@ Here, $\hat{y}_0$ and $\hat{y}_1$ denote the predicted horizontal and vertical f
 \subsubsection{Backward pass}
 
 
-In practice, we implemented the individual loss components are computed seperately for logging purpose, which can be handy to tune the weighting of the loss components. Interestingly, the Mediar code logs the summed loss components as dice loss, although the dice loss is neither computed in valid epochs, nor in the training iterations. We log the loss to Weights and Biases, which is an interactive cli and webtool that can be integrated into the training pipeline to plot losses and performance while training. It can be used for free with an academic license.
-The per-pixel MSE flow and BCE cell probablity loss is aggregated into a scalar value with the build-in mean reduction method from torch and backpropagated with the AdamW optimizer.
+In practice, we implemented the individual loss components are computed seperately for logging purpose, which can be handy to tune the weighting of the loss components. Interestingly, the Mediar code logs the summed loss components as dice loss, although the dice loss is neither computed in valid epochs, nor in the training iterations. We log the loss to Weights and Biases, which is an interactive cli and webtool that can be integrated into the training pipeline to plot losses and performance while training. It can be used for free with an academic license. The per-pixel MSE flow and BCE cell probablity loss is aggregated into a scalar value with the build-in mean reduction method from torch and backpropagated with the AdamW optimizer.
+
+\vspace{1em} % or 2em, adjust as needed
+
+Since all networks share the same learning objective, the training pipeline can be mostly reused. Apart from hyperparameters that depend on the network's feature aquisition and amount of pretraining, the metric function and dataloading including the module for ground truth flow generation stays the same. So the pipeline is used for all networks, but  changes in the way the loss is computed, depending on is the training data is fully annotated. How these challenges are faced, will be described on the following subsection.
+
+\subsection{Training with Limited Annotations}
+
+Since 3D data labeling is an expensive task, many challenge or use-case datasets are only labeled partially, as described in \ref{chapter:3.1}. Since oftentimes this is the only resource to significantly improve the zero-shot performance for these target datasets, we will look into ways to finetune our networks with limited annotations. 
+
+\subsubsection{Using Unsupervised Learning Methods}
+
+Previous work has explored various strategies to incorporate large sets of unlabeled images into training. For example, the Mediar framework investigated several semi-supervised approaches, including consistency regularization with strong data augmentations, reconstruction losses with an auxiliary head (both restricted to the cell regions and over the full image), and pseudo-labeling from pretrained or fine-tuned models. However, these attempts did not yield improvements over training with labeled data alone, leading the authors to ultimately rely only on the annotated subset. This highlights the difficulty of leveraging unlabeled data effectively in training and motivates alternative approaches.
+
+\subsubsection{Masked Loss Function}
+
+Finetuning the models with limited annotations, requires careful evaluation of network forward passes. Naively applying BCE and MSE loss to the predictions will punish false positives a lot, in case only a few instances are labeled. Not only will the contour accuracy decrease, but the arbitrarely labeled instances will make it impossible for the network to make distinctions for true and false positives as epochs progress. To decrease gradient distortions of unlabeled areas, the image shown to the network in forward pass can be cropped to a ROI, corresponding to a bounding box of a few nearby instance labels, with some spare buffer spaces to provide some image context. While this heavily reduces the effects of the majority of the unlabeled image parts, this approach is still prone to gradient distortions in cases of dense cell regions, where a buffered bounding box can not be established without including unlabeled instances.
+
+To prevent false network weight gradient flow due to pseudo false positives completely, one could crop the image to individual cell instances without buffer space to prevent gradient distortions by unlabeled neighboring cells. While this is not always feasible, especially in really dense cell distributions, this also prevents the network to learn spatial context features of the cell instances. As the instance cropped images has to be padded severely to fit the input dimensions of the network, the network would mostly see zero values around the cell. This could lead to even worse feature learning, especially because the receptive field of transformer based encoders can be global.
+
+Another way of dealing with the gradient contribution of unlabeled regions would be to define a supervision mask, that sets the loss to zero for regions, where no annotations are present. As there would be no false positive feedback loss contribution for the case that the loss is only calculated for positive regions, it is necessary to somehow extend the region of loss contribution beyond labeled regions. In order to not only get false negative feedback, the supervision mask for the loss could be extended with binary operations such as dilation. The kernel size for dilation and the amount of iterations for consecutive dilation, have to be carefully tuned, as potential pseudo false positive can be introduced again. This can be handled again by introducing some sort of distance weighting of the loss mask around the labeled region. The loss contribution could for example decay linearly by the cartesian distance, or even in a guassian manner. Note that the tuning of the parameters such as dilation iterations, kernel size and distance weighting are heavily depended on the specific dataset.
 
 
-Since all networks share the same learning objective, the training pipeline can be mostly reused. Apart from hyperparameters that depend on the network's feature aquisition and amount of pretraining, the metric function and dataloading including the module for ground truth flow generation stays the same.
 
-\subsection{Training with limited annotations}
 
 \section{3D Feature Network}
 
+In this section, we investigate a few strategies to encourage the network to learn 3D features. First, we look into a method of adding 3D flow gradients to the loss. Then, we shortly discuss the feasibility using 3D building blocks for the encoder and decoder. Lastly, we build a new architecture that encodes 2D slice features and uses them to learn 3D features in the decoder path, using 3D convolutions. 
 
+\subsection{3D Gradient Flow Training}
 
+We first look into a method of adapting the same 3D flow aggregation technique for training, as it used for inference. The idea of 3D flows is, to slice a volume into 2D slices for every cartesian direction $(x, y, z)$, forwarding them into the network to predict 2D flows for every direction, to then be able to aggregate them into 3D flows. This can be integrated into finetuning, given that 3D instance annotations are provided. The 3D flow loss requires multiple consecutive slices to be forwarded within one batch, to then calculate 3D flows and getting three MSE flow loss components. The algorithm is summerized in Algorithm~\ref{algo:3Dflowtraining}. In case of unlabeled regions, the same loss masking could be applied as described in the previous section.
 
+\begin{algorithm}[H]
+\caption{Training with masked 3D flow loss}
+\label{algo:3Dflowtraining}
+\begin{algorithmic}[1]
+\FOR{each optimizer step}
+    \STATE Load one 3D image $I$ and its mask $M$
+    \STATE Slice $I$ into 2D images along YX, ZY, and ZX directions to form a batch $B$
+    \STATE Perform a forward pass of $B$ through the network to obtain predictions $\hat{B}$
+    \STATE Using knowledge of YX, ZY, and ZX indices in $\hat{B}$, compute 3D flows $\hat{F}$
+    \STATE Compute masked MSE loss between $\hat{F}$ and ground-truth flows $F$
+    \STATE Update network parameters via backpropagation
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+While this approach sounds quite logical at first, there are a few issues. First and most importantly, as the network still forwards 2D slices, there are no actual 3D features learned like it would be the case for the 3D Cellpose network proposed by Eschweiler et al. In our setup, the incorporation of 3D flows in the loss metric function primarily acts as a regularizer. While it does encourage consistency of predicted flows across slices in all three spatial directions, it doesnt make use of the 3D annotations to learn actual 3D spatial features. Another drawback of this method is, that loading even subvolumes in a sliding window manner quickly becomes very memory expensive. In practice, comsumer grade GPUs can not handle more than a batch size of 9 with all network weights at the same time for training. Due to these limitations, we decided to not persue this approach any longer.  
+
+\subsection{Feasibility of Extending Mediar to True 3D}
+
+Since the proposed network of Eschweiler et al. has shown great performance in learning true 3D features, by using 3D convolutional layers, it seems reasonable to extend the encoder and decoder components of Mediar to true 3D. While this would not be technically impossible, as previous work has successfully implemented 3D attention layers for image segmentation \cite{Primus}, global attention in 3D would severely influence computational complexity. More importantly, training these blocks from scratch would require a lot of annotated 3D training data, due to the lack of inductive bias in the architecture. We would ultimately lose the strong generalizable power from the heavily pretrained 2D encoders. Since pretraining data for 3D cellsegmentation is in the magnitudes of a few hundrets, this approach seems unlikely to succeed. As Carsen Stringer, the original author of cellpose suggests, CNNs would definetely be more suitable for training a true 3D cellpose variant from scratch because of the above mentioned reasons.
+
+\subsection{Hybrid Approach for Learning True 3D Features}
+
+In this subsection, we present a different approach for learning true 3D features. We adapt the design of xy et al \cite{3dfeautreslicingpaper}, who keep the strong pretaining power of a foundational encoder and train a seperate 3D convolutional decoder to learn 3D features based on the forwarded slices of the 2D encoder.
+
+Specifically, they used the SAM1 image encoder registry as the encoder and a lightweight decoder. The input image
+\(
+I \in \mathbb{R}^{H \times W \times D}
+\) 
+is sliced along the depth dimension, converted to a 3-channel image and forwarded through the encoder. The resulting slice embeddings $F = [f_1, f_2, \dots, f_D] \in \mathbb{R}^{\frac{H}{16} \times \frac{W}{16} \times D \times 256}$ are stacked to form a 3D feature volume \(F\), which is then processed by the 3D decoder to capture depth-wise relationships and map the features to the Cellpose learning objective. The forward pass is summarized in Algorithm~\ref{algo:sam3d_forward}.
+
+\begin{algorithm}[H]
+\caption{Hybrid 3D Feature Network Forward Pass}
+\label{algo:sam3d_forward}
+\begin{algorithmic}[1]
+\REQUIRE Volumetric input $I \in \mathbb{R}^{H \times W \times D}$
+\ENSURE Cellpose learning objectives $\hat{Y} \in \mathbb{R}^{H \times W \times D}$
+
+\STATE Split $I$ into $D$ slices along the depth axis: $I = \{I_i\}_{i=1}^{D}$, $I_i \in \mathbb{R}^{3 \times H \times W}$
+\FOR{$i = 1$ to $D$}
+    \STATE Compute slice embeddings: $f_i = \text{Enc}(I_i)$ \COMMENT{$f_i \in \mathbb{R}^{H/16 \times W/16 \times 256}$}
+\ENDFOR
+\STATE Stack slice embeddings to form 3D feature volume: 
+
+$F = [f_1, f_2, \dots, f_D] \in \mathbb{R}^{H/16 \times W/16 \times D \times 256}$
+\STATE Pass the stack embeddings to the 3D decoder layers: 
+\FOR{$block$ in $DecoderBlocks$}
+\STATE  
+$\hat{Y} = \text{block}(F)$
+\ENDFOR
+\RETURN $\hat{Y}$
+\end{algorithmic}
+\end{algorithm}
+To further tailor this method for our purpose, we take not only the pretrained SAM1 image encoder registry, but also use the weights from the pretrained CellposeSAM encoder, that should already be quite potent for providing cell segmentation slice embeddings. We therefore dont need to train the encoder seperately and freeze the weights completely, while training the 3D decoder from scratch. 
+
+Although this approach performed well on medical image segmentation, there are still some potential drawbacks of this hybrid method. As the 3D decoder is trained from scratch, a lot of 3D annotated data will be needed which is not always available for specific datasets. Also, strong performance across multiple modalities, particularly on modalities not present during training, is not expected for the amount of pretraining data available. Potential cures for that matter could be diffusion models that synthesize large amounts of fully annotated training data. This has not yet been tested.
