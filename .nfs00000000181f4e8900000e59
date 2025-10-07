@@ -1,0 +1,70 @@
+\babel@toc {british}{}\relax 
+\contentsline {chapter}{List of Figures}{VII}{chapter*.3}%
+\contentsline {chapter}{List of Tables}{VIII}{chapter*.4}%
+\contentsline {chapter}{List of Listings}{VIII}{chapter*.5}%
+\contentsline {chapter}{Nomenclature}{IX}{chapter*.6}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Related Work}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Convolutional Neural Networks (CNNs)}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}ImageNet}{4}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}U-Net Architecture}{5}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Image Segmentation}{6}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Semantic and Instance Segmentation}{6}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Cellpose}{7}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Loss Functions and Metrics}{8}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Foundation Models}{10}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Transformer}{10}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}The Attention Mechanism}{11}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Transformer}{12}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Vision Transformer}{12}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}SegFormer}{13}{subsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}MA-Net: Multi-Scale Attention Network}{15}{subsection.2.4.5}%
+\contentsline {section}{\numberline {2.5}Masked Autoencoders}{17}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Segment Anything}{18}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Segment Anything 2}{20}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Hiera}{20}{subsection.2.6.2}%
+\contentsline {section}{\numberline {2.7}Mediar}{21}{section.2.7}%
+\contentsline {section}{\numberline {2.8}CellposeSAM}{23}{section.2.8}%
+\contentsline {chapter}{\numberline {3}Methods}{25}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Datasets}{25}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Pretraining Datasets}{25}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Evaluation Datasets}{27}{subsection.3.1.2}%
+\contentsline {subsubsection}{\nonumberline BlastoSPIM}{27}{subsubsection*.28}%
+\contentsline {subsubsection}{\nonumberline CTC Datasets}{27}{subsubsection*.31}%
+\contentsline {subsubsection}{\nonumberline Zebrafish Dataset}{28}{subsubsection*.34}%
+\contentsline {section}{\numberline {3.2}Mediar3D}{29}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}3D Flowfield Prediction}{30}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Post-Processing of 3D Flows}{30}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Segmentation Network Design Choices}{32}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}High-Level Network Design}{32}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}SAM2 Encoder Registry}{33}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Merging SAM2 Image Encoder with Mediar}{34}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Lightweight Decoder}{34}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Training Challenges and Solutions}{34}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Training Pipeline}{35}{subsection.3.4.1}%
+\contentsline {subsubsection}{\nonumberline Data preperation and sampling}{35}{subsubsection*.39}%
+\contentsline {subsubsection}{\nonumberline Forward pass}{35}{subsubsection*.41}%
+\contentsline {subsubsection}{\nonumberline Backward pass}{36}{subsubsection*.43}%
+\contentsline {subsection}{\numberline {3.4.2}Training with Limited Annotations}{37}{subsection.3.4.2}%
+\contentsline {subsubsection}{\nonumberline Using Unsupervised Learning Methods}{37}{subsubsection*.45}%
+\contentsline {subsubsection}{\nonumberline Masked Loss Function}{37}{subsubsection*.47}%
+\contentsline {section}{\numberline {3.5}3D Feature Network}{38}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}3D Gradient Flow Training}{38}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Feasibility of Extending Mediar to True 3D}{39}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Hybrid Approach for Learning True 3D Features}{39}{subsection.3.5.3}%
+\contentsline {chapter}{\numberline {4}Experiments}{41}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Model Pretraining}{41}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Model Finetuning}{43}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Finetuning on Fully Annotated Data}{43}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Finetuning on Partially Annotated Data}{43}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Model Inference}{43}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Testing on synthetic Data}{43}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Testing on BlasoSPIM}{43}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Testing on CTC Data}{43}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Testing on Zebrafish Data}{43}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}3D Feature Network}{43}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Pretraining}{43}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Finetuning}{43}{subsection.4.4.2}%
+\contentsline {chapter}{Bibliography}{i}{subsection.4.4.2}%
+\contentsline {chapter}{\numberline {A}Erstes Anhang-Kapitel}{iii}{appendix.A}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

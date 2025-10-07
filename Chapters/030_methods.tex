@@ -1,8 +1,127 @@
 \chapter{Methods}
 
 \section{Datasets}
-In this section, we introduce some important datasets used in this thesis for model training and performance evaluation. The most interesting dataset in the context of the research of this project is the 3D+t dataset of zebrafish embryo provided by the biologists at @todo.
+In this section, we introduce some important datasets used in this thesis for model training and performance evaluation. First, we present every datasets involved in pretraining of our models. For finetuning and inference, the most interesting dataset in the context of the research of this project is the 3D+t dataset of zebrafish embryo provided by the biologists at @todo.
 There are multiple challenges when working with these datasets. The most important challenge is the lack of annotated data. Even for fully annotated datasets, inter-annotator agreement is often an upper boundary for evaluation, as even for the specialist a clear annotation is sometimes not obvious. This can be due to a certain level of noise in the images or boundaries that are just inherently hard to define due to the cell type or imaging modality. This is especially the case for the non-synthetic data, provided by the Celltracking Challenge (CTC) \cite{ctc}. Next to limited annotations, 3D data can quickly blow up computational resources due to their large size. For this matter, some shifted window approach has to be considered, if the image size exceeds computational limits. Anisotropy can also can also lead to distortions in feature aquisition and performance impairments at inference, if not taken care of in each processing step. 
+
+\subsection{Pretraining Datasets}
+For pretraining our models, we want to use as many 2D cell microscopy data as we can get. The modalites range from H\&E stained histology images from various organs, over fluorescence, phase-contrast and bright-field microscopy images. Cell types range from human organ cells, to bacteria, worms, yeast and animal embryo nuclei.
+
+\begin{itemize}
+  \item BCCD: The blood cell segmentation dataset consists of blood smear images taken with a light microscope 
+  (\url{https://www.kaggle.com/datasets/jeetblahiri/bccd-dataset-with-mask}). 
+  There are 1,169 training and 159 validation images in the dataset, all of which were used for training.
+
+  \item Cellpose: We used the dataset from the original Cellpose paper. It is composed from various sources. We manually selected 764 images for training.
+
+  \item CoNIC: The CoNIC dataset consists of 4,981 H\&E images with labeled nuclei and nuclei classification 
+  (\url{https://www.kaggle.com/datasets/aadimator/conic-challenge-dataset?select=data}). 
+  We sorted out the images without labels and ended up with 4,841 images which we used for training.
+
+  \item CPM15+17: CPM 15 and 17 consist of H\&E images with labeled nuclei. CPM 15 + 17 are from brain cancer patients, with 15 and 32 training images per dataset, respectively.
+
+  \item DataScienceBowl: The 2018 DataScienceBowl dataset contains 841 images with 22 cell types and five visually similar groups. We used 670 images for training.
+
+  \item DeepBacs: We used the following segmentation datasets from DeepBacs: S. aureus bright-field and fluorescence with 66 training patches, E. coli bright-field with 34 training images, and B. subtilis fluorescence with 90; in total 190 training images.
+
+  \item IHC\_TMA: The IHC TMA dataset consists of TMA sections from non-small cell lung cancer patients with labeled nuclei 
+  (\url{https://doi.org/10.5281/zenodo.7647846}). 
+  There are 266 images, which were used for training.
+
+  \item LiveCell: The LiveCell dataset consists of 4,704 images of 8 different cell lines collected using phase-contrast microscopy 
+  (\url{https://sartorius-research.github.io/LIVECell/}). 
+  We manually selected 3,699 images that have complete annotations.
+
+  \item LynSec: LynSec consists of 699 IHC and H\&E images from lymphoma patients with labeled nuclei 
+  (\url{https://zenodo.org/records/8065174}). 
+  We used all images for training.
+
+  \item NeurIPS: The NeurIPS 2022 challenge training dataset consists of 1,000 images with labeled cells from bright-field, fluorescent, phase-contrast, and differential interference contrast imaging modalities 
+  (\url{https://neurips22-cellseg.grand-challenge.org/neurips22-cellseg/}). 
+  We manually selected 914 images that were annotated to a satisfactory degree.
+
+  \item NuInsSeg: The NuInsSeg dataset consists of H\&E images from 31 different human and mouse organs with labeled nuclei 
+  (\url{https://www.kaggle.com/datasets/ipateam/nuinsseg}). 
+  We used all 664 available images for training.
+
+  \item Omnipose: This dataset contains a mixture of 14 bacterial species. We used 611 bacterial cell
+microscopy images and discarded 118 worm images.
+
+  \item PanNuke: The PanNuke dataset consists of 7,898 H\&E images from 19 tissue types from cancer patients with labeled nuclei and nuclei classification 
+  (\url{https://warwick.ac.uk/fac/cross_fac/tia/data/pannuke}). 
+  We manually selected 4,950 images that had enough annotations.
+
+  \item TissueNet: The TissueNet dataset consists of 3 folds of 2,580, 3,118, and 1,324 images, collected using fluorescent microscopy on 6 tissue types with labeled cells and nuclei 
+  (\url{https://datasets.deepcell.org/}). 
+  We used all of them for training, although some appeared to have very heavy augmentations.
+
+  \item TNBC: This dataset consists of 50 images from triple negative breast cancer patients, all of which were used for training 
+  (\url{https://drive.google.com/drive/folders/1l55cv3DuY-f7-JotDN7N5nbNnjbLWchK}).
+
+  \item YeaZ: The YeaZ dataset consists of bright-field and phase contrast images of yeast cells. We used 401 2D images from the phase contrast dataset for training, and 306 images from the bright-field dataset for training.
+\end{itemize}
+
+\subsection{Evaluation Datasets}
+
+To test the performance of our pretrained models, we collected datasets with fully annotated stacks and others that only have partially annotated images. Unlike the pretraining data, the evaluation datasets have to be 3D. This dramatically increases annotation costs, so finding public, fully annotated datasets here is hard. Again, DDPMs could substitute this labor intense task of annotating full 3D stacks. However, since we dont rely on true 3D-training data, the few datasets available for testing are sufficient.
+
+\subsubsection{BlastoSPIM}
+
+BlastoSPIM contains two large-scale, high-resolution collections of annotated light-sheet images of mouse embryos.
+The first dataset, \textit{BlastoSPIM 1.0}, primarily includes embryos from the 8-nuclei stage to the 64-nuclei stage, while the second dataset, \textit{BlastoSPIM 2.0}, focuses on later stages, from the 64-nuclei stage to embryos containing more than 100 nuclei. Together, these datasets provide a total of 653 annotated 3D images, with 573 images in BlastoSPIM 1.0 and 80 images in BlastoSPIM 2.0.
+Each image in the BlastoSPIM datasets has an xy-resolution of 0.208~µm and a z-resolution of 2.0~µm, capturing fine cellular structures across multiple focal planes. In total, 18,336 nuclei have been manually segmented, with contours drawn in every z-slice where each nucleus appears. This meticulous annotation provides precise 3D instance labels, making BlastoSPIM one of the most comprehensive resources for studying early embryogenesis and for training and evaluating segmentation models in 3D microscopy. 
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/Methods/BlastoSPIM.png}%
+    }
+    \caption{Encoder embeddings of the train set clustered with k-mean and intuition of amlplified sampling \cite{LeCun.1989}.}
+    \label{fig:slicing}
+\end{figure}
+
+\subsubsection{CTC Datasets}
+
+The CTC dataset provides both 2D and 3D time-lapse microscopy sequences. It includes recordings of fluorescently counterstained nuclei and cells, either migrating on top of or embedded within a substrate. In addition, the dataset contains 2D brightfield, phase contrast, and differential interference contrast (DIC) microscopy videos that capture the dynamics of cells moving on flat substrates. 
+
+Interesting, challenging datasets with very dense instances are the Fluo-N3DL datasets, which are light-sheet 3D+t images of developing insect embryo. Each image is really large and requires careful memory handling in inference. Due to the large size and density in cell instances, annotations are very limited. For every image, only a few z-slices have annotations, which usually only cover a tiny fraction of the cells present.
+
+We will also use some synthetic images from the Fluo-N3DH-SIM dataset, which simulates nuclei of HL60 cells stained with Hoechst. Due to the high level of noise in the data, clear boundaries are not really present, limiting the performance evaluation capabilities. 
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/Methods/CTCData.png}%
+    }
+    \caption{Fluo-N3DL-DRO, TRIF and TRIC}
+    \label{fig:slicing}
+\end{figure}
+
+
+\subsubsection{Zebrafish Dataset}
+
+This dataset captures zebrafish embryo's lateral line in 3D+t. In zebrafish embryos, the lateral line system is composed of small mechanosensory organs called \textit{neuromasts}. Neuromasts originate from cranial placodes and are deposited along the trunk and tail during early development (around 24--48 hours post fertilization). This deposition is carried out by the posterior lateral line \textit{primordium}, a migrating cluster of progenitor cells that travels from the head toward the tail and leaves behind groups of cells that mature into neuromasts. Each neuromast consists of centrally located sensory hair cells surrounded by supporting and mantle cells, which provide structural and regenerative functions. By 3--5 days post fertilization, zebrafish larvae possess a functional lateral line system with multiple neuromasts arranged in stereotyped rows. For our purposes, we focus on segmenting the migrating cluster of progenitor cells as well as the leftover neuromasts. Images are acquired with a Zeiss spinning disk and Nikon laser scanning microscope, resulting in two channels for each membrane and nuclei. Although the mebrane channel can act as a useful bias in addition to the nuclei channel in tracking, the level of noise and unclear boundaries makes the membrane channel unfeasible for segmentation.
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/Methods/ZebrafishVol.png}%
+    }
+    \caption{Fluo-N3DL-DRO, TRIF and TRIC}
+    \label{fig:slicing}
+\end{figure}
+
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/Methods/ZebrafishAnnotations3d.png}%
+    }
+    \caption{Fluo-N3DL-DRO, TRIF and TRIC}
+    \label{fig:slicing}
+\end{figure}
+
+
 \section{Mediar3D}
 
 In this section, we introduce a way of extending Mediar to 3D. First, we present a way of using predictions along different image reslices, to compute a 3D flow field, which can be post processed into 3D predictions. We will briefly introduce challenges that go along with this method and discuss the feasibility of extending Mediar to true 3D. This would correspond to an architecture that learns actual 3D features during training.
@@ -129,7 +248,7 @@ With runtime computed ground truth flows, the loss can be calculated after the f
 \;+\; \mathcal{L}_{\text{BCE}} \bigl(\sigma(\hat{y}_2), P \bigr),
 \end{equation}
 
-Here, $\hat{y}_0$ and $\hat{y}_1$ denote the predicted horizontal and vertical flow channels, while $F_x$ and $F_y$ represent the corresponding ground-truth flow fields. The term $\hat{y}_2$ refers to the raw (logit) prediction of the cell probability map, and $P$ denotes the ground-truth binary mask of cell locations. The function $\sigma(\cdot)$ corresponds to the sigmoid activation, which maps logits to probabilities, and $\mathcal{L}_{\text{BCE}}(\cdot,\cdot)$ is the binary cross-entropy loss between the predicted and ground-truth probabilities. The ground-truth flows are scaled by a factor of $5$ to match relative contribution of the L2 loss and cross-entropy loss. Although it may seem like a semantical error to scale the ground truth flows before substraction, it works well in practice. Unfortunetely, there was no explaination given in the paper on why they implemented it like this. A raised github issue addressing this issue remained unanswered. Usually, it is common to scale loss contributions after the whole loss component is calculated. Either way, experiments with a different way of scaling the loss contribution have shown no difference in performance. 
+Here, $\hat{y}_0$ and $\hat{y}_1$ denote the predicted horizontal and vertical flow channels, while $F_x$ and $F_y$ represent the corresponding ground-truth flow fields. The term $\hat{y}_2$ refers to the raw (logit) prediction of the cell probability map, and $P$ denotes the ground-truth binary mask of cell locations. The function $\sigma(\cdot)$ corresponds to the sigmoid activation, which maps logits to probabilities, and $\mathcal{L}_{\text{BCE}}(\cdot,\cdot)$ is the binary cross-entropy loss between the predicted and ground-truth probabilities. The ground-truth flows are scaled by a factor of $5$ to match relative contribution of the L2 loss and cross-entropy loss. Although it may seem like a semantical error to scale the ground truth flows before substraction, it works well in practice. Unfortunetely, there was no explaination given in the paper on why they implemented it like this. A raised github issue addressing this issue remained unanswered. Usually, it is common to scale loss contributions after the whole loss component is calculated. Either way, experiments with a different way of scaling the loss contribution have shown no difference in performance.  
 
 
 \subsubsection{Backward pass}

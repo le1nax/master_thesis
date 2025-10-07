@@ -1,31 +1,163 @@
 \chapter{Experiments}
 
 In this chapter we want to test our proposed architectures on several datasets, presented in \ref{3.2}. %%@todo, list subsections
+First, we will pretrain our models on a large 2D dataset, using different sampling and augementation strategies. After that, we target specific datasets to finetune our models on. With these weights, we compare inference performance on various datasets. Finally, we will conduct some experiments with the 3D feature network.
 
 
-\section{Zero-shot Testing of Mediar3D and CellposeSAM}
+\section{Model Pretraining}
 
-\subsection{Testing on synthetic Data}
+For pretraining our Mediar backbone based models, we collected and formatted 27,422 of 2D microscopy images from various imaging modalities and cell types. To mitigate bias from overrepresented modalities, a custom dataloader generates training batches according to predefined sampling probabilities for each dataset. We manually define hardcoded sampling probabilities based on dataset sizes, cell type variability and imaging modalities. The sampling probabilities are displayed in table \ref{tab:4.1}
 
-\subsection{Testing on BlasoSPIM and PlantSeg}
+\begin{table}[ht]
+\centering 
+\footnotesize
+\caption{Sampling probabilities for each dataset.} 
+\label{tab:4.1}
+\begin{tabular}{l r c r} 
+\hline 
+\textbf{Dataset} & \textbf{\#Images} & \textbf{Variability} & \textbf{Probability} \\ 
+\midrule
+\midrule
+LiveCell & 3,699 & mid &  0.05 \\ 
+Cellpose & 764 & very high & 0.19 \\ 
+DataScienceBowl & 670 & mid & 0.08 \\ 
+BCCD & 1,328 & mid & 0.04 \\ 
+CoNIC & 4,841 & low & 0.02 \\ 
+Deepbacs & 190 & low & 0.04 \\ 
+IHC\_TMA & 266 & low & 0.03 \\ 
+TNBC & 50 & low & 0.05 \\ 
+CPM15 & 15& mid & 0.06 \\ 
+CPM17 & 32 & mid & 0.07 \\ 
+LynSec & 699 & low & 0.04 \\ 
+NeurIPS & 914 & mid-high & 0.06 \\ 
+NuInsSeg & 664 &low & 0.03 \\
+Omnipose & 611 & mid & 0.09 \\ 
+PanNuke & 4,950 &low & 0.03 \\ 
+TissueNet & 7,022 & mid-high & 0.06 \\ 
+Yeast\_BF & 306 & very low & 0.04 \\ 
+Yeast\_PhC & 401 & very low & 0.03 \\ 
+\hline 
+\end{tabular} 
+\end{table}
 
-\subsection{Testing on CTC Data}
+The qualitative evaluation of the dataset's variability is based on the correlation analysis of Cellpose, between the style vectors (global average pooling of CNN Cellpose feature maps at bottleneck) of dataset subsets. Visual inspection is done for those datasets that have not been in the correlation study of cellpose. Note that a more sophistcated approach would be to persue a similar approach to the method used in the original Mediar paper, where they analyse the clustered t-SNE representation of the encoder embeddings. However, this approach would also require to manually pick the amount of k clusters for the k-means algorithm, if no elbow heuristics are present for a within-cluster sum of square plot. We chose a similiar weighting of the sample probabilities to the CellposeSAM paper, but scaled down the weighting of the cellpose dataset a little down, as they weighted it up to 59\%, which would be almost 60 times higher than the weights for most other datasets they used. Not that the term sampling probability might be a little misleading, as the probability of an image of a certain dataset being batched scales also with the dataset size.
 
-\section{Mediar3D Finetuning}
+\begin{table}[ht]
+\centering
+\footnotesize
+\caption{Development environments and requirements.}
+\begin{tabular}{l l}
+\hline\hline
+\textbf{Environment} & \textbf{Specification} \\
+\hline
+System & Rocky Linux 9.6 \\
+CPU & 2x Intel Xeon 8468 Sapphire CPU@2.1 GHz, 48 cores each \\
+RAM & 512GB\\
+GPU & 4x NVIDIA H100 (96 GB HBM2e) \\
+CUDA version & 12.1 \\
+Programming language & Python 3.9.21 \\
+Deep learning framework & Pytorch (v2.1.2, with torchvision v0.16.2) \\
+Code dependencies & MONAI (v1.3.0), Segmentation Models (v0.3.3) \\
+\hline
+\end{tabular}
+\end{table}
+
+For the Mediar network with the MiT Segformer encoder module, we use the pretrained ImageNet-1k weights from the SegFormer paper. We discard the multi-phase training approach from the original Mediar training pipeline, because it was tailored for the unsupervised NeurIPS challenge dataset. Instead, we extend the pretraing by applying the 4x larger dataset described in \ref{datasets 3.1}. For the networks with the Hiera encoder, we use the SAM2 image encoder registry, pretrained on the SA-V dataset.
+All models, we train for 80 epochs with a batch size of 64, distributed over four H100 GPUs with model weight wrapping Multi-GPU training. The optimizer is set to AdamW with an initial learning rate of 5e-5, decaying using cosine scheduler with intervals of 100 without restarts. The environmental and learning setups are listed in tables \ref{tab:4.2} and \ref{tab:4.3}, respectively. 
+
+\begin{table}[ht]
+\centering
+\footnotesize
+\caption{Pretraining Setups}
+\begin{tabular}{l l l l}
+\hline\hline
+\textbf{Setup} & \textbf{Mediar} & \textbf{MediarSAM} & \textbf{MediarSAM light} \\
+\hline
+Encoder                  &  MixTransformer \cite{} &  Hiera \cite{}      &        Hiera   \cite{}                \\
+Decoder                  &  MA-Net\cite{}   &      MA-Net\cite{}                 &    Conv + Res Blocks              \\                    
+Initialization (Encoder) &  Imagenet-1K \cite{}&    SA-V     &          SA-V              \\
+Initialization (Decoder)&    He normal init       &         He normal init              &            He normal init        \\
+Loss function            &   MSE, BCE               &      MSE, BSE                 &           MSE, BSE                \\
+Mixed precision \cite{}  &          disabled                &       disabled        & enabled \\
+Optimizer &     AdamW \cite{}             &       AdamW \cite{}                &       AdamW \cite{}                    \\
+Initial learning rate (lr) &    5e-5              &           5e-5            &          5e-5                 \\
+Lr decay schedule &    Cosine \cite{} (100 interval)        &     Cosine \cite{} (100 interval)     &  Cosine \cite{} (100 interval)                  \\
+Epochs &  80                &         80              &            80               \\
+\midrule
+Training time &  87h                &         94h              &            76h               \\
+Model parameters &  121.30 M                &         223.12 M              &            219.79 M                \\ 
+\hline
+\end{tabular}
+\end{table}
+
+For the lightweight decoder we use torch autocast, amplifying the training by autocasting images to float16. Due to numerical stability restrictions, this can not be applied to the MA-Net decoder based architectures, slowing down training. Due to accumulating memory in the default Mediar backbone, a custom image load function is used to enable pretraining on nodes with limited RAM. Batched images are preprocessed and augmented runtime in the dataloader, which slows down training to a certain extend, but is far superior in providing diverse training images to prevent overfitting. Because of runtime augmentation, we do not precompute ground truth flows due to the spatial and intensity transformation invariance of the flow generation transform. The preprocessing dataloading pipeline is summerized in table \ref{tab:4.4}.
+
+\begin{table}[ht]
+\centering
+\footnotesize % Reduces the font size of the entire table
+\caption{Overview of runtime batch loading and their implementation details.}
+\label{tab:4.4}
+\begin{tabular}{l p{10.0cm}} % Reduced column width for compactness
+\toprule % Top line (requires \usepackage{booktabs})
+\textbf{Strategy} & \textbf{Details} \\
+\midrule
+\midrule
+(P) CustomLoadImage (1.0) & Loads images and labels without accumulating memory. \\
+(P) CustomNormalizeImaged (1.0) & Memory-safe percentile norm. Rescales intensities to [0, 255] using robust percentiles ([0.0, 99.5]). \\
+(P) EnsureChannelFirstd (1.0) & Ensures channel-first layout (C, H, W) for all inputs. \\
+(P) RemoveRepeatedChanneld (1.0) & Collapses repeated channels in label map (\texttt{repeats=3}), useful for RGB masks. \\
+(P) ScaleIntensityd (1.0) & Scales intensity values to [0, 1]. \\
+\midrule
+(S) RandZoomd (0.5) & Random zoom: factor [0.25, 1.5]. Area (image) / Nearest (label) interpolation. Output is not resized. \\
+(S) SpatialPadd (1.0) & Zero-pads to a minimum spatial size of 512 $\times$ 512. \\
+(S) RandSpatialCropd (1.0) & Random crop of fixed ROI size 512 $\times$ 512. \\
+(S) RandAxisFlipd (0.5) & Randomly flips along spatial axes. \\
+(S) RandRotate90d (0.5) & Random rotation by multiples of $90^\circ$ over axes (0,1). \\
+\midrule
+(I) IntensityDiversification (1.0) & Randomly rescales intensity for $\approx 40\%$ of selected cells (factors [0, 0.7]). \\
+(I) RandGaussianNoised (0.25) & Adds Gaussian noise ($\mu=0$, $\sigma=0.1$). \\
+(I) RandAdjustContrastd (0.25) & Gamma correction: $\gamma$ randomly sampled in [1, 2]. \\
+(I) RandGaussianSmoothd (0.25) & Gaussian smoothing: $\sigma$ along x-axis randomly sampled in [1, 2]. \\
+(I) RandHistogramShiftd (0.25) & Randomly shifts histogram using 3 control points. \\
+(I) RandGaussianSharpend (0.25) & Random sharpening applied. \\
+\midrule
+(O) EnsureTyped (1.0) & Converts input data to PyTorch tensor format. \\
+\bottomrule % Bottom line
+\end{tabular}
+
+\vspace{0.5em}
+\small
+{\raggedright 
+*(P): Pre-processing (S): Spatial Augmentation (I): Intensity Augmentation (O): Others
+*The probability of applying the strategy is given in parentheses\par}
+\end{table}
+
+Note, that ground truth have to be spatially augmented the same way as train images. Therefore, image and label keys are handled with the same spatial augmentation parameters per iteration. 
+
+
+\section{Model Finetuning}
+
+In this section, we take the pretrained models and finetune them on specific target datasets, as presented in \ref{chapter 3.1.2}. 
 
 \subsection{Finetuning on Fully Annotated Data}
 
+First, we want to finetune the models on fully annotated data. We will try to 
+
+
+The loss function does not have to be edited in such a way, that only annotated regions contribute to losses. So on a high level, the pretraining pipeline can be reused. 
+
 \subsection{Finetuning on Partially Annotated Data}
 
-\section{Integration of SAM2 Registry}
+\section{Model Inference}
 
-\subsection{Pretraining with SAM2 Registry}
+\subsection{Testing on synthetic Data}
 
-\subsubsection{Testing Zero-shot Performance}
+\subsection{Testing on BlasoSPIM}
 
-\subsection{Fintuning SAM2 Registry}
+\subsection{Testing on CTC Data}
 
-\subsubsection{Testing Finetuned Performance}
+\subsection{Testing on Zebrafish Data}
+
 
 \section{3D Feature Network}
 

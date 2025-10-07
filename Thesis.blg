@@ -16,6 +16,7 @@ Warning--I didn't find a database entry for "CellposeSAM"
 Warning--I didn't find a database entry for "eschweiler"
 Warning--I didn't find a database entry for "Primus"
 Warning--I didn't find a database entry for "3dfeautreslicingpaper"
+Warning--I didn't find a database entry for ""
 You've used 1 entry,
             1876 wiz_defined-function locations,
             501 strings with 4022 characters,
@@ -57,4 +58,4 @@ warning$ -- 0
 while$ -- 2
 width$ -- 2
 write$ -- 12
-(There were 7 warnings)
+(There were 8 warnings)
