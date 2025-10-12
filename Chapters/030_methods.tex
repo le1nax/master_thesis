@@ -69,7 +69,6 @@ To test the performance of our pretrained models, we collected datasets with ful
 
 BlastoSPIM contains two large-scale, high-resolution collections of annotated light-sheet images of mouse embryos.
 The first dataset, \textit{BlastoSPIM 1.0}, primarily includes embryos from the 8-nuclei stage to the 64-nuclei stage, while the second dataset, \textit{BlastoSPIM 2.0}, focuses on later stages, from the 64-nuclei stage to embryos containing more than 100 nuclei. Together, these datasets provide a total of 653 annotated 3D images, with 573 images in BlastoSPIM 1.0 and 80 images in BlastoSPIM 2.0.
-Each image in the BlastoSPIM datasets has an xy-resolution of 0.208~µm and a z-resolution of 2.0~µm, capturing fine cellular structures across multiple focal planes. In total, 18,336 nuclei have been manually segmented, with contours drawn in every z-slice where each nucleus appears. This meticulous annotation provides precise 3D instance labels, making BlastoSPIM one of the most comprehensive resources for studying early embryogenesis and for training and evaluating segmentation models in 3D microscopy. 
 
 \begin{figure}[!ht]
     \centering
@@ -80,13 +79,15 @@ Each image in the BlastoSPIM datasets has an xy-resolution of 0.208~µm and a z-
     \label{fig:slicing}
 \end{figure}
 
+Each image in the BlastoSPIM datasets has an xy-resolution of 0.208~µm and a z-resolution of 2.0~µm, capturing fine cellular structures across multiple focal planes. In total, 18,336 nuclei have been manually segmented, with contours drawn in every z-slice where each nucleus appears. This meticulous annotation provides precise 3D instance labels, making BlastoSPIM one of the most comprehensive resources for studying early embryogenesis and for training and evaluating segmentation models in 3D microscopy. 
+
+
+
 \subsubsection{CTC Datasets}
 
 The CTC dataset provides both 2D and 3D time-lapse microscopy sequences. It includes recordings of fluorescently counterstained nuclei and cells, either migrating on top of or embedded within a substrate. In addition, the dataset contains 2D brightfield, phase contrast, and differential interference contrast (DIC) microscopy videos that capture the dynamics of cells moving on flat substrates. 
 
 Interesting, challenging datasets with very dense instances are the Fluo-N3DL datasets, which are light-sheet 3D+t images of developing insect embryo. Each image is really large and requires careful memory handling in inference. Due to the large size and density in cell instances, annotations are very limited. For every image, only a few z-slices have annotations, which usually only cover a tiny fraction of the cells present.
-
-We will also use some synthetic images from the Fluo-N3DH-SIM dataset, which simulates nuclei of HL60 cells stained with Hoechst. Due to the high level of noise in the data, clear boundaries are not really present, limiting the performance evaluation capabilities. 
 
 \begin{figure}[!ht]
     \centering
@@ -98,9 +99,24 @@ We will also use some synthetic images from the Fluo-N3DH-SIM dataset, which sim
 \end{figure}
 
 
+We will also use some synthetic images from the Fluo-N3DH-SIM dataset, which simulates nuclei of HL60 cells stained with Hoechst. Due to the high level of noise in the data, clear boundaries are not really present, limiting the performance evaluation capabilities. 
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/Methods/CTCsim.png}%
+    }
+    \caption{Fluo-N3DL-DRO, TRIF and TRIC}
+    \label{fig:slicing}
+\end{figure}
+
+
+
+
+
 \subsubsection{Zebrafish Dataset}
 
-This dataset captures zebrafish embryo's lateral line in 3D+t. In zebrafish embryos, the lateral line system is composed of small mechanosensory organs called \textit{neuromasts}. Neuromasts originate from cranial placodes and are deposited along the trunk and tail during early development (around 24--48 hours post fertilization). This deposition is carried out by the posterior lateral line \textit{primordium}, a migrating cluster of progenitor cells that travels from the head toward the tail and leaves behind groups of cells that mature into neuromasts. Each neuromast consists of centrally located sensory hair cells surrounded by supporting and mantle cells, which provide structural and regenerative functions. By 3--5 days post fertilization, zebrafish larvae possess a functional lateral line system with multiple neuromasts arranged in stereotyped rows. For our purposes, we focus on segmenting the migrating cluster of progenitor cells as well as the leftover neuromasts. Images are acquired with a Zeiss spinning disk and Nikon laser scanning microscope, resulting in two channels for each membrane and nuclei. Although the mebrane channel can act as a useful bias in addition to the nuclei channel in tracking, the level of noise and unclear boundaries makes the membrane channel unfeasible for segmentation.
+This dataset captures zebrafish embryo's lateral line in 3D+t. In zebrafish embryos, the lateral line system is composed of small mechanosensory organs called \textit{neuromasts}. Neuromasts originate from cranial placodes and are deposited along the trunk and tail during early development (around 24--48 hours post fertilization). This deposition is carried out by the posterior lateral line \textit{primordium}, a migrating cluster of progenitor cells that travels from the head toward the tail and leaves behind groups of cells that mature into neuromasts. Each neuromast consists of centrally located sensory hair cells surrounded by supporting and mantle cells, which provide structural and regenerative functions. By 3--5 days post fertilization, zebrafish larvae possess a functional lateral line system with multiple neuromasts arranged in stereotyped rows. For our purposes, we focus on segmenting the migrating cluster of progenitor cells as well as the leftover neuromasts. Images are acquired with a Zeiss spinning disk and Nikon laser scanning microscope, resulting in two channels for each membrane and nuclei. Although the mebrane channel can act as a useful bias in addition to the nuclei channel in tracking, the level of noise and unclear boundaries makes the membrane channel unfeasible for segmentation. Therefore, we will primarily focus on the nuclei channel for segmentation tasks.
 
 \begin{figure}[!ht]
     \centering
@@ -108,9 +124,10 @@ This dataset captures zebrafish embryo's lateral line in 3D+t. In zebrafish embr
     \includegraphics[width=1.0\textwidth]{Images/Methods/ZebrafishVol.png}%
     }
     \caption{Fluo-N3DL-DRO, TRIF and TRIC}
-    \label{fig:slicing}
+    \label{fig:ZebrafishVol}
 \end{figure}
 
+As depicted in Figure \ref{fig:ZebrafishVol}, the primordium cells can be recognized quite easily with the bare eye. This is not only due to favourable intensity contrasting, but also because of the unqiue shapes compared to the background cells. Nevertheless, if there is no bias towards the different types of cells, generalizable networks will not be able to differ forground from background cells and thus produce a lot of false positives.Although there are a lot images at different timestamps and images for wildtype variations, there is just one single 3D image labeled. Although most of our models train on 2D slice inference anyway, testing and training on the same image at different slices is rather infeasible due to strong spatial correlations between test and train data.
 
 \begin{figure}[!ht]
     \centering
@@ -118,8 +135,11 @@ This dataset captures zebrafish embryo's lateral line in 3D+t. In zebrafish embr
     \includegraphics[width=1.0\textwidth]{Images/Methods/ZebrafishAnnotations3d.png}%
     }
     \caption{Fluo-N3DL-DRO, TRIF and TRIC}
-    \label{fig:slicing}
+    \label{fig:ZebrafishAnnotations3d}
 \end{figure}
+
+Another challenge with this dataset is not only that there is just one annotated image, but that the segmentation quality also impaired by the way the annotation was created. As it can be easily spotted in \ref{fig:ZebrafishAnnotations3d}, there are inconsistencies in cell annotations towards different z slices. Most likely, the annotator marked cells in just axial direction, leaving out annotations on some slices, while on some z slices further they are marked again. Also, the boundary sizes are inconsistent over z. This is particularly crucial, as our models predict slices in axial, sagital and coronal directions. So when slicing through x for example, the inconsistencies will create distortions in the flow feature space, which is aggregated from all inference directions.
+
 
 
 \section{Mediar3D}
