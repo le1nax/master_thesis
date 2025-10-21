@@ -17,8 +17,9 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Encoder embeddings of the train set clustered with k-mean and intuition of amlplified sampling \cite  {LeCun.1989}.}}{27}{figure.caption.29}\protected@file@percent }
 \newlabel{fig:slicing}{{3.1}{27}{Encoder embeddings of the train set clustered with k-mean and intuition of amlplified sampling \cite {LeCun.1989}}{figure.caption.29}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\nonumberline CTC Datasets}{28}{subsubsection*.31}\protected@file@percent }
+\newlabel{cha:3.2}{{3.1.2}{28}{CTC Datasets}{subsubsection*.31}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Fluo-N3DL-DRO, TRIF and TRIC}}{28}{figure.caption.32}\protected@file@percent }
-\newlabel{fig:slicing}{{3.2}{28}{Fluo-N3DL-DRO, TRIF and TRIC}{figure.caption.32}{}}
+\newlabel{fig:CTCData}{{3.2}{28}{Fluo-N3DL-DRO, TRIF and TRIC}{figure.caption.32}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Fluo-N3DL-DRO, TRIF and TRIC}}{29}{figure.caption.33}\protected@file@percent }
 \newlabel{fig:slicing}{{3.3}{29}{Fluo-N3DL-DRO, TRIF and TRIC}{figure.caption.33}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\nonumberline Zebrafish Dataset}{29}{subsubsection*.35}\protected@file@percent }
@@ -41,27 +42,28 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Merging SAM2 Image Encoder with Mediar}{34}{subsection.3.3.3}\protected@file@percent }
 \citation{Segformer,CellposeSAM}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Lightweight Decoder}{35}{subsection.3.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Training Challenges and Solutions}{35}{section.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Training Pipeline, Challenges and Solutions}{35}{section.3.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Training Pipeline}{35}{subsection.3.4.1}\protected@file@percent }
 \citation{eschweiler}
 \@writefile{toc}{\contentsline {subsubsection}{\nonumberline Data preperation and sampling}{36}{subsubsection*.40}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\nonumberline Forward pass}{36}{subsubsection*.42}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\nonumberline Backward pass}{37}{subsubsection*.44}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\nonumberline Checkpointing}{37}{subsubsection*.46}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Training with Limited Annotations}{38}{subsection.3.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\nonumberline Using Unsupervised Learning Methods}{38}{subsubsection*.46}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\nonumberline Masked Loss Function}{38}{subsubsection*.48}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\nonumberline Using Unsupervised Learning Methods}{38}{subsubsection*.48}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\nonumberline Masked Loss Function}{39}{subsubsection*.50}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3.5}3D Feature Network}{39}{section.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}3D Gradient Flow Training}{39}{subsection.3.5.1}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Training with masked 3D flow loss}}{39}{algorithm.2}\protected@file@percent }
-\newlabel{algo:3Dflowtraining}{{2}{39}{Training with masked 3D flow loss}{algorithm.2}{}}
 \citation{Primus}
-\citation{3dfeautreslicingpaper}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}3D Gradient Flow Training}{40}{subsection.3.5.1}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Training with masked 3D flow loss}}{40}{algorithm.2}\protected@file@percent }
+\newlabel{algo:3Dflowtraining}{{2}{40}{Training with masked 3D flow loss}{algorithm.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}Feasibility of Extending Mediar to True 3D}{40}{subsection.3.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}Hybrid Approach for Learning True 3D Features}{40}{subsection.3.5.3}\protected@file@percent }
+\citation{3dfeautreslicingpaper}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}Hybrid Approach for Learning True 3D Features}{41}{subsection.3.5.3}\protected@file@percent }
 \@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Hybrid 3D Feature Network Forward Pass}}{41}{algorithm.3}\protected@file@percent }
 \newlabel{algo:sam3d_forward}{{3}{41}{Hybrid 3D Feature Network Forward Pass}{algorithm.3}{}}
 \@setckpt{Chapters/030_methods}{
-\setcounter{page}{42}
+\setcounter{page}{43}
 \setcounter{equation}{6}
 \setcounter{enumi}{0}
 \setcounter{enumii}{0}

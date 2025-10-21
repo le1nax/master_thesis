@@ -5,6 +5,7 @@ First, we will pretrain our models on a large 2D dataset, using different sampli
 
 
 \section{Model Pretraining}
+\label{chapter:4.1}
 
 For pretraining our Mediar backbone based models, we collected and formatted 27,422 of 2D microscopy images from various imaging modalities and cell types. To mitigate bias from overrepresented modalities, a custom dataloader generates training batches according to predefined sampling probabilities for each dataset. We manually define hardcoded sampling probabilities based on dataset sizes, cell type variability and imaging modalities. The sampling probabilities are displayed in table \ref{tab:4.1}
 
@@ -62,13 +63,15 @@ Code dependencies & MONAI (v1.3.0), Segmentation Models (v0.3.3) \\
 \end{tabular}
 \end{table}
 
-For the Mediar network with the MiT Segformer encoder module, we use the pretrained ImageNet-1k weights from the SegFormer paper. The networks with the Hiera encoder, are intilized with the SAM2 image encoder registry, pretrained on the SA-V dataset. We discard the multi-phase training approach from the original Mediar training pipeline, because it was tailored for the unsupervised NeurIPS challenge dataset. In short what they do in their multi-phase training is training two seperate models that have different levels of bias towards the target modalities. This ensembling only has meaningful impact if the target datasets has a lot of different modalities such as it was the case in the NeurIPS challenge dataset. So for training a model that generalizes well over unseen modalities and that is able to be finetuned for one target modality, training just one model considered the best choice. To achieve that single genralizable model, we follow the same path as CellposeSAM by pretraing the model on basically every public 2D dataset there is. The resulting dataset described in \ref{datasets 3.1} is almost four times larger than the pretraining data from Mediar. For the networks with the Hiera encoder, we use the SAM2 image encoder registry, pretrained on the SA-V dataset.
+For the Mediar network with the MiT Segformer encoder module, we use the pretrained ImageNet-1k weights from the SegFormer paper. The networks with the Hiera encoder, are intilized with the SAM2 image encoder registry, pretrained on the SA-V dataset. We discard the multi-phase training approach from the original Mediar training pipeline, because it was tailored for the unsupervised NeurIPS challenge dataset. In short what they do in their multi-phase training is training two seperate models that have different levels of bias towards the target modalities. This ensembling only has meaningful impact if the target datasets has a lot of different modalities such as it was the case in the NeurIPS challenge dataset. So for training a model that generalizes well over unseen modalities and that is able to be finetuned for one target modality, training just one model considered the best choice. To achieve that single genralizable model, we follow the same path as CellposeSAM by pretraining the model on basically every public 2D dataset there is. The resulting dataset described in \ref{datasets 3.1} is almost four times larger than the pretraining data from Mediar. For the networks with the Hiera encoder, we use the SAM2 image encoder registry, pretrained on the SA-V dataset.
 All models, we train for 80 epochs with a batch size of 64, distributed over four H100 GPUs with model weight wrapping Multi-GPU training. The optimizer is set to AdamW with an initial learning rate of 5e-5, decaying using cosine scheduler with intervals of 100 without restarts. The environmental and learning setups are listed in tables \ref{tab:4.2} and \ref{tab:4.3}, respectively. 
 
 \begin{table}[ht]
 \centering
 \footnotesize
 \caption{Pretraining Setups}
+\label{tab:4.3}
+\resizebox{\textwidth}{!}{
 \begin{tabular}{l l l l}
 \hline\hline
 \textbf{Setup} & \textbf{Mediar} & \textbf{MediarSAM} & \textbf{MediarSAM light} \\
@@ -88,6 +91,7 @@ Training time &  87h                &         94h              &            76h 
 Model parameters &  121.30 M                &         223.12 M              &            219.79 M                \\ 
 \hline
 \end{tabular}
+}
 \end{table}
 
 For the lightweight decoder we use torch autocast, amplifying the training by autocasting images to float16. Due to numerical stability restrictions, this can not be applied to the MA-Net decoder based architectures, slowing down training. Due to accumulating memory in the default Mediar backbone, a custom image load function is used to enable pretraining on nodes with limited RAM. Batched images are preprocessed and augmented runtime in the dataloader, which slows down training to a certain extend, but is far superior in providing diverse training images to prevent overfitting. Because of runtime augmentation, we do not precompute ground truth flows due to the spatial and intensity transformation invariance of the flow generation transform. The preprocessing dataloading pipeline is summerized in table \ref{tab:4.4}.
@@ -97,7 +101,7 @@ For the lightweight decoder we use torch autocast, amplifying the training by au
 \footnotesize % Reduces the font size of the entire table
 \caption{Overview of runtime batch loading and their implementation details.}
 \label{tab:4.4}
-\begin{tabular}{l p{10.0cm}} % Reduced column width for compactness
+\begin{tabular}{l p{8.0cm}} % Reduced column width for compactness
 \toprule % Top line (requires \usepackage{booktabs})
 \textbf{Strategy} & \textbf{Details} \\
 \midrule
@@ -134,30 +138,160 @@ For the lightweight decoder we use torch autocast, amplifying the training by au
 
 Note, that ground truth have to be spatially augmented the same way as train images. Therefore, image and label keys are handled with the same spatial augmentation parameters per iteration. 
 
+\subsection{Pre-Evaluation of Pretraining Results}
+
+Before declaring the pretraining step as finished and official runs for finetuning and inference benchmarking can be scheduled, the models have to tested briefly. In general, the way we perform official pretraining is very expensive, as we schedule runs with multiple GPUs, as single GPU training limits batch size to 7 for consumer grade GPUs (\textless24GB VRAM). As for the CLAIX High-Performance-Computing cluster of RWTH Aachen, a single GPU hour is billed as 24 CPU-Core hours. Consequently, using 4 GPUs are billed for 96 core-hours, resulting in just 6 possible runs on the cluster, until the monthly user quota is reached. Consequently, tuning sampling ratios and other training parameters is hard. As we expect a similar sampling ratio-performance dependence for all models, it is advisable to test different configurations on one model. The final configuration was selected after 8 runs. It is expected, that performance can be tuned to a higher standard, if systematically scheduled tuning is feasible for the available computational resources. As mentioned above, due to limited resources, this was not the case for our environment. 
+
+We evaluate the candidate pretrained models, by performing zero-shot inference on the CTC data and the BlastoSPIM dataset. It turned out, that the light weight configuration of the SAM2 extension for Mediar performed slightly worse on exclusivly all tests, compared to the Mediar-SAM configuration with the MA-Net Decoder. As depicted in Table~\ref{tab:4.3}, the majority of the weights are in the encoder. This suggests, that there is not much computational time saved and performance does not vary much too. We concluded that the negligible time saved at inference does not make up for the performance loss, so we decided against scheduling any more tuning and benchmarking for this model. The other networks performed very similarly, so we will focus on comparing the performance of the default Mediar weights (referred to as \textit{paper weights} or \textit{from\_phase1}), the Mediar network with the SAM2 encoder modul (referred to as \textit{MediarSAM}) and the Mediar network with extended pretraining.   
 
 \section{Model Finetuning}
 
-In this section, we take the pretrained models and finetune them on specific target datasets, as presented in \ref{chapter 3.1.2}. In general, the aim of finetuning is to optimize the model weights themself and the image processing pipeline around the model to maximize accuracy for inference on specific datasets. When working in a very target oriented environment, it is often common to not only train the model weights on the specific datasets, but also edit the pipeline around the model. For example, if there is knowledge about physical constraints concerning spatial cell properties or reflection coefficients, this dataset specific knowledge can be directly incorporated into the pre- and postprocessing. For instance, known reflection coefficients can be refered to a certain range in pixel itensities after image aquisition. A subsequent histogram operation based on known intensities can be a powerful tool, to get rid of background cells. Spatial cell properties can be directly formulated as constraints in feature space. If there is a known min/max diameter, area or any numerical boundary for aspect ratios, extents, solidities or essentricities, one could already eliminate most false positives. This can change the inductive bias to a large scale, making the model lose it's ability to generalize well over different modalities.
+In this section, we take the pretrained models and finetune them on specific target datasets, as presented in section \ref{chapter 3.1.2}. In general, the aim of finetuning is to optimize the model weights themself and the image processing pipeline around the model to maximize accuracy for inference on specific datasets. So when working in a very target oriented environment, it is often common to not only train the model weights on the specific datasets, but also edit the pipeline around the model. For example, if there is knowledge about physical constraints concerning spatial cell properties or reflection coefficients, this dataset specific knowledge can be directly incorporated into the pre- and postprocessing. For instance, known reflection coefficients can be referred to a certain range in pixel itensities after image aquisition. A subsequent histogram operation based on known intensities can be a powerful tool, to get rid of background cells. Spatial cell properties can be directly formulated as constraints in feature space. If there is a known min/max diameter, area or any numerical boundary for expect ratios, extents, solidities or essentricities, one could already eliminate most false positives. All of these tweaks can change the inductive bias to a large scale, making the model lose its ability to generalize well over different modalities. Since we aim to create generalizable models, we try to use as little resources as necessary for finetuning. We want to show, that our models only need a few ROIs for training, in order to reach high accuracy in inference. 
 
 \subsection{Finetuning on Fully Annotated Data}
 
-First, we want to finetune the models on fully annotated data. We will try to 
+First, we want to finetune the models on fully annotated data. For this, we only use a few 2D slices of one training image. Although there is next to no anisotropy in the synthetic data, isotropic image aquisition is not always given for other datasets. We therefore train the models not only on axial slices, but on on YZ and XZ slices as well. For fully annotated data, the loss function does not have to be modified in such a way, that only annotated regions contribute to losses. So on a high level, the pretraining pipeline can be reused. We slightly decrease the learning rate to 2e-5 as suggested in \cite{lee2022mediarharmonydatacentricmodelcentric}. For model checkpointing, we will evaluate the models not on a certain number of epochs, but after a certain threshold for ROIs seen in training. We therefore implemented a checkpointing system, that saves the model weights at different order of magnitudes of ROIs (10, 100, 1000, 10000, 100000). This enables a more accurate comparison for model benchmarking, as epoch iterations depend on the number of training images. We sample from 80 manually picked slices, inluding all slicing directions Z, X and Y. We use a batch size of 4 for all pretrainings and apply the same runtime sample augmentations as in pretraining \ref{tab:4.4}. 
 
-
-The loss function does not have to be edited in such a way, that only annotated regions contribute to losses. So on a high level, the pretraining pipeline can be reused. 
+\begin{table}[ht]
+\centering
+\caption{Finetuning Setups}
+\begin{tabular}{l r}
+\hline\hline
+\textbf{Finetuning Parameter} & \textbf{Config used} \\
+\hline
+3D Images per Dataset                           &  1\\
+Training Images per Dataset                     &  80                              \\                    
+Initialization                                  &  Pretraining Weights from \ref{chapter:4.1}             \\
+Loss function                                   &  MSE, BCE (No Masking)                        \\
+Mixed precision                                 &  Enabled  \\
+Optimizer                                       &     AdamW \cite{}                   \\
+Initial learning rate (lr)                      &    2e-5                 \\
+Batch size                                      &  4  \\
+Lr decay schedule                               &    Cosine \cite{} (100 interval) \\
+Epochs                                          &  50                               \\
+Checkpointing                                   &  [1e0, 1e1, ..., 1e5] ROIs                               \\
+\midrule
+Training time                                   &  30min - 1h, depending on model                       \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsection{Finetuning on Partially Annotated Data}
 
+For partially annotated data, we mainly focus on the CTC Datasets introduced in \ref{cha:3.2}. The limited annotations come along with a few challenges. First and most importantly, we have to adapt the way we optimize our network weights. At loss calculation, unanotated instances will produce unwanted gradients as false positives will dominate in dense cell regions with low annotation rates. We therefore use a masked loss, so only annotated regions will contribute to the cell probability BCE and MSE flow loss. To prevent the network from predicting arbitrarely large shapes, as this would score the minimal loss for the BCE head, we dilate the loss mask by a few iterations to include 6-7 pixels around the annotations. As this might once again include unanotated instances, the dilation kernel size/iteration count can be adjusted based on the cell density. Another approach would be, to introduce some sort of eucledian distance weighting, to reduce influence of predictions in unannotated regions far from annotations. As there was no significant difference between dilated masks and distance weighted loss, we used the dilated loss mask for faster runtime.
+
+We also want to investigate, if cropping batched images to annotated regions improves learning progression. Conceptually, the regions outside the dilation range of annotations should not interfere with training gradients, as loss is only calculated close to annotated cells. We hypothesize, that cropping to annotated regions can lead to faster convergence, but cropping too much from the image will interfere with the forward pass, as the lack of context will limit the feature space to the statistics around annotations. To leverage the potential gap in statistics from training to test time, we include hard negative samples by manually cropping out patches of exclusivly background pixels.
+To test the masked loss training performance, we manually revert 80\% of annotations from a fully annotated training image of BlastoSPIM. We train the default Mediar network, which was extended to 3D inference and initialized with the pretrained weights of the paper before training it with the masked loss. Different cropping strategies are applied after batching training images. The first configuration crops the batched images to a small area around a randomly selected, annotated cell instance. This will be referred to as \textit{instance cropping}. Another configuration is, to revert random zoom and crop processing of the default pipeline and instead crop to the outer bounding box, including all labeled instances as well as 50 pixels of buffer. This will be referred to as \textit{ROI copping}. Also, we trained a run with no cropping at all, giving the model maximum context for forward prediction. Lastly, we evaluate the impact of incorporating a small number of additional hard negative samples into the training set. The runs were trained for 50 epochs with a batch size of 4 and evaluated on a small test set of 10 images. 
+
+\begin{table}[ht]
+\centering
+\caption{Mean SEG (and mean IoU) scores for different cropping strategies.}
+\label{tab:cropping_results_vline}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccc|cc}
+\toprule
+\textbf{Training Variant} & \textbf{ROI Cropping} & \textbf{Instance Cropping} & \textbf{No Cropping} & \textbf{Zero-Shot} & \textbf{No Masked Loss} \\
+\midrule
+Masked Loss              & 0.40 (0.46) & 0.29 (0.16) & 0.45 (0.49) & \multirow{2}{*}{0.46 \textbf{(0.66)}} & \multirow{2}{*}{0.34 (0.51)} \\
++ Background Samples      & 0.54 (0.63) & 0.35 (0.42) & \textbf{0.55} (0.65) & & \\
+\bottomrule
+\end{tabular}
+} % end resizebox
+\end{table}
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/Experiments/CroppingTechniques.png}%
+    }
+    \caption{Different masked loss training strategies, evaluated on Blast 35. All trainings included hard nagative samples.}
+    \label{fig:cropping_results}
+\end{figure}
+
+As shown in table \ref{tab:cropping_results_vline}, giving the model maximum context for forward prediction will score the highest instance segmentation accuracy. However, a run will also need significantly more resources, as the image size will be a lot larger as well. For large training images as it is the case for the CTC data, we conclude that for our purpose, which is to compare different architectural designs, the use of ROI cropping is justified, regarding the negligible performance loss and the significant computational resources saved. Including hard negative samples in masked loss training also seems to help reducing the statistic gap in train and test images. Notice, that from an IoU perspective, the zero-shot model seems to perform best. This indicates, that even with hard nagative samples, the model is biased from the statistics around cells to such a degree, that the overall semantic segmentation between foreground and background is worse, while the instance mask contours improved significantly as indicated by the SEG scores. We reproduced this bahaviour across several different datasets. Yet we chose BlastoSPIM as most representative for an official benchmarking for different masked loss training strategies, because the Dataset is proven to be suitable for successful training under default conditions. We have shown, that the masked loss function performs singificantly better than using default loss. Hard negative samples seem to keep the training more stable. For illustrative purpose, we finetuned the default Mediar network on partially labeled TRIF slices and compared results on a small 3D subvolume for ROI cropped training with and without hard negative samples in training.
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/Experiments/TRIF_Artifacts.png}%
+    }
+    \caption{Fluo-N3DL-TRIF subvolume source image z-slice (left) and source with prediction overlay with masked loss training (middle) and masked loss trainig with additional background samples (right).}
+    \label{fig:masked_loss_artifacts}
+\end{figure}
+ As shown in figure \ref{fig:masked_loss_artifacts}, reducing loss to a small labeled regions can lead to background artifacts when no hard negative samples are included in training. 
+
+For our finetuning setup we conclude, that training with limited annotations can improve instance segmentation SEG scores, given that labeled instances sufficiently present the statistics of the test set. As the models get increasingly more bias towards the few labled instances, the overall IoU seems to go down, as background regions are not represented in training and the model only gets feedback for positively labeled regions. For finetuning on CTC data, we manually extract labeled timestamps and corresponding z-slices, to create a small training set with the given labeled instances. Note, that for the way we extend Mediar to 3D inference, it is also important to learn features on the other planes too, in case of high anisotropy. As cells can appear very differently in shape, when displayed on ZY planes for example, a biased model toward z-planes might even perform worse than the zero-shot model. Neverless, we decided not to manually annotate further sagital or coronal slices, because we mostly want to keep handcrafted tweaking for higher network performance away.
+\begin{table}[ht]
+\centering
+\caption{Finetuning Setups}
+\label{tab:4.5}
+\begin{tabular}{l r}
+\hline\hline
+\textbf{Finetuning Parameter} & \textbf{Setup} \\
+\hline
+Training images per dataset                   &  5(Tric), 20(DRO), 60(TRIF)                              \\
+Background hard negative percentage             &  20\%           \\
+Initialization                                  &  Pretraining Weights from \ref{chapter:4.1}             \\
+Loss function                                   &  MSE, BCE (Masked to dilated labels)                    \\
+Mask dilation iterations                        &  6 (Kernel size 5) \\
+Batch size                                      &  4                                \\
+Mixed precision                                 &  Enabled  \\
+Optimizer                                       &  AdamW \cite{}                   \\
+Initial learning rate (lr)                      &  5e-6                 \\
+Lr decay schedule                               &  Cosine \cite{} (100 interval) \\
+Epochs                                          &  50                               \\
+Checkpointing                                   &  [1e0, 1e1, 1e3] ROIs                               \\
+\midrule
+Training time                                   &  1-3h, depending on model and dataset                       \\
+\hline
+\end{tabular}
+\end{table}
+
+The finetuning setup details are listed in \ref{tab:4.5}. We train on labeled 01 sequence data and test on 02 labeled data. As statistics in the datasets (DRO, TRIC and TRIC) vary a lot between 01 and 02 sequences, we expect the weights saved at low validation loss to perform well on other sequences too. However, for challenge submissions it may be best to use labeled instances from all sequences, as annotations are very limited. As for finetuning on fully labeled datasets, we use a smaller learning rate as training can get unstable otherwise with low annotation rates. The loss progression for finetuning DRO, TRIC and TRIF are displayed in figure \ref{fig:loss_progression}. For all of our models, the loss progression looks similiar. 
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.2\textwidth]{Images/Experiments/Loss_chart_final.png}%
+    }
+    \caption{Train and validation losses for finetuning pretrained Mediar on TRIC, TRIF and DRO.}
+    \label{fig:loss_progression}
+\end{figure}
+
+
+
 \section{Model Inference}
+
+In this section, we test our pretrained models on several benchmarking datasets. Note that we do not aim for tweaking best performance on each model, but rather aim to compare generalizabilty and finetuning capability, measured at different datasets. Since we do not aim for a challenge submission within this thesis, we disabled checkpointing for highest IoU/loss. To compare models on datasets which are sufficiently labeled for training, we checkpoint at a certain number of ROIs seen in training for a fair comparison. This way, we can show how well the models adapt to different statistics in testing sets. To get a meaningful result, we perform a large grid prediction, iterating over datasets, models, training volume and inference parameters.
+
+\subsection{Post-Processing Parameters}
+
+As grid predictions get expensive really fast, depending on how many parameters to iterate over, we want to focus on the one with the most impact. Therefore, we use the cellpose default parameters for the max pooling kernel size for maxima detection of cell candidate histograms and keep 11x11x11 neighbourhood size for seed masks. For the cell probability threshhold, we want to investigate the prediction accuracy dependencies. Cellpose set this threshold to 0 per default, without explaination. StarDist's object probability learning objective acts very similar in post-processing compared to the cell probability threshhold and impacts performance a lot. As empirically shown by initial tests, the cell probability threshold also influences performance in cellpose post-processing to a large degree. To find a generalizable threshold for each model, we include a small array for different thresholds in our grid inference, ranging over several order of magnitudes.
 
 \subsection{Testing on synthetic Data}
 
+The synthetic CTC dataset has very similiar statistics over different sequeces and timestamps. As there is a significant amount of noise in the images, we expect the finetuned models to perform a lot better than the zero-shot model, as they adapt to the background statistics very fast. Also, labels diameters extend over multiple objects, that one could assume to be similar instances and thereby creating oversegmentation. We choose 11 test images and iterate over all models with certain numbers of ROIs seen in training, to investigate the performance progression over training. We compare performance for cell probability thresholds ranging from 1e-6 to 0.9.
+
+
 \subsection{Testing on BlasoSPIM}
+
+As BlastoSPIM is also fully annotated, we expect the models to learn the statistics of the dataset fast. Although we only use 1 stack for training, we assume the network generalizes well due to high correlation between train and test set. We again choose 11 fully annotated stacks as test images and iterate over several cell probability tresholds and ROIs seen in training. 
+
 
 \subsection{Testing on CTC Data}
 
+This dataset is by far the most challenging. Annotations are limited to single instances within slices, also only for some timestamps and restricted to z-slices. For challenge submissions, it may be reasonable to manually tweak some heuristics of the images, as well as manually annotating XZ and YZ slices,
+as cells appear differently in size and shape for non-axial slice directions. As mentioned above, for demonstrating generalizability and benchmarking models against each other in the same setting, these heuristics are not important. 
+The main issue with this dataset is, that actual 3D performance benchmarking may be not as representative as for fully annotated data, as evaluation will be summarized by individual 2D annotations on z slices. Although inference is done in 3D for the test set, only a small fraction of the predicted stack will contribute to the evaluation. As there are plenty instances labeled and thereby many images are used for testing, the small fraction of each image being evaluated might compensated. Nevertheless, the actual 3D contours may not be measured sufficiently for a representative benchmark.
+
+\subsubsection{Memory handling and runtime considerations}
+Due to very large image sizes, the flow aggregation for multi-axis inference had to be rewritten to prevent memory accumulation. Also, the post-processing has been adapted to handle larger stacks. Alternatively, a shifted window processing could have also been implemented for post-processing, as it is already the case for network forward prediction. However, boundary artifacts are hard to compensate, even with overlapping windows. 
+We integrated the memory friendly 3D inference code into the cellpose branch as well. Even though the measures for improved memory handling speeds up inference, we noticed that runtimes for large 3D stack inference in the cellpose environment are significantly higher, making predictions on test datasets with a substantial number of large-scale images too expensive. This is due to the fact, that the SAM-1 encoder from CellposeSAM is basically a vanilla ViT, which does not scale well with increasing image size (see chapter \ref{cha:ViT}). As they also changed global attention on every layer, prediction times are usually significantly higher than all other models we benchmark. This issue is investigated in a seperate study (see \ref{todo}). As we rely on every testing image in the CTC data, because there is limited annotations to evaluate on, we decided to exclude the CellposeSAM network from our studies on the partionally annotated CTC data. We also decided to only quantitativly evaluate performances on the DRO and TRIC images, as TRIF makes even the faster models infeasible for large dataset-wide predictions (each image is ~2.5GB). Note that one could manually extract subvolumes for existent annotations or come up with a script that processes regex descriptors from label names, paired with an areal search for annotations to crop each image label pairs to volumes around annotations. This could be handy for tuning on that specific dataset and maximize performance. However, we figured the DRO and TRIC sequences are sufficient for benchmarking partially annotated learning and inference performance. As depicted in figure \ref{fig:CTCData}, DRO is comparable with TRIF in cell density and shapes. We therefore perform grad inference on the whole 02 sequence of DRO and TRIC, iterating over various models and probability thresholds for DRO and TRIC. For DRO, we only compare training progression at zero-shot and 1000 ROIs, as inference is quite expensive for the large-scale images. 
+
+
 \subsection{Testing on Zebrafish Data}
 
+The Zebrafish data mainly consists of unlabeled data. However, there is one fully labeled stack, which we use for benchmarking zero-shot performance. Although the ground truth for this dataset consists of 3D labeled instances, the annotations are done slice wise. This is usually not problematic, if annotations are consistent across slices. Usually, one would generate machine based silver truth annotations, which can be refined using manual labeling using tools like QuPath for example. Note that this depends on the capabilities of the baseline machine generation tool, the dataset and annoator preference. In any case, slice consistancy should be ensured by visual inspection across non-axial views or rendered verticies in a 3D engine. As displayed in \ref{fig:ZebrafishAnnotations3d}, there is a significant amount of label noise due to inconsistencies across z-slices. We therefore use binary closing to fix intermediate empty annotations, if neighboring slices are annotated with the same integer ID. 
+Zero-shot performance in this dataset suffers for generalizable models because of background cells with similar shapes, causing a signficant amount of false postives. To fix that, one could perform few-shot training including background hard negatives. As background cells have similar statistics compared to foreground cells, we noticed a small degradation in performance for few-shot training. While metrics incorporating False Positives improved, the SEG score actually declined. Since the use-case tracking pipeline enables post-processing with detection masks, we used these masks instead, filtering out all False Positives from the zero-shot prediction. Using this pipeline, we performed grid inference over all models and several cellprobability tresholds. This way, we could also use the whole test image without having to discard some slices for fewshot-training. Note, that testing and training on the same stack also does not provide a reliable evaluation of the generalizing capabilities of the testing models.
 
 \section{3D Feature Network}
 

@@ -11,7 +11,7 @@
 \contentsline {section}{\numberline {2.2}Image Segmentation}{6}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}Semantic and Instance Segmentation}{6}{subsection.2.2.1}%
 \contentsline {subsection}{\numberline {2.2.2}Cellpose}{7}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Loss Functions and Metrics}{8}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.3}Loss Functions and Metrics}{9}{subsection.2.2.3}%
 \contentsline {section}{\numberline {2.3}Foundation Models}{10}{section.2.3}%
 \contentsline {section}{\numberline {2.4}Transformer}{10}{section.2.4}%
 \contentsline {subsection}{\numberline {2.4.1}The Attention Mechanism}{11}{subsection.2.4.1}%
@@ -19,8 +19,8 @@
 \contentsline {subsection}{\numberline {2.4.3}Vision Transformer}{12}{subsection.2.4.3}%
 \contentsline {subsection}{\numberline {2.4.4}SegFormer}{13}{subsection.2.4.4}%
 \contentsline {subsection}{\numberline {2.4.5}MA-Net: Multi-Scale Attention Network}{15}{subsection.2.4.5}%
-\contentsline {section}{\numberline {2.5}Masked Autoencoders}{17}{section.2.5}%
-\contentsline {section}{\numberline {2.6}Segment Anything}{18}{section.2.6}%
+\contentsline {section}{\numberline {2.5}Masked Autoencoders}{18}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Segment Anything}{19}{section.2.6}%
 \contentsline {subsection}{\numberline {2.6.1}Segment Anything 2}{20}{subsection.2.6.1}%
 \contentsline {subsection}{\numberline {2.6.2}Hiera}{20}{subsection.2.6.2}%
 \contentsline {section}{\numberline {2.7}Mediar}{21}{section.2.7}%
@@ -40,31 +40,36 @@
 \contentsline {subsection}{\numberline {3.3.2}SAM2 Encoder Registry}{34}{subsection.3.3.2}%
 \contentsline {subsection}{\numberline {3.3.3}Merging SAM2 Image Encoder with Mediar}{34}{subsection.3.3.3}%
 \contentsline {subsection}{\numberline {3.3.4}Lightweight Decoder}{35}{subsection.3.3.4}%
-\contentsline {section}{\numberline {3.4}Training Challenges and Solutions}{35}{section.3.4}%
+\contentsline {section}{\numberline {3.4}Training Pipeline, Challenges and Solutions}{35}{section.3.4}%
 \contentsline {subsection}{\numberline {3.4.1}Training Pipeline}{35}{subsection.3.4.1}%
 \contentsline {subsubsection}{\nonumberline Data preperation and sampling}{36}{subsubsection*.40}%
 \contentsline {subsubsection}{\nonumberline Forward pass}{36}{subsubsection*.42}%
 \contentsline {subsubsection}{\nonumberline Backward pass}{37}{subsubsection*.44}%
+\contentsline {subsubsection}{\nonumberline Checkpointing}{37}{subsubsection*.46}%
 \contentsline {subsection}{\numberline {3.4.2}Training with Limited Annotations}{38}{subsection.3.4.2}%
-\contentsline {subsubsection}{\nonumberline Using Unsupervised Learning Methods}{38}{subsubsection*.46}%
-\contentsline {subsubsection}{\nonumberline Masked Loss Function}{38}{subsubsection*.48}%
+\contentsline {subsubsection}{\nonumberline Using Unsupervised Learning Methods}{38}{subsubsection*.48}%
+\contentsline {subsubsection}{\nonumberline Masked Loss Function}{39}{subsubsection*.50}%
 \contentsline {section}{\numberline {3.5}3D Feature Network}{39}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}3D Gradient Flow Training}{39}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.1}3D Gradient Flow Training}{40}{subsection.3.5.1}%
 \contentsline {subsection}{\numberline {3.5.2}Feasibility of Extending Mediar to True 3D}{40}{subsection.3.5.2}%
-\contentsline {subsection}{\numberline {3.5.3}Hybrid Approach for Learning True 3D Features}{40}{subsection.3.5.3}%
-\contentsline {chapter}{\numberline {4}Experiments}{42}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Model Pretraining}{42}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Model Finetuning}{44}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Finetuning on Fully Annotated Data}{45}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Finetuning on Partially Annotated Data}{46}{subsection.4.2.2}%
-\contentsline {section}{\numberline {4.3}Model Inference}{46}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Testing on synthetic Data}{46}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Testing on BlasoSPIM}{46}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Testing on CTC Data}{46}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Testing on Zebrafish Data}{46}{subsection.4.3.4}%
-\contentsline {section}{\numberline {4.4}3D Feature Network}{46}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Pretraining}{46}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Finetuning}{46}{subsection.4.4.2}%
-\contentsline {chapter}{Bibliography}{i}{subsection.4.4.2}%
-\contentsline {chapter}{\numberline {A}Erstes Anhang-Kapitel}{iii}{appendix.A}%
+\contentsline {subsection}{\numberline {3.5.3}Hybrid Approach for Learning True 3D Features}{41}{subsection.3.5.3}%
+\contentsline {chapter}{\numberline {4}Experiments}{43}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Model Pretraining}{43}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Pre-Evaluation of Pretraining Results}{45}{subsection.4.1.1}%
+\contentsline {section}{\numberline {4.2}Model Finetuning}{47}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Finetuning on Fully Annotated Data}{47}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Finetuning on Partially Annotated Data}{47}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Model Inference}{51}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Post-Processing Parameters}{52}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Testing on synthetic Data}{53}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Testing on BlasoSPIM}{53}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Testing on CTC Data}{53}{subsection.4.3.4}%
+\contentsline {subsubsection}{\nonumberline Memory handling and runtime considerations}{53}{subsubsection*.62}%
+\contentsline {subsection}{\numberline {4.3.5}Testing on Zebrafish Data}{54}{subsection.4.3.5}%
+\contentsline {section}{\numberline {4.4}3D Feature Network}{55}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Pretraining}{55}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Finetuning}{55}{subsection.4.4.2}%
+\contentsline {chapter}{\numberline {5}Results}{56}{chapter.5}%
+\contentsline {chapter}{Bibliography}{i}{chapter.5}%
+\contentsline {chapter}{\numberline {A}Erstes Anhang-Kapitel}{v}{appendix.A}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

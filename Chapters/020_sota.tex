@@ -15,16 +15,16 @@ Additional design choices such as batch normalization, dropout, and skip connect
 
 \subsection{ImageNet}
 
-The development of modern deep learning for image analysis is closely linked to the ImageNet Large Scale Visual Recognition Challenge (ILSVRC). Introduced in 2009, ImageNet is a large-scale, annotated image database containing over 14 million images across thousands of object categories. The ILSVRC provided a benchmark for evaluating classification and detection methods on a massive and diverse dataset, driving rapid advancements in computer vision. 
+The development of modern deep learning for image analysis is closely linked to the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) \cite{Russakovsky.02.09.2014b}. Introduced in 2009, ImageNet is a large-scale, annotated image database containing over 14 million images across thousands of object categories. The ILSVRC provided a benchmark for evaluating classification and detection methods on a massive and diverse dataset, driving rapid advancements in computer vision. 
 
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{Images/SOTA/ImageNet.png}
-    \caption{Example Images from the ImageNet dataset.}
+    \caption{Example Images from the ImageNet dataset \cite{Russakovsky.02.09.2014b}.}
     \label{fig:ImageNet}
 \end{figure}
 
-A major breakthrough came in 2012 with AlexNet, a deep convolutional neural network (CNN) that significantly outperformed previous approaches on the ImageNet classification task. This success demonstrated the power of deep architectures trained on large datasets and marked the beginning of widespread adoption of CNNs for a variety of vision tasks. Following AlexNet, CNNs evolved through multiple directions to improve performance. Increasing network depth and width allowed models to capture more complex patterns and richer feature hierarchies. Enhanced connectivity patterns, such as skip connections and residual blocks, improved gradient flow and facilitated training of very deep networks. In addition, more sophisticated forms of convolution, including dilated and grouped convolutions, allowed for multi-scale feature extraction and more efficient parameter usage.
+A major breakthrough came in 2012 with AlexNet \cite{Krizhevsky.2012}, a deep CNN that significantly outperformed previous approaches on the ImageNet classification task. AlexNet demonstrated the power of deep architectures trained on large datasets and marked the beginning of widespread adoption of CNNs for a variety of vision tasks. Following AlexNet, CNNs evolved through multiple directions to improve performance. Increasing network depth and width allowed models to capture more complex patterns and richer feature hierarchies. Enhanced connectivity patterns, such as skip connections and residual blocks, improved gradient flow and facilitated training of very deep networks \cite{he2015deepresiduallearningimage}. In addition, more sophisticated forms of convolution, including dilated \cite{chen2017deeplabsemanticimagesegmentation} \cite{yu2016multiscalecontextaggregationdilated} and grouped convolutions \cite{su2023boostingconvolutionalneuralnetworks}, allowed for multi-scale feature extraction and more efficient parameter usage.
 
 These architectural advances enabled CNNs to become the backbone for a wide range of vision applications, from image classification and object detection to segmentation and beyond. The combination of hierarchical feature extraction, non-linear activations, and spatial aggregation operations continues to make CNNs highly effective and generalizable across diverse domains, including medical and biological imaging, where large annotated datasets are often limited. 
 While the developement of CNNs has benefitted a lot from the ImageNet dataset, also novel architectures such as Transformer based models, which be later introduced, make use of the diverse ImageNet dataset to be pretrained for many downstream tasks. 
@@ -124,19 +124,18 @@ While the developement of CNNs has benefitted a lot from the ImageNet dataset, a
 
 \subsection{U-Net Architecture}
 
-A widely adopted convolutional neural network architecture for biomedical image segmentation is the \textit{U-Net}, introduced by Ronneberger et al. in 2015. The U-Net was specifically designed for tasks where precise localization is essential, such as cell segmentation in microscopy images. Its name derives from its characteristic U-shaped architecture, consisting of a contracting path (encoder) and an expansive path (decoder).
+A widely adopted convolutional neural network architecture for biomedical image segmentation is the \textit{U-Net}, introduced by Ronneberger et al. in 2015 \cite{ronneberger2015unetconvolutionalnetworksbiomedical}. The U-Net was specifically designed for tasks where precise localization is essential, such as cell segmentation in microscopy images. Its name derives from its characteristic U-shaped architecture, consisting of a contracting path (encoder) and an expansive path (decoder).
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{Images/SOTA/u-net-architecture.png}
-    \caption{Schematic illustration of the U-Net architecture for image segmentation. The network consists of a contracting path (left side) to capture context via successive convolutional (3×3, ReLU) and max pooling (2×2) operations, and an expansive path (right side) that enables precise localization through up-convolutions (2×2) and concatenation with high-resolution features from the contracting path. The final segmentation map is generated using a 1×1 convolution. Feature map sizes and channel numbers are indicated for each layer.}
-    \label{fig:unet}
+    \caption{Schematic illustration of the U-Net architecture for image segmentation as presented in \cite{ronneberger2015unetconvolutionalnetworksbiomedical}.}
 \end{figure}
 
 
-The \textbf{contracting path} progressively reduces the spatial dimensions of the input while increasing the number of feature channels. This is achieved through repeated applications of convolutional layers followed by non-linear activations and downsampling operations such as max pooling. The purpose of this path is to capture the contextual and semantic information of the input image at various scales.
+The contracting path progressively reduces the spatial dimensions of the input while increasing the number of feature channels. This is achieved through repeated applications of convolutional layers followed by non-linear activations and downsampling operations such as max pooling. The purpose of this path is to capture the contextual and semantic information of the input image at various scales.
 
-The \textbf{expansive path}, on the other hand, restores the spatial resolution through a sequence of upsampling operations (e.g., transposed convolutions) and concatenations with corresponding feature maps from the contracting path via \textit{skip connections}. These skip connections provide fine-grained spatial details from earlier layers, improving the precision of the segmentation boundaries.
+The expansive path, on the other hand, restores the spatial resolution through a sequence of upsampling operations (e.g., transposed convolutions) and concatenations with corresponding feature maps from the contracting path via \textit{skip connections}. These skip connections provide fine-grained spatial details from earlier layers, improving the precision of the segmentation boundaries.
 
 Formally, the segmentation prediction can be seen as a pixel-wise classification problem, where the final layer of the U-Net outputs a probability map indicating the likelihood of each pixel belonging to a particular class (e.g., foreground or background in binary cell segmentation). The combination of hierarchical feature extraction and precise localization makes the U-Net particularly effective for segmenting structures of varying size and shape, as commonly encountered in biomedical images.
 
@@ -144,7 +143,7 @@ U-Net and its derivatives have since become the backbone of many state-of-the-ar
 
 \section{Image Segmentation}
 
-In this section, we will introduce the main types of segmentation in image data and will further explain the techniques that help us achieve an accurate segmentation result. We will learn how modified learning objectives will lead to better results and 
+In this section, we will introduce the main types of segmentation in image data and will further explain the techniques that help us achieve an accurate segmentation result. We will learn how modified learning objectives will lead to better results, enabling subsequent post-processing for distinction of individual cell instances. 
 
 
 \subsection{Semantic and Instance Segmentation}
@@ -155,7 +154,7 @@ The vanilla U-Net assigns pixels to distinct, predifined classes. Usually, at th
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.6\textwidth]{Images/SOTA/SemanticSeg.png}
-    \caption{Semantic Segmentation in the Traffic Environment using the DeepLabv3+ Model}
+    \caption{Semantic Segmentation in a traffic environment using the DeepLabv3+ Model \cite{chen2017deeplabsemanticimagesegmentation}.}
     \label{fig:semanticSeg}
 \end{figure}
 
@@ -164,25 +163,25 @@ For many applications, it is desirable to use a framework that not only separate
 
 A common strategy is to first perform semantic segmentation and then separate individual instances in a post-processing step (a bottom-up approach). However, such methods are often prone to errors, for example when adjacent objects of the same class touch or overlap, leading to under-segmentation (merging of multiple cells) or over-segmentation (splitting a single cell into several fragments).
 
-Alternatively, instance segmentation can be formulated as detecting object proposals via bounding boxes, which are then refined into masks, as done in methods like Mask R-CNN. While effective in many domains, this top-down approach becomes inaccurate in dense cellular images where bounding boxes frequently overlap, making NMS unreliable.
+Alternatively, instance segmentation can be formulated as detecting object proposals via bounding boxes, which are then refined into masks, as done in methods like Mask R-CNN \cite{he2018maskrcnn}. While effective in many domains, this top-down approach becomes inaccurate in dense cellular images where bounding boxes frequently overlap, making NMS unreliable.
 
-For cellular instance segmentation, it is therefore common to edit the learning objective itself so that the model directly predicts instance-specific features (e.g., object centers, flow fields, or boundary cues). These features can then be leveraged during post-processing to produce accurate boundaries and clearly separated instances. StarDist for example, directly predicts a set of ray distances to the object boundary for every pixel. Fusing this feature with a per pixel cell probability map, the set of proposed polygon shaped objects can be accurately post processed with NMS to predict even spatially dense distributed cells.
+For cellular instance segmentation, it is therefore common to edit the learning objective itself so that the model directly predicts instance-specific features (e.g., object centers, flow fields, or boundary cues). These features can then be leveraged during post-processing to produce accurate boundaries and clearly separated instances. StarDist \cite{Schmidt_2018} for example, directly predicts a set of ray distances to the object boundary for every pixel. Fusing this feature with a per pixel cell probability map, the set of proposed polygon shaped objects can be accurately post processed with NMS to predict even spatially dense distributed cells.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.9\textwidth]{Images/SOTA/stardist.png}
-    \caption{Different instance segmentation methods, A: original image, B: Bottom-up approach, C: Top-down approach, D: Direct instance segmentation, where the model predicts instance-specific features that are used to delineate individual objects.}
+    \caption{Different instance segmentation methods, Figure adapted from \cite{Schmidt_2018}. A: original image, B: Bottom-up approach, C: Top-down approach, D: Direct instance segmentation, where the model predicts instance-specific features that are used to delineate individual objects.}
     \label{fig:StarDist}
 \end{figure}
 
 \subsection{Cellpose}
 
-While StarDist aims to predict distance maps to the object boundary, Cellpose introduced a novel approach by predicting spatial gradients that point toward the center of each cell. Classical approaches such as the watershed algorithm rely on intensity basins in the image to define object regions, but in many microscopy images, cells exhibit multiple intensity basins due to inhomogeneous labeling or nuclear exclusion of fluorescent markers. To overcome this limitation, Cellpose constructs an intermediate representation of each cell as a single smooth topological basin.
+While StarDist aims to predict distance maps to the object boundary, Cellpose \cite{Stringer.2020} introduced a novel approach by predicting spatial gradients that point toward the center of each cell. Classical approaches such as the watershed algorithm \cite{inproceedings} rely on intensity basins in the image to define object regions, but in many microscopy images, cells exhibit multiple intensity basins due to inhomogeneous labeling or nuclear exclusion of fluorescent markers. To overcome this limitation, Cellpose constructs an intermediate representation of each cell as a single smooth topological basin.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.9\textwidth]{Images/SOTA/cellpose_learning_objective.png}
-    \caption{t-SNE embeddings of image styles from cellpose pretraining data.}
+    \caption{Ground truth generation for the cellpose learning objective, as presented in \cite{Stringer.2020}.}
     \label{fig:cellpose_learning_objective}
 \end{figure}
 
@@ -193,7 +192,7 @@ Similarly to StarDist, the first launch of cellpose transforms manually annotate
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.6\textwidth]{Images/SOTA/tSNE_cellpose.png}
-    \caption{t-SNE embedding of image styles from cellpose pretraining data.}
+    \caption{t-SNE embedding of image styles from cellpose pretraining data as presented in \cite{Stringer.2020}.}
     \label{fig:t-SNE}
 \end{figure}
 
@@ -209,25 +208,28 @@ While loss functions guide the optimization process during training, \textit{eva
 
 In cell segmentation tasks, common evaluation metrics include the \textit{Intersection over Union (IoU)}, \textit{Dice coefficient}, and \textit{Average Precision (AP)}, all of which compare the predicted segmentation masks to the ground truth annotations.
 
-The \textbf{Intersection over Union (IoU)}, also known as the Jaccard index, measures the overlap between the predicted mask $P$ and the ground truth mask $G$ relative to their union:
+The IoU score, also known as the Jaccard index, measures the overlap between the predicted mask $P$ and the ground truth mask $G$ relative to their union:
 \[
 \mathrm{IoU}(P, G) = \frac{|P \cap G|}{|P \cup G|}
 \]
 A higher IoU indicates a better agreement between prediction and ground truth, with a value of 1 representing perfect overlap.
 
-The \textbf{Dice coefficient}, closely related to IoU, is another overlap-based metric commonly used in segmentation tasks. It is defined as:
+The Dice coefficient, closely related to IoU, is another overlap-based metric commonly used in segmentation tasks. It is defined as:
 \[
 \mathrm{Dice}(P, G) = \frac{2 |P \cap G|}{|P| + |G|}
 \]
 Like IoU, the Dice coefficient ranges from 0 to 1, where a value of 1 indicates perfect correspondence between the predicted and ground truth masks. Compared to IoU, the Dice score tends to be slightly more forgiving in cases of small object segmentation.
 
-Another widely used metric in instance segmentation is the \textbf{Average Precision (AP)}. It summarizes the precision-recall curve into a single value by integrating over different confidence thresholds. Given precision $\mathrm{Prec}(t)$ and recall $\mathrm{Rec}(t)$ at threshold $t$, the Average Precision is computed as:
-\[
-\mathrm{AP} = \int_0^1 \mathrm{Prec}(\mathrm{Rec}) \, d\mathrm{Rec}
-\]
-In practice, this integral is often approximated using discrete recall points. In cell segmentation benchmarks, AP is typically reported at different IoU thresholds (e.g., AP@0.5, AP@0.75) to capture performance at varying levels of prediction-stringency.
+TODO!!!!! For a $\mathrm{IoU}$ threshold $\tau$, the $\mathrm{AP}_{\tau}$ is defined as:
+%
+\begin{equation}
+\label{eq:ap_tau}
+\mathrm{AP}_{\tau} = \frac{\mathrm{TP}_{\tau}}{\mathrm{TP}_{\tau} + \mathrm{FN}_{\tau} + \mathrm{FP}_{\tau}},
+\end{equation}
+%
+given the true positive $(\mathrm{TP}_{\tau})$, false positive $(\mathrm{FN}_{\tau})$ and false negative $(\mathrm{FP}_{\tau})$ rates at the corresponding $\mathrm{IoU}$ threshold $\tau$ are given.
 
-Together, the choice of loss function for optimization and the metrics for evaluation provide complementary perspectives: the former drives model improvement during training, while the latter ensures the resulting model performs reliably and meaningfully on the specific segmentation task.
+This is particularly useful to compare the segmentation performance in environments where annotations can not be manually be created with certainty. Therefore it is useful to compare the AP at a threshold of 0.5 for example, if contours are really noisy. Also, this measure gives simple feedback in terms of high accuracy performance. For example, it has been shown, that Stardist has an overall higher accuracy than the U-Net, but when it comes to high accuracy predictions at an AP threshold of 0.9, Stardist's perfromance actually stagnates \cite{Schmidt_2018}.
 
 
 % \subsection{Dropout}
@@ -249,20 +251,20 @@ Together, the choice of loss function for optimization and the metrics for evalu
 
 In recent years, the concept of foundation models has gained significant attention in deep learning. These models are large-scale, pre-trained networks trained on vast and diverse datasets, so that they can capture broad and general-purpose knowledge about language, images, or other data modalities. Unlike traditional models that are built and trained for a specific task, foundation models are designed to be adaptable, allowing them to be fine-tuned for a wide range of downstream applications with little additional data or training.
 
-A key characteristic of foundation models is their ability to generalize across domains. For example, a language foundation model like GPT or an image foundation model like CLIP can perform well on tasks it was not explicitly trained for, such as summarizing text, answering questions, or classifying medical images, after minimal adaptation. Their ability to perform well on unseen modalities (often referred to as zero-shot inference) makes them particularly valuable in biomedical imaging, where annotated data is often limited because its (labor-) expensive to obtain. 
+A key characteristic of foundation models is their ability to generalize across domains. For example, a language foundation model like GPT \cite{openai2024gpt4technicalreport} or an image foundation model like CLIP \cite{radford2021learningtransferablevisualmodels} can perform well on tasks it was not explicitly trained for, such as summarizing text, answering questions, or classifying medical images, after minimal adaptation. Their ability to perform well on unseen modalities (often referred to as zero-shot inference) makes them particularly valuable in biomedical imaging, where annotated data is often limited because its (labor-) expensive to obtain. 
 
-However, foundation models also bring new challenges, as their large size demands significant computational resources for training and deployment. CellposeSAM for example, has an order of magnitude more parameters compared to its CNN based predecessor Cellpose-1 and can practically not be run without a GPU, as they print as a warning in their own code.  
+However, foundation models also bring new challenges, as their large size demands significant computational resources for training and deployment. CellposeSAM \cite{Pachitariu.2025} for example, has an order of magnitude more parameters compared to its CNN based predecessor Cellpose-1 and can practically not be run without a GPU, as they print as a warning in their own code.  
 Additionally, vision foundation models are almost exclusivly 2D, making 3D inference challenging. Despite these drawbacks, foundation models mark a major step towards more flexible and scalable models that offer great opportunities to fit in various downstream tasks.
 
 
 
 \section{Transformer}
 
-Transformer architectures have recently gained significant attention in the field of medical image analysis, demonstrating strong performance in tasks such as image classification, detection, and segmentation. Their ability to capture long-range dependencies through self-attention mechanisms makes them particularly well-suited for learning segmentation features, where spatial relationships extend beyond local neighborhoods. In this section, we first introduce the attention mechanism as the core building block underlying transformer-based models. We then present the transformer architecture itself, followed by its adaptation to image data through the Vision Transformer (ViT). Finally, we discuss further developments and extensions tailored for image segmentation tasks, such as MA-Net and SegFormer.
+Transformer architectures have recently gained significant attention in the field of medical image analysis \cite{Ma.2024}, demonstrating strong performance in tasks such as image classification, detection, and segmentation. Their ability to capture long-range dependencies through self-attention mechanisms makes them particularly well-suited for learning segmentation features, where spatial relationships extend beyond local neighborhoods. In this section, we first introduce the attention mechanism as the core building block underlying transformer-based models. We then present the transformer architecture itself, followed by its adaptation to image data through the Vision Transformer (ViT) \cite{dosovitskiy2021imageworth16x16words}. Finally, we discuss further developments and extensions tailored for image segmentation tasks, such as MA-Net and SegFormer.
 
 \subsection{The Attention Mechanism}
 
-The \textit{attention mechanism} is a key concept in modern deep learning models, designed to dynamically focus on the most relevant parts of the input data when making predictions. Unlike traditional convolutional operations, which process local neighborhoods with fixed receptive fields, attention allows the model to consider relationships between all elements in the input, regardless of their spatial or sequential distance.  
+The \textit{attention mechanism} is a key concept in modern deep learning models, designed to dynamically focus on the most relevant parts of the input data when making predictions \cite{vaswani2023attentionneed}. Unlike traditional convolutional operations, which process local neighborhoods with fixed receptive fields, attention allows the model to consider relationships between all elements in the input, regardless of their spatial or sequential distance.  
 
 Formally, given an input sequence of $n$ feature vectors $\mathbf{x}_1, \ldots, \mathbf{x}_n \in \mathbb{R}^d$, these are linearly projected into three different representations:  
 
@@ -297,13 +299,13 @@ In the \textit{self-attention} setting, $Q, K, V$ are all derived from the same 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{Images/SOTA/attention.png}
-    \caption{Encoder self-attention for a set of reference points. The encoder is able to separate individual instances (A-D). }
+    \caption{Encoder self-attention for a set of reference points. The encoder is able to separate individual instances (A-D), adapted from \cite{Carion.2020}. }
     \label{fig:attention}
 \end{figure}
 
 \subsection{Transformer}
 
-Building on the attention mechanism, the transformer architecture was originally introduced for sequence modeling tasks in natural language processing, but has since proven highly versatile across domains. Its core innovation lies in replacing recurrent and convolutional operations with a stack of self-attention and feedforward layers, enabling efficient modeling of long-range dependencies.
+Building on the attention mechanism, the transformer architecture was originally introduced for sequence modeling tasks in natural language processing, but has since proven highly versatile across domains \cite{Carion.2020} \cite{dosovitskiy2021imageworth16x16words}. Its core innovation lies in replacing recurrent and convolutional operations with a stack of self-attention and feedforward layers, enabling efficient modeling of long-range dependencies.
 
 A standard transformer consists of an encoder–decoder structure. For vision-related tasks such as image analysis and segmentation, typically only the encoder part is used, since the decoder was designed for sequence-to-sequence tasks like language translation. Each encoder layer is composed of two main components: a multi-head self-attention mechanism, which allows the model to jointly attend to information from different representation subspaces, and a position-wise feedforward network, which applies non-linear transformations independently to each position in the input.
 
@@ -312,13 +314,15 @@ To preserve information about the order or spatial position of elements, positio
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.5\textwidth]{Images/SOTA/transformer.png}
-    \caption{Transformer architecture. For vision tasks, usually the left part (encoder) is taken.}
+    \caption{Transformer architecture as presented in \cite{vaswani2023attentionneed}. For vision tasks, usually the left part (encoder) is taken.}
     \label{fig:transformer}
 \end{figure}
 
 \subsection{Vision Transformer}
 
-The Vision Transformer (ViT) extends this transformer architecture from sequential data to image analysis by treating images as sequences of patches.
+\label{cha:ViT}
+
+The Vision Transformer (ViT) extends this transformer architecture from sequential data to image analysis by treating images as sequences of patches \cite{dosovitskiy2021imageworth16x16words}.
 Instead of processing entire images using convolutional layers, ViT divides an image into fixed-size, non-overlapping patches, flattens them, and projects them into a lower-dimensional embedding space. These patch embeddings are then combined with positional encodings and fed into a standard transformer encoder.
 
 ViTs have demonstrated strong performance in various computer vision tasks by leveraging the self-attention mechanism’s ability to model global dependencies between image regions, without the locality constraints of convolutional operations.
@@ -329,19 +333,19 @@ While in CNN encoders, high- and low-res features are obtained in a correspondin
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.9\textwidth]{Images/SOTA/vit.png}
-    \caption{Vision transformer as presented in }
+    \caption{Vision transformer as presented in \cite{dosovitskiy2021imageworth16x16words} }
     \label{fig:vit}
 \end{figure}
 
 
 \subsection{SegFormer}
 
-To tackle the above mentioned issues of the vanilla ViT, xy et al (cite) proposed the SegFormer architecture. It is composed of a hierarchical Transformer-based encoder and a lightweight decoder, designed specifically for efficient and accurate semantic segmentation. The encoder consists of multiple Mix Transformer (MiT) blocks, each incorporating three main components: efficient self-attention, Mix Feed-Forward Networks (Mix-FFN), and Overlapping Patch Mappings.
+To tackle the above mentioned issues of the vanilla ViT, Xie et al \cite{xie2021segformersimpleefficientdesign} proposed the SegFormer architecture. It is composed of a hierarchical Transformer-based encoder and a lightweight decoder, designed specifically for efficient and accurate semantic segmentation. The encoder consists of multiple Mix Transformer (MiT) blocks, each incorporating three main components: efficient self-attention, Mix Feed-Forward Networks (Mix-FFN), and Overlapping Patch Mappings.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.9\textwidth]{Images/SOTA/SegFormer.png}
-    \caption{SegFormer architecture as presented in}
+    \caption{SegFormer architecture as presented in \cite{xie2021segformersimpleefficientdesign}.}
     \label{fig:segformer}
 \end{figure}
 
@@ -349,14 +353,14 @@ To reduce the computational complexity of the standard self-attention mechanism 
 
 \subsection{MA-Net: Multi-Scale Attention Network}
 
-The Multi-scale Attention Network (MA-Net), proposed by Fan et al., is a segmentation architecture designed to improve accuracy in medical image analysis, particularly for liver and tumor segmentation. It builds upon the encoder-decoder structure of U-Net, but enhances it with attention-based modules that enable the network to better capture long-range dependencies and multi-scale contextual information. MA-Net has been shown to outperform state-of-the-art models on the MICCAI 2017 LiTS Challenge. 
+The Multi-scale Attention Network (MA-Net), proposed by Fan et al \cite{manet}, is a segmentation architecture designed to improve accuracy in medical image analysis, particularly for liver and tumor segmentation. It builds upon the encoder-decoder structure of U-Net, but enhances it with attention-based modules that enable the network to better capture long-range dependencies and multi-scale contextual information. MA-Net has been shown to outperform state-of-the-art models on the MICCAI 2017 LiTS Challenge. 
 
 \begin{figure}[!ht]
     \centering
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/SOTA/MAnet.png}%
     }
-    \caption{Architecture of the MA-Net. }
+    \caption{Architecture of the MA-Net as presented in \cite{manet}.}
     \label{fig:MAnet}
 \end{figure}
 
@@ -373,7 +377,7 @@ The PAB is designed to model feature inter-dependencies in a global spatial cont
     \makebox[\textwidth]{%
     \includegraphics[width=1.2\textwidth]{Images/SOTA/PAB.png}%
     }
-    \caption{Low-level view of the PAB block.}
+    \caption{Low-level view of the PAB block, taken from \cite{manet}.}
     \label{fig:PAB}
 \end{figure}
 
@@ -398,7 +402,7 @@ The MFAB facilitates semantic feature fusion across multiple scales by combining
     \makebox[\textwidth]{%
     \includegraphics[width=1.2\textwidth]{Images/SOTA/MFAB.png}%
     }
-    \caption{Multi-scale Fusion Attention Block (MFAB) structure. }
+    \caption{Multi-scale Fusion Attention Block (MFAB) structure as depicted in \cite{manet}.} 
     \label{fig:MFAB}
 \end{figure}
 
@@ -430,19 +434,19 @@ and refined through two successive $3 \times 3$ convolutions to produce the fina
 X_{\text{out}} = \text{conv2d}_{3 \times 3}(\text{conv2d}_{3 \times 3}(X_{\text{concat}})).
 \]
 
-Considering they basically reimplemented the concepts of Sequeeze and Exitement (SE) layers along with some concatinations and additions from two resolutions, the term attention may be a little misleading here. Nevertheless this way of scaling feature maps with fused SE results has been proven to perform really well.
+Considering they basically reimplemented the concepts of Sequeeze and Exitement (SE) \cite{hu2019squeezeandexcitationnetworks} layers along with some concatinations and additions from two resolutions, the term attention may be a little misleading here. Nevertheless this way of scaling feature maps with fused SE results has been proven to perform really well. Also, a very similar approach was implemented in the original Cellpose paper, where they took the gloabl average pools from the bottleneck feature map and propergated this vector (refered to as \textit{styles}) along shallower layers of the decoder \cite{Stringer.2020}. 
 
 
 \section{Masked Autoencoders}
 
-Masked Autoencoders (MAE) are a self-supervised learning framework designed to pretrain large vision models efficiently. The key idea is to randomly mask a high proportion of image patches and to train the network to reconstruct the missing pixels from the remaining visible content. This forces the model to learn meaningful representations of visual structures, as it must capture global context in order to accurately fill in the missing regions. 
+Masked Autoencoders (MAE) \cite{he2021maskedautoencodersscalablevision} are a self-supervised learning framework designed to pretrain large vision models efficiently. The key idea is to randomly mask a high proportion of image patches and to train the network to reconstruct the missing pixels from the remaining visible content. This forces the model to learn meaningful representations of visual structures, as it must capture global context in order to accurately fill in the missing regions. 
 
 \begin{figure}[!ht]
     \centering
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/SOTA/MAE.png}%
     }
-    \caption{MAE architecture as presented in \cite{LeCun.1989}.}
+    \caption{MAE architecture as presented in \cite{he2021maskedautoencodersscalablevision}.}
     \label{fig:MAE}
 \end{figure}
 
@@ -454,7 +458,7 @@ This design enables masked autoencoders to train large models efficiently and ef
 
 \section{Segment Anything}
 
-The Segment Anything Model (SAM) represents a new class of foundation models for image segmentation. Unlike conventional approaches that are trained for a specific downstream task, SAM is designed as a promptable segmentation model: given an image and a prompt, it returns a valid segmentation mask. Prompts specify what to segment and can be provided in different forms, including spatial inputs such as points, bounding boxes or scribbles, or textual descriptions such as “a cat with black ears.” A central requirement is that the model always outputs a reasonable mask, even in cases of ambiguity, by producing at least one plausible segmentation result. 
+The Segment Anything Model (SAM) \cite{kirillov2023segment} represents a new class of foundation models for image segmentation. Unlike conventional approaches that are trained for a specific downstream task, SAM is designed as a promptable segmentation model: given an image and a prompt, it returns a valid segmentation mask. Prompts specify what to segment and can be provided in different forms, including spatial inputs such as points, bounding boxes or scribbles, or textual descriptions such as “a cat with black ears.” A central requirement is that the model always outputs a reasonable mask, even in cases of ambiguity, by producing at least one plausible segmentation result. 
 
 The training objective of SAM is a promptable segmentation task, which allows the model to generalize across a wide range of domains. Downstream applications can be reformulated as prompt engineering, which makes it possible to reuse the same foundation model for diverse segmentation problems without additional training. The design of SAM therefore emphasizes three objectives: the ability to support heterogeneous prompts, the ability to deliver results quickly enough for interactive use, and explicit handling of ambiguous prompts. 
 
@@ -463,7 +467,7 @@ The training objective of SAM is a promptable segmentation task, which allows th
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/SOTA/SAM1.png}%
     }
-    \caption{MAE architecture as presented in \cite{LeCun.1989}.}
+    \caption{SAM architecture, as presented in \cite{kirillov2023segment}.}
     \label{fig:SAM1}
 \end{figure}
 
@@ -476,7 +480,7 @@ A key factor in SAM’s ability to generalize is the unprecedented scale of its 
 
 \subsection{Segment Anything 2}
 
-Following the release of the original Segment Anything Model, a second version (SAM 2) was introduced to further improve versatility and applicability. While SAM 1 demonstrated the feasibility of promptable segmentation at scale, SAM 2 extends these capabilities with a stronger focus on efficiency, scalability, and temporal reasoning. 
+Following the release of the original Segment Anything Model, a second version (SAM 2) \cite{ravi2024sam2segmentimages} was introduced to further improve versatility and applicability. While SAM 1 demonstrated the feasibility of promptable segmentation at scale, SAM 2 extends these capabilities with a stronger focus on efficiency, scalability, and temporal reasoning. 
 
 SAM 2 preserves the core idea of promptable segmentation with a decoupled architecture of image encoder, prompt encoder, and mask decoder, but introduces several refinements. The image encoder is optimized for faster inference, making the model more practical for large-scale or interactive applications. Moreover, SAM 2 improves ambiguity handling by refining the multi-mask output strategy, leading to more consistent predictions in complex scenes. 
 
@@ -484,14 +488,14 @@ A key extension of SAM 2 lies in its support for \textit{video and spatio-tempor
 
 
 \subsection{Hiera}
-Hiera is a hierarchical vision transformer architecture designed to combine the strengths of transformer-based models with the efficiency of convolutional networks. Unlike standard Vision Transformers, which operate on a flat sequence of image patches, Hiera introduces a hierarchical structure that progressively reduces spatial resolution while expanding the feature dimension. This design mirrors the multiscale feature extraction used in convolutional neural networks and is particularly well-suited for dense prediction tasks such as segmentation. 
+Hiera \cite{ryali2023hierahierarchicalvisiontransformer} is a hierarchical vision transformer architecture designed to combine the strengths of transformer-based models with the efficiency of convolutional networks. Unlike standard Vision Transformers, which operate on a flat sequence of image patches, Hiera introduces a hierarchical structure that progressively reduces spatial resolution while expanding the feature dimension. This design mirrors the multiscale feature extraction used in convolutional neural networks and is particularly well-suited for dense prediction tasks such as segmentation. 
 
 \begin{figure}[!ht]
     \centering
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/SOTA/Hiera.png}%
     }
-    \caption{MAE architecture as presented in \cite{LeCun.1989}.}
+    \caption{Hiera architecture as presented in \cite{ryali2023hierahierarchicalvisiontransformer}.}
     \label{fig:Hiera}
 \end{figure}
 
@@ -501,19 +505,19 @@ A key advantage of Hiera is its flexibility as a general-purpose backbone. It ca
 
 \section{Mediar}
 
-Mediar is yet another encoder decoder style architecture, designed specifically for cell segmentation. It was developed in the context of the 2022 NeurIPS Cell Segmentation Challenge, where it achieved top performance across a variety of imaging modalities. Their approach is based on the Cellpose learning objective, but instead of using a U-Net style CNN backbone, they adopt the encoder part of SegFormer and combine it with the decoder blocks of MA-Net. This still ensures a hierarchical feature integration from the SegFormer multi-resolution features, to the MFAB blocks of the MA-Net via skip connections. They use Mish in the encoder and decoder for better generalization.  Although prior work use a single segmentation head, meaning they map the features to a single output tensor with multiple channels for each output (cell probability, x- and y- flows), the authors used two seperate heads to map features to the cell probability and flows, respectively. They argue that semantic prediction for the objects and mse regression for the spatial gradient field interfers with each other, while using the same feature space \cite{caruana}. Therefore, they use two seperate conv2d layers with batch norm to map the features to the respective outputs.
+Mediar \cite{lee2022mediarharmonydatacentricmodelcentric} is yet another encoder decoder style architecture, designed specifically for cell segmentation. It was developed in the context of the 2022 NeurIPS Cell Segmentation Challenge \cite{NeurIPS-CellSeg}, where it achieved top performance across a variety of imaging modalities. Their approach is based on the Cellpose learning objective, but instead of using a U-Net style CNN backbone, they adopt the encoder part of SegFormer and combine it with the decoder blocks of MA-Net. This still ensures a hierarchical feature integration from the SegFormer multi-resolution features, to the MFAB blocks of the MA-Net via skip connections. They use Mish in the encoder and decoder for better generalization.  Although prior work use a single segmentation head, meaning they map the features to a single output tensor with multiple channels for each output (cell probability, x- and y- flows), the authors used two seperate heads to map features to the cell probability and flows, respectively. They argue that semantic prediction for the objects and mse regression for the spatial gradient field interfers with each other, while using the same feature space \cite{Caruana.1997}. Therefore, they use two seperate conv2d layers with batch norm to map the features to the respective outputs.
 
 \begin{figure}[!ht]
     \centering
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/SOTA/mediar_net.png}%
     }
-    \caption{Encoder embeddings of the train set clustered with k-mean and intuition of amlplified sampling \cite{LeCun.1989}.}
+    \caption{Encoder embeddings of the train set clustered with k-mean and intuition of amlplified sampling \cite{lee2022mediarharmonydatacentricmodelcentric}.}
     \label{fig:mediar_net}
 \end{figure}
 
 
-They pretrained MEDIAR on a large set of public datasets, namely Omnipose, Cellpose, Livecell and DataScienceBowl-2018, which makes a combined total of 7,242 labeled images. For the Challenge Dataset, they came up with a sophisticated way of training two seperate models (phases) with each different subsets of challenge data in the pretraining set, to perform ensembling prediction at test time. In the first phase, the net is initialized with ImageNet-1k pretrained encoder weights, and further trained on the public datasets for 80 epochs to establish strong general-purpose cell representations. In the second phase, this model was further trained for 60 epochs on the combined set of public datasets and the challenge training data, allowing the network to bridge between general cell morphologies and the specific modalities of the target domain. Fine-tuning was then conducted separately on the models from both phases. The phase 1 model was fine-tuned for 200 epochs on the challenge training set, specializing it to modalities present only in the target data. The phase 2 model was fine-tuned for 25 epochs, leveraging its broader knowledge of both public and challenge domains. Interestingly, the two models exhibited complementary behavior: the phase 1 fine-tuned model excelled at adapting to unseen modalities in the challenge, whereas the phase 2 fine-tuned model maintained stronger generalization across shared modalities. To further enhance robustness, they introduced a relabeling step at phase 2 fine-tuning, correcting images where the pretrained and phase 1 fine-tuned models produced misaligned predictions, thereby mitigating the impact of noisy annotations.
+They pretrained MEDIAR on a large set of public datasets, namely Omnipose \cite{Cutler.2022}, Cellpose\cite{Stringer.2020}, Livecell\cite{Edlund.2021} and DataScienceBowl-2018 \cite{Caicedo.2019}, which makes a combined total of 7,242 labeled images. For the Challenge Dataset, they came up with a sophisticated way of training two seperate models (phases) with each different subsets of challenge data in the pretraining set, to perform ensembling prediction at test time. In the first phase, the net is initialized with ImageNet-1k \cite{Russakovsky.02.09.2014b} pretrained encoder weights, and further trained on the public datasets for 80 epochs to establish strong general-purpose cell representations. In the second phase, this model was further trained for 60 epochs on the combined set of public datasets and the challenge training data, allowing the network to bridge between general cell morphologies and the specific modalities of the target domain. Fine-tuning was then conducted separately on the models from both phases. The phase 1 model was fine-tuned for 200 epochs on the challenge training set, specializing it to modalities present only in the target data. The phase 2 model was fine-tuned for 25 epochs, leveraging its broader knowledge of both public and challenge domains. Interestingly, the two models exhibited complementary behavior: the phase 1 fine-tuned model excelled at adapting to unseen modalities in the challenge, whereas the phase 2 fine-tuned model maintained stronger generalization across shared modalities. To further enhance robustness, they introduced a relabeling step at phase 2 fine-tuning, correcting images where the pretrained and phase 1 fine-tuned models produced misaligned predictions, thereby mitigating the impact of noisy annotations.
 Similarly to the style embeddings from Cellpose, they examine modality dependent embeddings in the pretraining dataset. To do that, they cluster the encoder embeddings from the phase-1 pretrained model using k-means with 40 clusters. They observed an uneven distribution across samples and concluded it might negatively impact model performance on underrepresented modalities. To mitigate this, they balance the sampling ratio in training by over-sampling underrepresented clusters, ensuring that the model receives a more uniform exposure to all modalities. Figure \ref{fig:latent_modalities} illustrates the discovered latent modalities and the corresponding sample amplification strategy.
 
 \begin{figure}[!ht]
@@ -521,25 +525,25 @@ Similarly to the style embeddings from Cellpose, they examine modality dependent
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/SOTA/latent_modalities.png}%
     }
-    \caption{Encoder embeddings of the train set clustered with k-mean and intuition of amlplified sampling \cite{LeCun.1989}.}
+    \caption{Encoder embeddings of the train set clustered with k-mean and intuition of amplified sampling \cite{lee2022mediarharmonydatacentricmodelcentric}.}
     \label{fig:latent_modalities}
 \end{figure}
 
-This transformer-based backbone performed really well in the challenge, but the authors of Cellpose were sceptical about the benchmarkings, claiming that conditions for pretraining of the Cellpose model were impaired. This sparked a debate about the feasibility of transformer-based models being superior to CNN backbones in the cell segmentation domain. From a theoretical perspective, this is not very simple. While the inductive bias of CNNs makes them limited to a certain receptive field but also very data efficient, transformers are able to capture long-range dependencies and global context, which may or may not be beneficial, depending on the specific task and dataset.
+This transformer-based backbone performed really well in the challenge, but the authors of Cellpose were sceptical about the benchmarkings, claiming that conditions for pretraining of the Cellpose model were impaired \cite{Stringer.2025}. This sparked a debate about the feasibility of transformer-based models being superior to CNN backbones in the cell segmentation domain. From a theoretical perspective, this is not very simple. While the inductive bias of CNNs makes them limited to a certain receptive field but also very data efficient, transformers are able to capture long-range dependencies and global context, which may or may not be beneficial, depending on the specific task and dataset.
 
 
 \section{CellposeSAM}
 
-CellposeSAM is a very recent extention of the original Cellpose model. Since the initial launch of Cellpose1, the field of computer vision has seen significant advancements, particularly with the introduction of foundation models like the Segment Anything Model (SAM). These models have demonstrated remarkable capabilities in generalizing across diverse image domains. Motivated by these developments, the authors of CellposeSAM decided to integrate the strengths of SAM into the Cellpose framework to enhance its segmentation performance and versatility. Interestingly, they did not use the original SAM decoder, but rather combined the image encoder of SAM1 with the Cellpose learning objective. So from a high-level perspective, CellposeSAM is just Cellpose1 with a ViT, instead of the CNN backbone. For the ViT, there are only minor adjustments such as reduced patch size from 16x16 to 8x8 and input spatial dimensions from 1024x1024 to 256x256. For the local attention layers in the original SAM1, they changed all layers to global attention instead of only global in layers 6, 12, 18 and 24. In contrast to Mediar and Cellpose1, they do not use hierarchical features from different stages of the encoder, but only the output of the last encoder layer. So decoder of the network is composed of just one conv2d layer, which converts the ViT encoder neck to the cellpose learning objective. An additional, deterministic fixed kernel transposeConv2d layer is used to transform the image from token to pixel space. The resulting model with an order of magnitude more parameters (305M vs 44M) compared to the original Cellpose1, which makes it impractical to run without a GPU. 
+CellposeSAM \cite{Pachitariu.2025} is a very recent extention of the original Cellpose model. Since the initial launch of Cellpose1 \cite{Stringer.2020}, the field of computer vision has seen significant advancements, particularly with the introduction of foundation models like the Segment Anything Model \cite{kirillov2023segment}. These models have demonstrated remarkable capabilities in generalizing across diverse image domains. Motivated by these developments, the authors of CellposeSAM decided to integrate the strengths of SAM into the Cellpose framework to enhance its segmentation performance and versatility. Interestingly, they did not use the original SAM decoder, but rather combined the image encoder of SAM1 with the Cellpose learning objective. So from a high-level perspective, CellposeSAM is just Cellpose1 with a ViT, instead of the CNN backbone. For the ViT, there are only minor adjustments such as reduced patch size from 16x16 to 8x8 and input spatial dimensions from 1024x1024 to 256x256. For the local attention layers in the original SAM1, they changed all layers to global attention instead of only global in layers 6, 12, 18 and 24. In contrast to Mediar and Cellpose1, they do not use hierarchical features from different stages of the encoder, but only the output of the last encoder layer. So decoder of the network is composed of just one conv2d layer, which converts the ViT encoder neck to the cellpose learning objective. An additional, deterministic fixed kernel transposeConv2d layer is used to transform the image from token to pixel space. The resulting model with an order of magnitude more parameters (305M vs 44M) compared to the original Cellpose1, which makes it impractical to run without a GPU. 
 
 \begin{figure}[!ht]
     \centering
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/SOTA/cellposeSam.png}%
     }
-    \caption{Encoder embeddings of the train set clustered with k-mean and intuition of amlplified sampling \cite{LeCun.1989}.}
+    \caption{CellposeSAM architecture, as presented in \cite{Pachitariu.2025}.}
     \label{fig:cellposesam}
 \end{figure}
 
-A major strength of CellposeSAM is the broad range of pretraining data. Weights are initialized with the SAM weights pretrained on the SA-1B dataset \ref{Kirillov}, and further trained on an updated dataset of cells and nuclei containing 22,826 train images with a combined 3,341,254 training regions of interest (ROIs). This leads to a really good performance on various types of cell- and imaging modalities, as they outperform or match other models on all datasets they tested on, setting a new state-of-the-art on cellular segmentation benchmarks.
+A major strength of CellposeSAM is the broad range of pretraining data. Weights are initialized with the SAM weights pretrained on the SA-1B dataset \cite{kirillov2023segment}, and further trained on an updated dataset of cells and nuclei containing 22,826 train images with a combined 3,341,254 training regions of interest (ROIs). This leads to a really good performance on various types of cell- and imaging modalities, as they outperform or match other models on all datasets they tested on, setting a new state-of-the-art on cellular segmentation benchmarks.
 

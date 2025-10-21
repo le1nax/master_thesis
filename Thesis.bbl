@@ -1,6 +1,100 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{Russakovsky.02.09.2014b}
+O.~Russakovsky, J.~Deng, H.~Su, J.~Krause, S.~Satheesh, S.~Ma, Z.~Huang, A.~Karpathy, A.~Khosla, M.~Bernstein, A.~C. Berg, and L.~Fei-Fei, ``Imagenet large scale visual recognition challenge.''
+
+\bibitem{ronneberger2015unetconvolutionalnetworksbiomedical}
+O.~Ronneberger, P.~Fischer, and T.~Brox, ``U-net: Convolutional networks for biomedical image segmentation,'' 2015.
+
+\bibitem{chen2017deeplabsemanticimagesegmentation}
+L.-C. Chen, G.~Papandreou, I.~Kokkinos, K.~Murphy, and A.~L. Yuille, ``Deeplab: Semantic image segmentation with deep convolutional nets, atrous convolution, and fully connected crfs,'' 2017.
+
+\bibitem{Schmidt_2018}
+U.~Schmidt, M.~Weigert, C.~Broaddus, and G.~Myers, {\em Cell Detection with Star-Convex Polygons}, p.~265–273.
+\newblock Springer International Publishing, 2018.
+
+\bibitem{Stringer.2020}
+C.~Stringer, M.~Michaelos, and M.~Pachitariu, ``Cellpose: a generalist algorithm for cellular segmentation,'' {\em bioRxiv}, 2020.
+
+\bibitem{vaswani2023attentionneed}
+A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N. Gomez, L.~Kaiser, and I.~Polosukhin, ``Attention is all you need,'' 2023.
+
+\bibitem{dosovitskiy2021imageworth16x16words}
+A.~Dosovitskiy, L.~Beyer, A.~Kolesnikov, D.~Weissenborn, X.~Zhai, T.~Unterthiner, M.~Dehghani, M.~Minderer, G.~Heigold, S.~Gelly, J.~Uszkoreit, and N.~Houlsby, ``An image is worth 16x16 words: Transformers for image recognition at scale,'' 2021.
+
+\bibitem{xie2021segformersimpleefficientdesign}
+E.~Xie, W.~Wang, Z.~Yu, A.~Anandkumar, J.~M. Alvarez, and P.~Luo, ``Segformer: Simple and efficient design for semantic segmentation with transformers,'' 2021.
+
+\bibitem{manet}
+T.~Fan, G.~Wang, Y.~Li, and H.~Wang, ``Ma-net: A multi-scale attention network for liver and tumor segmentation,'' {\em IEEE Access}, vol.~8, pp.~179656--179665, 2020.
+
+\bibitem{he2021maskedautoencodersscalablevision}
+K.~He, X.~Chen, S.~Xie, Y.~Li, P.~Dollár, and R.~Girshick, ``Masked autoencoders are scalable vision learners,'' 2021.
+
+\bibitem{kirillov2023segment}
+A.~Kirillov, E.~Mintun, N.~Ravi, H.~Mao, C.~Rolland, L.~Gustafson, T.~Xiao, S.~Whitehead, A.~C. Berg, W.-Y. Lo, P.~Dollár, and R.~Girshick, ``Segment anything,'' 2023.
+
+\bibitem{ryali2023hierahierarchicalvisiontransformer}
+C.~Ryali, Y.-T. Hu, D.~Bolya, C.~Wei, H.~Fan, P.-Y. Huang, V.~Aggarwal, A.~Chowdhury, O.~Poursaeed, J.~Hoffman, J.~Malik, Y.~Li, and C.~Feichtenhofer, ``Hiera: A hierarchical vision transformer without the bells-and-whistles,'' 2023.
+
+\bibitem{lee2022mediarharmonydatacentricmodelcentric}
+G.~Lee, S.~Kim, J.~Kim, and S.-Y. Yun, ``Mediar: Harmony of data-centric and model-centric for multi-modality microscopy,'' 2022.
+
+\bibitem{Pachitariu.2025}
+M.~Pachitariu, M.~Rariden, and C.~Stringer, ``Cellpose-sam: superhuman generalization for cellular segmentation,'' {\em bioRxiv}, 2025.
 
 \bibitem{LeCun.1989}
 Y.~LeCun, B.~Boser, J.~Denker, D.~Henderson, R.~Howard, W.~Hubbard, and L.~Jackel, ``Handwritten digit recognition with a back-propagation network,'' in {\em Advances in Neural Information Processing Systems} (D.~Touretzky, ed.), vol.~2, Morgan-Kaufmann, 1989.
+
+\bibitem{Krizhevsky.2012}
+A.~Krizhevsky, I.~Sutskever, and G.~E. Hinton, ``Imagenet classification with deep convolutional neural networks,'' in {\em Advances in Neural Information Processing Systems} ({F. Pereira}, {C.J. Burges}, {L. Bottou}, and {K.Q. Weinberger}, eds.), vol.~25, {Curran Associates, Inc}, 2012.
+
+\bibitem{he2015deepresiduallearningimage}
+K.~He, X.~Zhang, S.~Ren, and J.~Sun, ``Deep residual learning for image recognition,'' 2015.
+
+\bibitem{yu2016multiscalecontextaggregationdilated}
+F.~Yu and V.~Koltun, ``Multi-scale context aggregation by dilated convolutions,'' 2016.
+
+\bibitem{su2023boostingconvolutionalneuralnetworks}
+Z.~Su, J.~Zhang, T.~Liu, Z.~Liu, S.~Zhang, M.~Pietikäinen, and L.~Liu, ``Boosting convolutional neural networks with middle spectrum grouped convolution,'' 2023.
+
+\bibitem{he2018maskrcnn}
+K.~He, G.~Gkioxari, P.~Dollár, and R.~Girshick, ``Mask r-cnn,'' 2018.
+
+\bibitem{inproceedings}
+S.~Beucher and C.~Lantuéjoul, ``Use of watersheds in contour detection,'' vol.~132, 01 1979.
+
+\bibitem{openai2024gpt4technicalreport}
+OpenAI, J.~Achiam, S.~Adler, S.~Agarwal, L.~Ahmad, I.~Akkaya, F.~L. Aleman, D.~Almeida, J.~Altenschmidt, S.~Altman, S.~Anadkat, R.~Avila, I.~Babuschkin, S.~Balaji, V.~Balcom, P.~Baltescu, H.~Bao, M.~Bavarian, J.~Belgum, I.~Bello, J.~Berdine, G.~Bernadett-Shapiro, C.~Berner, L.~Bogdonoff, O.~Boiko, M.~Boyd, A.-L. Brakman, G.~Brockman, T.~Brooks, M.~Brundage, K.~Button, T.~Cai, R.~Campbell, A.~Cann, B.~Carey, C.~Carlson, R.~Carmichael, B.~Chan, C.~Chang, F.~Chantzis, D.~Chen, S.~Chen, R.~Chen, J.~Chen, M.~Chen, B.~Chess, C.~Cho, C.~Chu, H.~W. Chung, D.~Cummings, J.~Currier, Y.~Dai, C.~Decareaux, T.~Degry, N.~Deutsch, D.~Deville, A.~Dhar, D.~Dohan, S.~Dowling, S.~Dunning, A.~Ecoffet, A.~Eleti, T.~Eloundou, D.~Farhi, L.~Fedus, N.~Felix, S.~P. Fishman, J.~Forte, I.~Fulford, L.~Gao, E.~Georges, C.~Gibson, V.~Goel, T.~Gogineni, G.~Goh, R.~Gontijo-Lopes, J.~Gordon, M.~Grafstein, S.~Gray, R.~Greene, J.~Gross, S.~S. Gu, Y.~Guo, C.~Hallacy, J.~Han, J.~Harris, Y.~He, M.~Heaton, J.~Heidecke, C.~Hesse, A.~Hickey, W.~Hickey, P.~Hoeschele, B.~Houghton, K.~Hsu, S.~Hu, X.~Hu, J.~Huizinga, S.~Jain, S.~Jain, J.~Jang, A.~Jiang, R.~Jiang, H.~Jin, D.~Jin, S.~Jomoto, B.~Jonn, H.~Jun, T.~Kaftan, Łukasz Kaiser, A.~Kamali, I.~Kanitscheider, N.~S. Keskar, T.~Khan, L.~Kilpatrick, J.~W. Kim, C.~Kim, Y.~Kim, J.~H. Kirchner, J.~Kiros, M.~Knight, D.~Kokotajlo, Łukasz Kondraciuk, A.~Kondrich, A.~Konstantinidis, K.~Kosic, G.~Krueger, V.~Kuo, M.~Lampe, I.~Lan, T.~Lee, J.~Leike, J.~Leung, D.~Levy, C.~M. Li, R.~Lim, M.~Lin, S.~Lin, M.~Litwin, T.~Lopez, R.~Lowe, P.~Lue, A.~Makanju, K.~Malfacini, S.~Manning, T.~Markov, Y.~Markovski, B.~Martin, K.~Mayer, A.~Mayne, B.~McGrew, S.~M. McKinney, C.~McLeavey, P.~McMillan, J.~McNeil, D.~Medina, A.~Mehta, J.~Menick, L.~Metz, A.~Mishchenko, P.~Mishkin, V.~Monaco, E.~Morikawa, D.~Mossing, T.~Mu, M.~Murati, O.~Murk, D.~Mély, A.~Nair, R.~Nakano, R.~Nayak, A.~Neelakantan, R.~Ngo, H.~Noh, L.~Ouyang, C.~O'Keefe, J.~Pachocki, A.~Paino, J.~Palermo, A.~Pantuliano, G.~Parascandolo, J.~Parish, E.~Parparita, A.~Passos, M.~Pavlov, A.~Peng, A.~Perelman, F.~de~Avila Belbute~Peres, M.~Petrov, H.~P. de~Oliveira~Pinto, Michael, Pokorny, M.~Pokrass, V.~H. Pong, T.~Powell, A.~Power, B.~Power, E.~Proehl, R.~Puri, A.~Radford, J.~Rae, A.~Ramesh, C.~Raymond, F.~Real, K.~Rimbach, C.~Ross, B.~Rotsted, H.~Roussez, N.~Ryder, M.~Saltarelli, T.~Sanders, S.~Santurkar, G.~Sastry, H.~Schmidt, D.~Schnurr, J.~Schulman, D.~Selsam, K.~Sheppard, T.~Sherbakov, J.~Shieh, S.~Shoker, P.~Shyam, S.~Sidor, E.~Sigler, M.~Simens, J.~Sitkin, K.~Slama, I.~Sohl, B.~Sokolowsky, Y.~Song, N.~Staudacher, F.~P. Such, N.~Summers, I.~Sutskever, J.~Tang, N.~Tezak, M.~B. Thompson, P.~Tillet, A.~Tootoonchian, E.~Tseng, P.~Tuggle, N.~Turley, J.~Tworek, J.~F.~C. Uribe, A.~Vallone, A.~Vijayvergiya, C.~Voss, C.~Wainwright, J.~J. Wang, A.~Wang, B.~Wang, J.~Ward, J.~Wei, C.~Weinmann, A.~Welihinda, P.~Welinder, J.~Weng, L.~Weng, M.~Wiethoff, D.~Willner, C.~Winter, S.~Wolrich, H.~Wong, L.~Workman, S.~Wu, J.~Wu, M.~Wu, K.~Xiao, T.~Xu, S.~Yoo, K.~Yu, Q.~Yuan, W.~Zaremba, R.~Zellers, C.~Zhang, M.~Zhang, S.~Zhao, T.~Zheng, J.~Zhuang, W.~Zhuk, and B.~Zoph, ``Gpt-4 technical report,'' 2024.
+
+\bibitem{radford2021learningtransferablevisualmodels}
+A.~Radford, J.~W. Kim, C.~Hallacy, A.~Ramesh, G.~Goh, S.~Agarwal, G.~Sastry, A.~Askell, P.~Mishkin, J.~Clark, G.~Krueger, and I.~Sutskever, ``Learning transferable visual models from natural language supervision,'' 2021.
+
+\bibitem{Ma.2024}
+J.~Ma, Y.~He, F.~Li, L.~Han, C.~You, and B.~Wang, ``Segment anything in medical images,'' {\em Nature communications}, vol.~15, no.~1, p.~654, 2024.
+
+\bibitem{hu2019squeezeandexcitationnetworks}
+J.~Hu, L.~Shen, S.~Albanie, G.~Sun, and E.~Wu, ``Squeeze-and-excitation networks,'' 2019.
+
+\bibitem{ravi2024sam2segmentimages}
+N.~Ravi, V.~Gabeur, Y.-T. Hu, R.~Hu, C.~Ryali, T.~Ma, H.~Khedr, R.~Rädle, C.~Rolland, L.~Gustafson, E.~Mintun, J.~Pan, K.~V. Alwala, N.~Carion, C.-Y. Wu, R.~Girshick, P.~Dollár, and C.~Feichtenhofer, ``Sam 2: Segment anything in images and videos,'' 2024.
+
+\bibitem{NeurIPS-CellSeg}
+J.~Ma, R.~Xie, S.~Ayyadhury, C.~Ge, A.~Gupta, R.~Gupta, S.~Gu, Y.~Zhang, G.~Lee, J.~Kim, W.~Lou, H.~Li, E.~Upschulte, T.~Dickscheid, J.~G. de~Almeida, Y.~Wang, L.~Han, X.~Yang, M.~Labagnara, V.~Gligorovski, M.~Scheder, S.~J. Rahi, C.~Kempster, A.~Pollitt, L.~Espinosa, T.~Mignot, J.~M. Middeke, J.-N. Eckardt, W.~Li, Z.~Li, X.~Cai, B.~Bai, N.~F. Greenwald, D.~V. Valen, E.~Weisbart, B.~A. Cimini, T.~Cheung, O.~Brück, G.~D. Bader, and B.~Wang, ``The multi-modality cell segmentation challenge: Towards universal solutions,'' {\em Nature Methods}, vol.~21, p.~1103–1113, 2024.
+
+\bibitem{Caruana.1997}
+R.~Caruana, ``Multitask learning,'' {\em Machine Learning}, vol.~28, no.~1, pp.~41--75, 1997.
+
+\bibitem{Cutler.2022}
+K.~J. Cutler, C.~Stringer, T.~W. Lo, L.~Rappez, N.~Stroustrup, S.~{Brook Peterson}, P.~A. Wiggins, and J.~D. Mougous, ``Omnipose: a high-precision morphology-independent solution for bacterial cell segmentation,'' {\em Nature methods}, vol.~19, no.~11, pp.~1438--1448, 2022.
+
+\bibitem{Edlund.2021}
+C.~Edlund, T.~R. Jackson, N.~Khalid, N.~Bevan, T.~Dale, A.~Dengel, S.~Ahmed, J.~Trygg, and R.~Sj{\"o}gren, ``Livecell-a large-scale dataset for label-free live cell segmentation,'' {\em Nature methods}, vol.~18, no.~9, pp.~1038--1045, 2021.
+
+\bibitem{Caicedo.2019}
+J.~C. Caicedo, A.~Goodman, K.~W. Karhohs, B.~A. Cimini, J.~Ackerman, M.~Haghighi, C.~Heng, T.~Becker, M.~Doan, C.~McQuin, M.~Rohban, S.~Singh, and A.~E. Carpenter, ``Nucleus segmentation across imaging experiments: the 2018 data science bowl,'' {\em Nature methods}, vol.~16, no.~12, pp.~1247--1253, 2019.
+
+\bibitem{Stringer.2025}
+C.~Stringer and M.~Pachitariu, ``Benchmarking cellular segmentation methods against cellpose,'' {\em bioRxiv}, 2025.
 
 \end{thebibliography}

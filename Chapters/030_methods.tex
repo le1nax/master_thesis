@@ -84,6 +84,7 @@ Each image in the BlastoSPIM datasets has an xy-resolution of 0.208~µm and a z-
 
 
 \subsubsection{CTC Datasets}
+\label{cha:3.2} %todo
 
 The CTC dataset provides both 2D and 3D time-lapse microscopy sequences. It includes recordings of fluorescently counterstained nuclei and cells, either migrating on top of or embedded within a substrate. In addition, the dataset contains 2D brightfield, phase contrast, and differential interference contrast (DIC) microscopy videos that capture the dynamics of cells moving on flat substrates. 
 
@@ -95,7 +96,7 @@ Interesting, challenging datasets with very dense instances are the Fluo-N3DL da
     \includegraphics[width=1.0\textwidth]{Images/Methods/CTCData.png}%
     }
     \caption{Fluo-N3DL-DRO, TRIF and TRIC}
-    \label{fig:slicing}
+    \label{fig:CTCData}
 \end{figure}
 
 
@@ -239,12 +240,12 @@ The actual integration of the SAM2 model into the Mediar network architecture is
 
 Many segmentation networks \cite{Segformer, CellposeSAM} have shown great performance without relying on heavy-weight decoder modules such as it is the case for Mediar and its MA-Net decoder blocks. We therefore want to conduct experiments using leight-weight decoder blocks and the SAM2 image encoder. 
 
-The decoder blocks take a feature map as input and a skip connection from the encoder if there it is not the center block. The input is first upsampled by a factor of two using nearest-neighbor interpolation. When a skip connection is provided, the upsampled features are concatenated with the skip features along the channel dimension, increasing the input dimensionality of the subsequent convolution. The combined tensor is then processed by two sequential conv2dReLU units, each consisting of a $3 \times 3$ convolution with padding of $1$, followed by a ReLU activation, and a batch normalization layer. The first convolution reduces the concatenated feature channels to the target output dimensionality, and the second further refines the representation while maintaining the same number of channels. This design focusses on spatial resolution recovery and integration of encoder features at corresponding scales, without using the heavy-weight pseudo attention modules of the MA-Net. 
+The decoder blocks take a feature map as input and a skip connection from the encoder if there it is not the center block. The input is first upsampled by a factor of two using nearest-neighbor interpolation. When a skip connection is provided, the upsampled features are concatenated with the skip features along the channel dimension, increasing the input dimensionality of the subsequent convolution. The combined tensor is then processed by two sequential conv2dReLU units, each consisting of a $3 \times 3$ convolution with padding of $1$, followed by a ReLU activation, and a batch normalization layer. The first convolution reduces the concatenated feature channels to the target output dimensionality, and the second further refines the representation while maintaining the same number of channels. This design focusses on spatial resolution recovery and integration of encoder features at corresponding scales, without using the pseudo attention modules of the MA-Net. 
 
 
 
 
-\section{Training Challenges and Solutions}
+\section{Training Pipeline, Challenges and Solutions}
 
 In this section we will analyse the training procedure of our networks. First, the general training pipeline is outlined, describing the main components. After setting the baseline for cellpose learning objective training, we will look into challenges that come along training with only partly annotated data. 
 
@@ -274,11 +275,16 @@ Here, $\hat{y}_0$ and $\hat{y}_1$ denote the predicted horizontal and vertical f
 \subsubsection{Backward pass}
 
 
-In practice, we implemented the individual loss components are computed seperately for logging purpose, which can be handy to tune the weighting of the loss components. Interestingly, the Mediar code logs the summed loss components as dice loss, although the dice loss is neither computed in valid epochs, nor in the training iterations. We log the loss to Weights and Biases, which is an interactive cli and webtool that can be integrated into the training pipeline to plot losses and performance while training. It can be used for free with an academic license. The per-pixel MSE flow and BCE cell probablity loss is aggregated into a scalar value with the build-in mean reduction method from torch and backpropagated with the AdamW optimizer.
+In practice, we implemented seperately computed individual loss components for logging purpose, which can be handy to tune the weighting of the loss components. Interestingly, the Mediar code logs the summed loss components as dice loss, although the dice loss is neither computed in valid epochs, nor in the training iterations. We log the loss to Weights and Biases, which is an interactive cli and webtool that can be integrated into the training pipeline to plot losses and performance while training. It can be used for free with an academic license. The per-pixel MSE flow and BCE cell probablity loss is aggregated into a scalar value with the build-in mean reduction method from torch and backpropagated with the AdamW optimizer.
+
+\subsubsection{Checkpointing}
+
+Checkpointing is usually refers to saving the state dict of the trained model at minima of validation losses. For certain challenge datasets, it can be more beneficial to use all data for training and not split a validation fraction in the first place. We noticed that in the Cellpose training pipeline, there is no checkpointing based on validation data at all. For comparing generalizability of different architectures, it is sufficient to checkpoint after a certain amount of iterations or regions of interests seen in training. However, for pretraining we added a metric based checkpointing to save the best model at validation phases. The default Mediar pipeline uses both cellcount and hold-out F1 score for checkpointing. We changed this method, as it was tailored for the Challenge dataset, that did not have labeled validation data. The authors therefore held out a random fraction of 10\% of the training images for validation and used a cellcount measure (assumed to be manually configured for the challenge validation dataset) for checkpointing. They log their validation loss as dice-loss, but essentially it is an addition of both segmentation head losses (binary cross entropy of cellprobability and mean-squared-error of flow predictions). In general, it is not advisable to checkpoint with respect to train and validation losses, but to the actual metric used in test time (IoU for example). The latent features flow and cell probability are used to obtain cell instances after all, but the transformation from flow and cellprobability loss to actual IoU based measures is highly non-linear. We therefore implement checkpointing with and IoU based measure. In practice however, the cellprobability and flow loss correlate with IoU based measures sufficiently high.
+
 
 \vspace{1em} % or 2em, adjust as needed
 
-Since all networks share the same learning objective, the training pipeline can be mostly reused. Apart from hyperparameters that depend on the network's feature aquisition and amount of pretraining, the metric function and dataloading including the module for ground truth flow generation stays the same. So the pipeline is used for all networks, but  changes in the way the loss is computed, depending on is the training data is fully annotated. How these challenges are faced, will be described on the following subsection.
+Since all networks share the same learning objective, the training pipeline can be mostly reused. Apart from hyperparameters that depend on the network's feature aquisition and amount of pretraining, the metric function and dataloading including the module for ground truth flow generation stays the same. So the pipeline is used for all networks, but  changes in the way the loss is computed, depending on is the training data is fully annotated. How these challenges are faced, will be described in the following subsection.
 
 \subsection{Training with Limited Annotations}
 

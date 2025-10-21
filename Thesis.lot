@@ -3,9 +3,13 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Sampling probabilities for each dataset.}}{42}{table.caption.49}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Development environments and requirements.}}{43}{table.caption.50}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Pretraining Setups}}{44}{table.caption.51}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Overview of runtime batch loading and their implementation details.}}{45}{table.caption.52}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Sampling probabilities for each dataset.}}{43}{table.caption.51}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Development environments and requirements.}}{44}{table.caption.52}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Pretraining Setups}}{45}{table.caption.53}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Overview of runtime batch loading and their implementation details.}}{46}{table.caption.54}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Finetuning Setups}}{48}{table.caption.55}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Mean SEG (and mean IoU) scores for different cropping strategies.}}{49}{table.caption.56}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Finetuning Setups}}{51}{table.caption.59}%
+\addvspace {10\p@ }
 \addvspace {10\p@ }
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
