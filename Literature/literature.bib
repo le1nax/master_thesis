@@ -162,7 +162,7 @@
    % This file was created with Citavi 6.15.2.0
 
 @article{Stringer.2020,
- abstract = {Many biological applications require the segmentation of cell bodies, membranes and nuclei from microscopy images. Deep learning has enabled great progress on this problem, but current methods are specialized for images that have large training datasets. Here we introduce a generalist, deep learning-based segmentation algorithm called Cellpose, which can very precisely segment a wide range of image types out-of-the-box and does not require model retraining or parameter adjustments. We trained Cellpose on a new dataset of highly-varied images of cells, containing over 70,000 segmented objects. To support community contributions to the training data, we developed software for manual labelling and for curation of the automated results, with optional direct upload to our data repository. Periodically retraining the model on the community-contributed data will ensure that Cellpose improves constantly.},
+ abstract = {Many biological applications require the segmentation of cell bodies, membranes and nuclei from microscopy images. Deep learning has enabled great progress on this problem, but current methods are specialized for images that have large training datasets. Here we introduce a generalist, deep learning-based segmentation algorithm called Cellpose, which can very precisely segment a wide range of image types out-of-the-box and does not require model retraining or parameter adjustments. We trained Cellpose on a new dataset of highly-varied images of cells, containing over 70,000 segmented objects. To support community contributions to the training data, we developd software for manual labelling and for curation of the automated results, with optional direct upload to our data repository. Periodically retraining the model on the community-contributed data will ensure that Cellpose improves constantly.},
  author = {Stringer, Carsen and Michaelos, Michalis and Pachitariu, Marius},
  year = {2020},
  title = {Cellpose: a generalist algorithm for cellular segmentation},
@@ -217,7 +217,7 @@ journal = {In International Workshop on Image Processing: Real-time Edge and Mot
 % This file was created with Citavi 6.15.2.0
 
 @article{Ma.2024,
- abstract = {Medical image segmentation is a critical component in clinical practice, facilitating accurate diagnosis, treatment planning, and disease monitoring. However, existing methods, often tailored to specific modalities or disease types, lack generalizability across the diverse spectrum of medical image segmentation tasks. Here we present MedSAM, a foundation model designed for bridging this gap by enabling universal medical image segmentation. The model is developed on a large-scale medical image dataset with 1,570,263 image-mask pairs, covering 10 imaging modalities and over 30 cancer types. We conduct a comprehensive evaluation on 86 internal validation tasks and 60 external validation tasks, demonstrating better accuracy and robustness than modality-wise specialist models. By delivering accurate and efficient segmentation across a wide spectrum of tasks, MedSAM holds significant potential to expedite the evolution of diagnostic tools and the personalization of treatment plans.},
+ abstract = {Medical image segmentation is a critical component in clinical practice, facilitating accurate diagnosis, treatment planning, and disease monitoring. However, existing methods, often tailored to specific modalities or disease types, lack generalizability across the diverse spectrum of medical image segmentation tasks. Here we present MedSAM, a foundation model designed for bridging this gap by enabling universal medical image segmentation. The model is developd on a large-scale medical image dataset with 1,570,263 image-mask pairs, covering 10 imaging modalities and over 30 cancer types. We conduct a comprehensive evaluation on 86 internal validation tasks and 60 external validation tasks, demonstrating better accuracy and robustness than modality-wise specialist models. By delivering accurate and efficient segmentation across a wide spectrum of tasks, MedSAM holds significant potential to expedite the evolution of diagnostic tools and the personalization of treatment plans.},
  author = {Ma, Jun and He, Yuting and Li, Feifei and Han, Lin and You, Chenyu and Wang, Bo},
  year = {2024},
  title = {Segment anything in medical images},
@@ -249,7 +249,7 @@ journal = {In International Workshop on Image Processing: Real-time Edge and Mot
       url={https://arxiv.org/abs/1706.03762}, 
 }
 
-@unknown{carion2020,
+@misc{carion2020,
 author = {Carion, Nicolas and Massa, Francisco and Synnaeve, Gabriel and Usunier, Nicolas and Kirillov, Alexander and Zagoruyko, Sergey},
 year = {2020},
 month = {05},
@@ -489,6 +489,183 @@ doi = {10.1016/j.devcel.2015.12.028}
 	journal = {bioRxiv}
 }
 
+@article{ctc,
+author = {Maška, Martin and Ulman, Vladimír and Delgado-Rodriguez, Pablo and Gómez de Mariscal, Estibaliz and Necasova, Tereza and Guerrero Peña, Fidel Alejandro and Ing Ren, Tsang and Meyerowitz, Elliot and Scherr, Tim and Löffler, Katharina and Mikut, Ralf and Guo, Tianqi and Wang, Yin and Allebach, Jan and Bao, Rina and Al-Shakarji, Noor and Rahmon, Gani and Toubal, Imad Eddine and Palaniappan, K. and Ortiz-de-Solorzano, Carlos},
+year = {2023},
+month = {05},
+pages = {1-11},
+title = {The Cell Tracking Challenge: 10 years of objective benchmarking},
+volume = {20},
+journal = {Nature Methods},
+doi = {10.1038/s41592-023-01879-y}
+}
 
+@misc{BCCD,
+  author       = {Depto, D. S. and Rahman, S. and Hosen, M. M. and Akter, M. S. and Reme, T. R. and Rahman, A. and Zunai, H. and Mahdy, M. R. C. and Rahman, M. S. and Lahiri, J. B.},
+  title        = {Blood Cell Segmentation Dataset},
+  year         = {2023},
+  howpublished = {\url{https://example.com/dataset-link}},
+  note         = {Dataset},
+}
 
+@misc{israel2023foundationmodelcellsegmentation,
+      title={A Foundation Model for Cell Segmentation}, 
+      author={Uriah Israel and Markus Marks and Rohit Dilip and Qilin Li and Morgan Schwartz and Elora Pradhan and Edward Pao and Shenyi Li and Alexander Pearson-Goulart and Pietro Perona and Georgia Gkioxari and Ross Barnowski and Yisong Yue and David Van Valen},
+      year={2023},
+      eprint={2311.11004},
+      archivePrefix={arXiv},
+      primaryClass={q-bio.QM},
+      url={https://arxiv.org/abs/2311.11004}, 
+}
 
+@misc{ConIC,
+      title={CoNIC Challenge: Pushing the Frontiers of Nuclear Detection, Segmentation, Classification and Counting}, 
+      author={Simon Graham and Quoc Dang Vu and Mostafa Jahanifar and Martin Weigert and Uwe Schmidt and Wenhua Zhang and Jun Zhang and Sen Yang and Jinxi Xiang and Xiyue Wang and Josef Lorenz Rumberger and Elias Baumann and Peter Hirsch and Lihao Liu and Chenyang Hong and Angelica I. Aviles-Rivero and Ayushi Jain and Heeyoung Ahn and Yiyu Hong and Hussam Azzuni and Min Xu and Mohammad Yaqub and Marie-Claire Blache and Benoît Piégu and Bertrand Vernay and Tim Scherr and Moritz Böhland and Katharina Löffler and Jiachen Li and Weiqin Ying and Chixin Wang and Dagmar Kainmueller and Carola-Bibiane Schönlieb and Shuolin Liu and Dhairya Talsania and Yughender Meda and Prakash Mishra and Muhammad Ridzuan and Oliver Neumann and Marcel P. Schilling and Markus Reischl and Ralf Mikut and Banban Huang and Hsiang-Chin Chien and Ching-Ping Wang and Chia-Yen Lee and Hong-Kun Lin and Zaiyi Liu and Xipeng Pan and Chu Han and Jijun Cheng and Muhammad Dawood and Srijay Deshpande and Raja Muhammad Saad Bashir and Adam Shephard and Pedro Costa and João D. Nunes and Aurélio Campilho and Jaime S. Cardoso and Hrishikesh P S and Densen Puthussery and Devika R G and Jiji C V and Ye Zhang and Zijie Fang and Zhifan Lin and Yongbing Zhang and Chunhui Lin and Liukun Zhang and Lijian Mao and Min Wu and Vi Thi-Tuong Vo and Soo-Hyung Kim and Taebum Lee and Satoshi Kondo and Satoshi Kasai and Pranay Dumbhare and Vedant Phuse and Yash Dubey and Ankush Jamthikar and Trinh Thi Le Vuong and Jin Tae Kwak and Dorsa Ziaei and Hyun Jung and Tianyi Miao and David Snead and Shan E Ahmed Raza and Fayyaz Minhas and Nasir M. Rajpoot},
+      year={2023},
+      eprint={2303.06274},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2303.06274}, 
+}
+
+@article{CPM,
+  author    = {Vu, Quoc D. and Graham, Simon and Kurc, Tahsin and To, Minh N. N. and Shaban, Muhammad and Qaiser, Talha and Koohbanani, Navid A. and Khurram, Syed A. and Kalpathy-Cramer, Jayashree and Zhao, Tingying and Gupta, Rajarsi and Kwak, Jin Tae and Rajpoot, Nasir and Saltz, Joel and Farahani, Keyvan},
+  title     = {Methods for Segmentation and Classification of Digital Microscopy Tissue Images},
+  journal   = {Frontiers in Bioengineering and Biotechnology},
+  year      = {2019},
+  volume    = {7},
+  pages     = {53},
+  doi       = {10.3389/fbioe.2019.00053},
+  issn      = {2296-4185},
+  pmid      = {31001524},
+  pmcid     = {PMC6454006},
+  month     = apr,
+  publisher = {Frontiers Media SA}
+}
+
+@article{TNBC,
+  author    = {Naylor, Peter and Lae, Marick and Reyal, Fabien and Walter, Thomas},
+  title     = {Segmentation of Nuclei in Histopathology Images by Deep Regression of the Distance Map},
+  journal   = {IEEE Transactions on Medical Imaging},
+  year      = {2019},
+  volume    = {38},
+  number    = {2},
+  pages     = {448--459},
+  doi       = {10.1109/TMI.2018.2865709},
+  issn      = {1558-254X},
+  month     = feb,
+  pmid      = {30716022},
+  publisher = {IEEE}
+}
+
+@misc{DSB18,
+  author       = {Lopuhin, Konstantin},
+  title        = {kaggle-dsbowl-2018-dataset-fixes},
+  year         = {2018},
+  howpublished = {\url{https://www.kaggle.com/datasets/lopuhin/kaggle-dsbowl-2018-dataset-fixes}},
+  note         = {Kaggle dataset},
+}
+
+@article{deepbacs,
+  author  = {Spahn, Christoph and Laine, Romain and Pereira, Pedro and Gómez de Mariscal, Estibaliz and Chamier, Lucas and Conduit, Mia and Pinho, Mariana and Holden, Séamus and Jacquemet, Guillaume and Heilemann, Mike and Henriques, Ricardo},
+  title   = {DeepBacs: Bacterial image analysis using open-source deep learning approaches},
+  journal = {bioRxiv},
+  year    = {2021},
+  month   = {11},
+  doi     = {10.1101/2021.11.03.467152}
+}
+
+@misc{livecell,
+  author  = {Khalid, Nabeel},
+  title   = {LIVECell—A large-scale dataset for label-free live cell segmentation},
+  year    = {2023},
+  month   = {10},
+  howpublished = {TechRxiv preprint},
+  doi     = {10.36227/techrxiv.20375367}
+}
+
+@article{ihctma,
+  title={Simultaneously segmenting and classifying cell nuclei by using multi-task learning in multiplex immunohistochemical tissue microarray sections},
+  author={Wang, Ranran and Qiu, Yusong and Hao, Xinyu and Jin, Shan and Gao, Junxiu and Qi, Heng and Xu, Qi and Zhang, Yong and Xu, Hongming},
+  journal={Biomedical Signal Processing and Control},
+  volume={93},
+  pages={106143},
+  year={2024},
+  publisher={Elsevier}
+}
+
+@article{linsec,
+author = {Naylor, Peter and Laé, Marick and Reyal, Fabien and Walter, Thomas},
+year = {2018},
+month = {08},
+pages = {1-1},
+title = {Segmentation of Nuclei in Histopathology Images by Deep Regression of the Distance Map},
+volume = {38},
+journal = {IEEE Transactions on Medical Imaging},
+doi = {10.1109/TMI.2018.2865709}
+}
+
+@misc{lynseccc,
+  author       = {Naji Hussein and Reinhard Büttner and Adrian Simon and Marie-Lisa Eich and Philipp Lohneis and Katarzyna Bozek},
+  title        = {LyNSeC: Lymphoma Nuclear Segmentation and Classification},
+  year         = {2023},
+  month        = jun,
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.8065174},
+  url          = {https://doi.org/10.5281/zenodo.8065174}
+}
+
+@article{Neurips,
+  author       = {Jun Ma and Ronald Xie and Shamini Ayyadhury and Cheng Ge and Anubha Gupta and Ritu Gupta and Song Gu and Yao Zhang and Gihun Lee and Joonkee Kim and others},
+  title        = {The multimodality cell segmentation challenge: toward universal solutions},
+  journal      = {Nature Methods},
+  pages        = {1--11},
+  year         = {2024}
+}
+
+@misc{NuInsSeg,
+      title={NuInsSeg: A Fully Annotated Dataset for Nuclei Instance Segmentation in H\&E-Stained Histological Images}, 
+      author={Amirreza Mahbod and Christine Polak and Katharina Feldmann and Rumsha Khan and Katharina Gelles and Georg Dorffner and Ramona Woitek and Sepideh Hatamikia and Isabella Ellinger},
+      year={2023},
+      eprint={2308.01760},
+      archivePrefix={arXiv},
+      primaryClass={eess.IV},
+      url={https://arxiv.org/abs/2308.01760}, 
+}
+
+@article{omnipose,
+  author       = {Kevin J. Cutler and Carsen Stringer and Teresa W. Lo and Luca Rappez and Nicholas Stroustrup and S. Brook Peterson and Paul A. Wiggins and Joseph D. Mougous},
+  title        = {Omnipose: a high-precision morphology-independent solution for bacterial cell segmentation},
+  journal      = {Nature Methods},
+  volume       = {19},
+  number       = {11},
+  pages        = {1438--1448},
+  year         = {2022}
+}
+
+@inproceedings{pannuke,
+  author       = {Jevgenij Gamper and Navid Alemi Koohbanani and Ksenija Benet and Ali Khuram and Nasir Rajpoot},
+  title        = {PanNuke: an open pan-cancer histology dataset for nuclei instance segmentation and classification},
+  booktitle    = {Digital Pathology: 15th European Congress, ECDP 2019, Warwick, UK, April 10--13, 2019, Proceedings, Part 15},
+  pages        = {11--19},
+  publisher    = {Springer},
+  year         = {2019}
+}
+
+@article{tissuenet,
+  author       = {Noah F. Greenwald and Geneva Miller and Erick Moen and Alex Kong and Adam Kagel and Thomas Dougherty and Christine Camacho Fullaway and Brianna J. McIntosh and Ke Xuan Leow and Morgan Sarah Schwartz and Cole Pavelchek and Sunny Cui and Isabella Camplisson and Omer Bar-Tal and Jaiveer Singh and Mara Fong and Gautam Chaudhry and Zion Abraham and Jackson Moseley and Shiri Warshawsky and Erin Soon and Shirley Greenbaum and Tyler Risom and Travis Hollmann and Sean C. Bendall and Leeat Keren and William Graf and Michael Angelo and David Van Valen},
+  title        = {Whole-cell segmentation of tissue images with human-level performance using large-scale data annotation and deep learning},
+  journal      = {Nature Biotechnology},
+  pages        = {1--11},
+  year         = {2021}
+}
+
+@article{Yeast,
+  author       = {Nicola Dietler and Matthias Minder and Vojislav Gligorovski and Augoustina Maria Economou and Denis Alain Henri Lucien Joly and Ahmad Sadeghi and Chun Hei Michael Chan and Mateusz Kozi\'nski and Martin Weigert and Anne-Florence Bitbol and others},
+  title        = {A convolutional neural network segments yeast microscopy images with high accuracy},
+  journal      = {Nature Communications},
+  volume       = {11},
+  number       = {1},
+  pages        = {5723},
+  year         = {2020}
+}

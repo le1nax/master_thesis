@@ -16,6 +16,9 @@ U.~Schmidt, M.~Weigert, C.~Broaddus, and G.~Myers, {\em Cell Detection with Star
 \bibitem{Stringer.2020}
 C.~Stringer, M.~Michaelos, and M.~Pachitariu, ``Cellpose: a generalist algorithm for cellular segmentation,'' {\em bioRxiv}, 2020.
 
+\bibitem{carion2020}
+N.~Carion, F.~Massa, G.~Synnaeve, N.~Usunier, A.~Kirillov, and S.~Zagoruyko, ``End-to-end object detection with transformers,'' 05 2020.
+
 \bibitem{vaswani2023attentionneed}
 A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N. Gomez, L.~Kaiser, and I.~Polosukhin, ``Attention is all you need,'' 2023.
 
@@ -43,9 +46,6 @@ G.~Lee, S.~Kim, J.~Kim, and S.-Y. Yun, ``Mediar: Harmony of data-centric and mod
 \bibitem{Pachitariu.2025}
 M.~Pachitariu, M.~Rariden, and C.~Stringer, ``Cellpose-sam: superhuman generalization for cellular segmentation,'' {\em bioRxiv}, 2025.
 
-\bibitem{LeCun.1989}
-Y.~LeCun, B.~Boser, J.~Denker, D.~Henderson, R.~Howard, W.~Hubbard, and L.~Jackel, ``Handwritten digit recognition with a back-propagation network,'' in {\em Advances in Neural Information Processing Systems} (D.~Touretzky, ed.), vol.~2, Morgan-Kaufmann, 1989.
-
 \bibitem{bui2024sam3dsegmentmodelvolumetric}
 N.-T. Bui, D.-H. Hoang, M.-T. Tran, G.~Doretto, D.~Adjeroh, B.~Patel, A.~Choudhary, and N.~Le, ``Sam3d: Segment anything model in volumetric medical images,'' 2024.
 
@@ -69,6 +69,9 @@ A.~Krizhevsky, I.~Sutskever, and G.~E. Hinton, ``Imagenet classification with de
 
 \bibitem{he2018maskrcnn}
 K.~He, G.~Gkioxari, P.~Dollár, and R.~Girshick, ``Mask r-cnn,'' 2018.
+
+\bibitem{LeCun.1989}
+Y.~LeCun, B.~Boser, J.~Denker, D.~Henderson, R.~Howard, W.~Hubbard, and L.~Jackel, ``Handwritten digit recognition with a back-propagation network,'' in {\em Advances in Neural Information Processing Systems} (D.~Touretzky, ed.), vol.~2, Morgan-Kaufmann, 1989.
 
 \bibitem{he2015deepresiduallearningimage}
 K.~He, X.~Zhang, S.~Ren, and J.~Sun, ``Deep residual learning for image recognition,'' 2015.
@@ -112,10 +115,66 @@ J.~C. Caicedo, A.~Goodman, K.~W. Karhohs, B.~A. Cimini, J.~Ackerman, M.~Haghighi
 \bibitem{Stringer.2025}
 C.~Stringer and M.~Pachitariu, ``Benchmarking cellular segmentation methods against cellpose,'' {\em bioRxiv}, 2025.
 
-\bibitem{wald2025primusenforcingattentionusage}
-T.~Wald, S.~Roy, F.~Isensee, C.~Ulrich, S.~Ziegler, D.~Trofimova, R.~Stock, M.~Baumgartner, G.~Köhler, and K.~Maier-Hein, ``Primus: Enforcing attention usage for 3d medical image segmentation,'' 2025.
+\bibitem{ctc}
+M.~Maška, V.~Ulman, P.~Delgado-Rodriguez, E.~Gómez~de Mariscal, T.~Necasova, F.~A. Guerrero~Peña, T.~Ing~Ren, E.~Meyerowitz, T.~Scherr, K.~Löffler, R.~Mikut, T.~Guo, Y.~Wang, J.~Allebach, R.~Bao, N.~Al-Shakarji, G.~Rahmon, I.~E. Toubal, K.~Palaniappan, and C.~Ortiz-de Solorzano, ``The cell tracking challenge: 10 years of objective benchmarking,'' {\em Nature Methods}, vol.~20, pp.~1--11, 05 2023.
+
+\bibitem{BCCD}
+D.~S. Depto, S.~Rahman, M.~M. Hosen, M.~S. Akter, T.~R. Reme, A.~Rahman, H.~Zunai, M.~R.~C. Mahdy, M.~S. Rahman, and J.~B. Lahiri, ``Blood cell segmentation dataset.'' \url{https://example.com/dataset-link}, 2023.
+\newblock Dataset.
+
+\bibitem{israel2023foundationmodelcellsegmentation}
+U.~Israel, M.~Marks, R.~Dilip, Q.~Li, M.~Schwartz, E.~Pradhan, E.~Pao, S.~Li, A.~Pearson-Goulart, P.~Perona, G.~Gkioxari, R.~Barnowski, Y.~Yue, and D.~V. Valen, ``A foundation model for cell segmentation,'' 2023.
+
+\bibitem{ConIC}
+S.~Graham, Q.~D. Vu, M.~Jahanifar, M.~Weigert, U.~Schmidt, W.~Zhang, J.~Zhang, S.~Yang, J.~Xiang, X.~Wang, J.~L. Rumberger, E.~Baumann, P.~Hirsch, L.~Liu, C.~Hong, A.~I. Aviles-Rivero, A.~Jain, H.~Ahn, Y.~Hong, H.~Azzuni, M.~Xu, M.~Yaqub, M.-C. Blache, B.~Piégu, B.~Vernay, T.~Scherr, M.~Böhland, K.~Löffler, J.~Li, W.~Ying, C.~Wang, D.~Kainmueller, C.-B. Schönlieb, S.~Liu, D.~Talsania, Y.~Meda, P.~Mishra, M.~Ridzuan, O.~Neumann, M.~P. Schilling, M.~Reischl, R.~Mikut, B.~Huang, H.-C. Chien, C.-P. Wang, C.-Y. Lee, H.-K. Lin, Z.~Liu, X.~Pan, C.~Han, J.~Cheng, M.~Dawood, S.~Deshpande, R.~M.~S. Bashir, A.~Shephard, P.~Costa, J.~D. Nunes, A.~Campilho, J.~S. Cardoso, H.~P. S, D.~Puthussery, D.~R. G, J.~C. V, Y.~Zhang, Z.~Fang, Z.~Lin, Y.~Zhang, C.~Lin, L.~Zhang, L.~Mao, M.~Wu, V.~T.-T. Vo, S.-H. Kim, T.~Lee, S.~Kondo, S.~Kasai, P.~Dumbhare, V.~Phuse, Y.~Dubey, A.~Jamthikar, T.~T.~L. Vuong, J.~T. Kwak, D.~Ziaei, H.~Jung, T.~Miao, D.~Snead, S.~E.~A. Raza, F.~Minhas, and N.~M. Rajpoot, ``Conic challenge: Pushing the frontiers of nuclear detection, segmentation, classification and counting,'' 2023.
+
+\bibitem{CPM}
+Q.~D. Vu, S.~Graham, T.~Kurc, M.~N.~N. To, M.~Shaban, T.~Qaiser, N.~A. Koohbanani, S.~A. Khurram, J.~Kalpathy-Cramer, T.~Zhao, R.~Gupta, J.~T. Kwak, N.~Rajpoot, J.~Saltz, and K.~Farahani, ``Methods for segmentation and classification of digital microscopy tissue images,'' {\em Frontiers in Bioengineering and Biotechnology}, vol.~7, p.~53, Apr. 2019.
+
+\bibitem{TNBC}
+P.~Naylor, M.~Lae, F.~Reyal, and T.~Walter, ``Segmentation of nuclei in histopathology images by deep regression of the distance map,'' {\em IEEE Transactions on Medical Imaging}, vol.~38, pp.~448--459, Feb. 2019.
+
+\bibitem{DSB18}
+K.~Lopuhin, ``kaggle-dsbowl-2018-dataset-fixes.'' \url{https://www.kaggle.com/datasets/lopuhin/kaggle-dsbowl-2018-dataset-fixes}, 2018.
+\newblock Kaggle dataset.
+
+\bibitem{deepbacs}
+C.~Spahn, R.~Laine, P.~Pereira, E.~Gómez~de Mariscal, L.~Chamier, M.~Conduit, M.~Pinho, S.~Holden, G.~Jacquemet, M.~Heilemann, and R.~Henriques, ``Deepbacs: Bacterial image analysis using open-source deep learning approaches,'' {\em bioRxiv}, 11 2021.
+
+\bibitem{ihctma}
+R.~Wang, Y.~Qiu, X.~Hao, S.~Jin, J.~Gao, H.~Qi, Q.~Xu, Y.~Zhang, and H.~Xu, ``Simultaneously segmenting and classifying cell nuclei by using multi-task learning in multiplex immunohistochemical tissue microarray sections,'' {\em Biomedical Signal Processing and Control}, vol.~93, p.~106143, 2024.
+
+\bibitem{livecell}
+N.~Khalid, ``Livecell—a large-scale dataset for label-free live cell segmentation.'' TechRxiv preprint, 10 2023.
+
+\bibitem{linsec}
+P.~Naylor, M.~Laé, F.~Reyal, and T.~Walter, ``Segmentation of nuclei in histopathology images by deep regression of the distance map,'' {\em IEEE Transactions on Medical Imaging}, vol.~38, pp.~1--1, 08 2018.
+
+\bibitem{lynseccc}
+N.~Hussein, R.~Büttner, A.~Simon, M.-L. Eich, P.~Lohneis, and K.~Bozek, ``Lynsec: Lymphoma nuclear segmentation and classification,'' June 2023.
+
+\bibitem{Neurips}
+J.~Ma, R.~Xie, S.~Ayyadhury, C.~Ge, A.~Gupta, R.~Gupta, S.~Gu, Y.~Zhang, G.~Lee, J.~Kim, {\em et~al.}, ``The multimodality cell segmentation challenge: toward universal solutions,'' {\em Nature Methods}, pp.~1--11, 2024.
+
+\bibitem{NuInsSeg}
+A.~Mahbod, C.~Polak, K.~Feldmann, R.~Khan, K.~Gelles, G.~Dorffner, R.~Woitek, S.~Hatamikia, and I.~Ellinger, ``Nuinsseg: A fully annotated dataset for nuclei instance segmentation in h\&e-stained histological images,'' 2023.
+
+\bibitem{omnipose}
+K.~J. Cutler, C.~Stringer, T.~W. Lo, L.~Rappez, N.~Stroustrup, S.~B. Peterson, P.~A. Wiggins, and J.~D. Mougous, ``Omnipose: a high-precision morphology-independent solution for bacterial cell segmentation,'' {\em Nature Methods}, vol.~19, no.~11, pp.~1438--1448, 2022.
+
+\bibitem{pannuke}
+J.~Gamper, N.~A. Koohbanani, K.~Benet, A.~Khuram, and N.~Rajpoot, ``Pannuke: an open pan-cancer histology dataset for nuclei instance segmentation and classification,'' in {\em Digital Pathology: 15th European Congress, ECDP 2019, Warwick, UK, April 10--13, 2019, Proceedings, Part 15}, pp.~11--19, Springer, 2019.
+
+\bibitem{tissuenet}
+N.~F. Greenwald, G.~Miller, E.~Moen, A.~Kong, A.~Kagel, T.~Dougherty, C.~C. Fullaway, B.~J. McIntosh, K.~X. Leow, M.~S. Schwartz, C.~Pavelchek, S.~Cui, I.~Camplisson, O.~Bar-Tal, J.~Singh, M.~Fong, G.~Chaudhry, Z.~Abraham, J.~Moseley, S.~Warshawsky, E.~Soon, S.~Greenbaum, T.~Risom, T.~Hollmann, S.~C. Bendall, L.~Keren, W.~Graf, M.~Angelo, and D.~V. Valen, ``Whole-cell segmentation of tissue images with human-level performance using large-scale data annotation and deep learning,'' {\em Nature Biotechnology}, pp.~1--11, 2021.
+
+\bibitem{Yeast}
+N.~Dietler, M.~Minder, V.~Gligorovski, A.~M. Economou, D.~A. H.~L. Joly, A.~Sadeghi, C.~H.~M. Chan, M.~Kozi\'nski, M.~Weigert, A.-F. Bitbol, {\em et~al.}, ``A convolutional neural network segments yeast microscopy images with high accuracy,'' {\em Nature Communications}, vol.~11, no.~1, p.~5723, 2020.
 
 \bibitem{eschweiler2022robust3dcellsegmentation}
 D.~Eschweiler, R.~S. Smith, and J.~Stegmaier, ``Robust 3d cell segmentation: Extending the view of cellpose,'' 2022.
+
+\bibitem{wald2025primusenforcingattentionusage}
+T.~Wald, S.~Roy, F.~Isensee, C.~Ulrich, S.~Ziegler, D.~Trofimova, R.~Stock, M.~Baumgartner, G.~Köhler, and K.~Maier-Hein, ``Primus: Enforcing attention usage for 3d medical image segmentation,'' 2025.
 
 \end{thebibliography}

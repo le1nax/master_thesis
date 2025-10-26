@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.6.12)  26 OCT 2025 05:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.6.12)  26 OCT 2025 09:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -948,15 +948,9 @@ Package scrlayer-scrpage Info: Makeing stand-alone element `pagehead' from
 Writing index file Thesis.idx
 (./Thesis.aux (./Chapters/010_introduction.aux) (./Chapters/020_sota.aux) (./Chapters/030_methods.aux
 
-LaTeX Warning: Label `fig:slicing' multiply defined.
-
-
-LaTeX Warning: Label `fig:slicing' multiply defined.
-
-
 LaTeX Warning: Label `fig:myfigure' multiply defined.
 
-) (./Chapters/040_experiments.aux) (./Chapters/050_results.aux) (./Chapters/090_appendix.aux))
+) (./Chapters/040_experiments.aux) (./Chapters/050_results.aux) (./Chapters/060_Discussion_and_Future_Work.aux) (./Chapters/090_appendix.aux))
 \openout1 = `Thesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 154.
@@ -1091,9 +1085,6 @@ Overfull \hbox (2.73808pt too wide) in paragraph at lines 8--8
  [][] [][][]\T1/cmr/m/n/12 Ground truth gen-er-a-tion for the cell-pose learn-ing ob-ject-ive, as presen- 
  []
 
-
-LaTeX Warning: Citation `Carion.2020' on page VII undefined on input line 10.
-
 [7]
 Overfull \hbox (6.37732pt too wide) in paragraph at lines 35--35
  \T1/cmr/m/n/12 with pre-dic-tion over-lay with masked loss train-ing (middle) and masked 
@@ -1105,7 +1096,7 @@ Overfull \hbox (1.2439pt too wide) in paragraph at lines 36--36
  []
 
 [8]
-Overfull \hbox (51.57805pt too wide) in paragraph at lines 54--54
+Overfull \hbox (51.57805pt too wide) in paragraph at lines 55--55
  \T1/cmr/m/n/12 ori-ginal im-age. Left column: 'Blast_F2_008', Right column: 'Blast_H1_009'. 
  []
 
@@ -1161,22 +1152,474 @@ chapter 2.
 
 
 ]
-<Images/SOTA/ImageNet.png, id=384, 837.88031pt x 289.08pt>
+<Images/SOTA/ImageNet.png, id=386, 837.88031pt x 289.08pt>
 File: Images/SOTA/ImageNet.png Graphic file (type png)
 <use Images/SOTA/ImageNet.png>
 Package pdftex.def Info: Images/SOTA/ImageNet.png  used on input line 22.
 (pdftex.def)             Requested size: 422.52348pt x 145.77472pt.
- [4 <./Images/SOTA/ImageNet.png>]
-<Images/SOTA/u-net-architecture.png, id=406, 1560.83125pt x 1039.885pt>
+<Images/SOTA/u-net-architecture.png, id=396, 1560.83125pt x 1039.885pt>
 File: Images/SOTA/u-net-architecture.png Graphic file (type png)
 <use Images/SOTA/u-net-architecture.png>
 Package pdftex.def Info: Images/SOTA/u-net-architecture.png  used on input line 131.
 (pdftex.def)             Requested size: 338.02007pt x 225.18938pt.
- [5 <./Images/SOTA/u-net-architecture.png>]
+ [4 <./Images/SOTA/ImageNet.png>] [5 <./Images/SOTA/u-net-architecture.png>]
 <Images/SOTA/SemanticSeg.png, id=415, 414.04688pt x 151.3153pt>
 File: Images/SOTA/SemanticSeg.png Graphic file (type png)
 <use Images/SOTA/SemanticSeg.png>
 Package pdftex.def Info: Images/SOTA/SemanticSeg.png  used on input line 156.
 (pdftex.def)             Requested size: 253.51666pt x 92.65083pt.
  [6 <./Images/SOTA/SemanticSeg.png>]
-<Images/SOTA/stardist.png, id=427, 930.47626p
+<Images/SOTA/stardist.png, id=427, 930.47626pt x 251.43938pt>
+File: Images/SOTA/stardist.png Graphic file (type png)
+<use Images/SOTA/stardist.png>
+Package pdftex.def Info: Images/SOTA/stardist.png  used on input line 172.
+(pdftex.def)             Requested size: 380.26855pt x 102.75702pt.
+<Images/SOTA/cellpose_learning_objective.png, id=432, 930.47626pt x 304.13625pt>
+File: Images/SOTA/cellpose_learning_objective.png Graphic file (type png)
+<use Images/SOTA/cellpose_learning_objective.png>
+Package pdftex.def Info: Images/SOTA/cellpose_learning_objective.png  used on input line 183.
+(pdftex.def)             Requested size: 380.26855pt x 124.29292pt.
+ [7 <./Images/SOTA/stardist.png>]
+<Images/SOTA/tSNE_cellpose.png, id=441, 590.205pt x 587.19376pt>
+File: Images/SOTA/tSNE_cellpose.png Graphic file (type png)
+<use Images/SOTA/tSNE_cellpose.png>
+Package pdftex.def Info: Images/SOTA/tSNE_cellpose.png  used on input line 194.
+(pdftex.def)             Requested size: 253.51666pt x 252.21959pt.
+ [8 <./Images/SOTA/cellpose_learning_objective.png> <./Images/SOTA/tSNE_cellpose.png>] [9] [10]
+<Images/SOTA/attention.png, id=479, 1061.46562pt x 352.31625pt>
+File: Images/SOTA/attention.png Graphic file (type png)
+<use Images/SOTA/attention.png>
+Package pdftex.def Info: Images/SOTA/attention.png  used on input line 302.
+(pdftex.def)             Requested size: 338.02007pt x 112.19516pt.
+ [11 <./Images/SOTA/attention.png>]
+<Images/SOTA/transformer.png, id=496, 401.24907pt x 545.78906pt>
+File: Images/SOTA/transformer.png Graphic file (type png)
+<use Images/SOTA/transformer.png>
+Package pdftex.def Info: Images/SOTA/transformer.png  used on input line 317.
+(pdftex.def)             Requested size: 211.26173pt x 287.36803pt.
+ [12 <./Images/SOTA/transformer.png>]
+<Images/SOTA/vit.png, id=506, 897.3525pt x 457.71pt>
+File: Images/SOTA/vit.png Graphic file (type png)
+<use Images/SOTA/vit.png>
+Package pdftex.def Info: Images/SOTA/vit.png  used on input line 336.
+(pdftex.def)             Requested size: 380.26855pt x 193.96196pt.
+<Images/SOTA/SegFormer.png, id=510, 1001.99344pt x 527.72156pt>
+File: Images/SOTA/SegFormer.png Graphic file (type png)
+<use Images/SOTA/SegFormer.png>
+Package pdftex.def Info: Images/SOTA/SegFormer.png  used on input line 348.
+(pdftex.def)             Requested size: 380.26855pt x 200.2786pt.
+ [13 <./Images/SOTA/vit.png>]
+<Images/SOTA/MAnet.png, id=521, 721.19438pt x 302.63063pt>
+File: Images/SOTA/MAnet.png Graphic file (type png)
+<use Images/SOTA/MAnet.png>
+Package pdftex.def Info: Images/SOTA/MAnet.png  used on input line 363.
+(pdftex.def)             Requested size: 422.52348pt x 177.2991pt.
+ [14 <./Images/SOTA/SegFormer.png>]
+<Images/SOTA/PAB.png, id=531, 1101.36469pt x 310.15875pt>
+File: Images/SOTA/PAB.png Graphic file (type png)
+<use Images/SOTA/PAB.png>
+Package pdftex.def Info: Images/SOTA/PAB.png  used on input line 380.
+(pdftex.def)             Requested size: 507.02689pt x 142.7836pt.
+ [15 <./Images/SOTA/MAnet.png> <./Images/SOTA/PAB.png>]
+<Images/SOTA/MFAB.png, id=545, 1395.71437pt x 322.20375pt>
+File: Images/SOTA/MFAB.png Graphic file (type png)
+<use Images/SOTA/MFAB.png>
+Package pdftex.def Info: Images/SOTA/MFAB.png  used on input line 405.
+(pdftex.def)             Requested size: 507.02689pt x 117.04536pt.
+ [16 <./Images/SOTA/MFAB.png>]
+<Images/SOTA/MAE.png, id=556, 989.94844pt x 548.0475pt>
+File: Images/SOTA/MAE.png Graphic file (type png)
+<use Images/SOTA/MAE.png>
+Package pdftex.def Info: Images/SOTA/MAE.png  used on input line 449.
+(pdftex.def)             Requested size: 422.52348pt x 233.90807pt.
+ [17] [18 <./Images/SOTA/MAE.png>]
+<Images/SOTA/SAM1.png, id=571, 864.98157pt x 197.23688pt>
+File: Images/SOTA/SAM1.png Graphic file (type png)
+<use Images/SOTA/SAM1.png>
+Package pdftex.def Info: Images/SOTA/SAM1.png  used on input line 470.
+(pdftex.def)             Requested size: 422.52348pt x 96.34595pt.
+ [19 <./Images/SOTA/SAM1.png>]
+<Images/SOTA/Hiera.png, id=581, 1015.54407pt x 234.8775pt>
+File: Images/SOTA/Hiera.png Graphic file (type png)
+<use Images/SOTA/Hiera.png>
+Package pdftex.def Info: Images/SOTA/Hiera.png  used on input line 498.
+(pdftex.def)             Requested size: 422.52348pt x 97.72322pt.
+ [20]
+<Images/SOTA/mediar_net.png, id=594, 1099.85907pt x 546.54187pt>
+File: Images/SOTA/mediar_net.png Graphic file (type png)
+<use Images/SOTA/mediar_net.png>
+Package pdftex.def Info: Images/SOTA/mediar_net.png  used on input line 516.
+(pdftex.def)             Requested size: 422.52348pt x 209.95642pt.
+ [21 <./Images/SOTA/Hiera.png>]
+<Images/SOTA/latent_modalities.png, id=614, 904.88063pt x 352.31625pt>
+File: Images/SOTA/latent_modalities.png Graphic file (type png)
+<use Images/SOTA/latent_modalities.png>
+Package pdftex.def Info: Images/SOTA/latent_modalities.png  used on input line 529.
+(pdftex.def)             Requested size: 422.52348pt x 164.5081pt.
+ [22 <./Images/SOTA/mediar_net.png>]
+<Images/SOTA/cellposeSam.png, id=628, 1041.8925pt x 375.65344pt>
+File: Images/SOTA/cellposeSam.png Graphic file (type png)
+<use Images/SOTA/cellposeSam.png>
+Package pdftex.def Info: Images/SOTA/cellposeSam.png  used on input line 545.
+(pdftex.def)             Requested size: 422.52348pt x 152.33942pt.
+ [23 <./Images/SOTA/latent_modalities.png>]) [24 <./Images/SOTA/cellposeSam.png>]
+\openout2 = `Chapters/030_methods.aux'.
+
+ (./Chapters/030_methods.tex
+chapter 3.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 14.
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+) [25
+
+
+
+
+]
+Overfull \hbox (24.20197pt too wide) in paragraph at lines 19--22
+\T1/cmr/m/n/12 nuc-lei and nuc-lei clas-si-fic-a-tion ([][]$\T1/cmtt/m/n/12 https : / / www . kaggle . com / datasets / aadimator /
+ []
+
+
+Overfull \hbox (5.04268pt too wide) in paragraph at lines 19--22
+\T1/cmtt/m/n/12 conic-[]challenge-[]dataset ? select = data$[][]\T1/cmr/m/n/12 ). We sor-ted out the im-ages without
+ []
+
+
+Overfull \hbox (16.80943pt too wide) in paragraph at lines 33--36
+\T1/cmr/m/n/12 lines col-lec-ted us-ing phase-contrast mi-cro-scopy ([][]$\T1/cmtt/m/n/12 https : / / sartorius-[]research .
+ []
+
+
+Overfull \hbox (34.26082pt too wide) in paragraph at lines 41--44
+\T1/cmr/m/n/12 dif-fer-en-tial in-ter-fer-ence con-trast ima-ging mod-al-it-ies ([][]$\T1/cmtt/m/n/12 https : / / neurips22-[]cellseg .
+ []
+
+[26{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+<Images/Methods/BlastoSPIM.png, id=704, 892.08281pt x 425.33907pt>
+File: Images/Methods/BlastoSPIM.png Graphic file (type png)
+<use Images/Methods/BlastoSPIM.png>
+Package pdftex.def Info: Images/Methods/BlastoSPIM.png  used on input line 79.
+(pdftex.def)             Requested size: 422.52348pt x 201.45403pt.
+ [27]
+<Images/Methods/CTCData.png, id=718, 1047.915pt x 689.57625pt>
+File: Images/Methods/CTCData.png Graphic file (type png)
+<use Images/Methods/CTCData.png>
+Package pdftex.def Info: Images/Methods/CTCData.png  used on input line 99.
+(pdftex.def)             Requested size: 422.52348pt x 278.03525pt.
+<Images/Methods/CTCsim.png, id=719, 939.51pt x 447.17062pt>
+File: Images/Methods/CTCsim.png Graphic file (type png)
+<use Images/Methods/CTCsim.png>
+Package pdftex.def Info: Images/Methods/CTCsim.png  used on input line 111.
+(pdftex.def)             Requested size: 422.52348pt x 201.1021pt.
+ [28 <./Images/Methods/BlastoSPIM.png>] [29 <./Images/Methods/CTCData.png> <./Images/Methods/CTCsim.png>]
+<Images/Methods/ZebrafishVol.png, id=735, 833.36343pt x 331.2375pt>
+File: Images/Methods/ZebrafishVol.png Graphic file (type png)
+<use Images/Methods/ZebrafishVol.png>
+Package pdftex.def Info: Images/Methods/ZebrafishVol.png  used on input line 128.
+(pdftex.def)             Requested size: 422.52348pt x 167.9433pt.
+<Images/Methods/ZebrafishAnnotations3d.png, id=737, 1294.08469pt x 345.54094pt>
+File: Images/Methods/ZebrafishAnnotations3d.png Graphic file (type png)
+<use Images/Methods/ZebrafishAnnotations3d.png>
+Package pdftex.def Info: Images/Methods/ZebrafishAnnotations3d.png  used on input line 139.
+(pdftex.def)             Requested size: 422.52348pt x 112.82144pt.
+ [30 <./Images/Methods/ZebrafishVol.png> <./Images/Methods/ZebrafishAnnotations3d.png>]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 157.
+<Images/Methods/zflow.png, id=745, 969.6225pt x 436.63126pt>
+File: Images/Methods/zflow.png Graphic file (type png)
+<use Images/Methods/zflow.png>
+Package pdftex.def Info: Images/Methods/zflow.png  used on input line 181.
+(pdftex.def)             Requested size: 422.52348pt x 190.26617pt.
+ [31] [32 <./Images/Methods/zflow.png>] [33] [34]
+
+pdfTeX warning: pdflatex (file ./Images/Graphics/MediarSAM.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<Images/Graphics/MediarSAM.pdf, id=791, 963.6pt x 542.025pt>
+File: Images/Graphics/MediarSAM.pdf Graphic file (type pdf)
+<use Images/Graphics/MediarSAM.pdf>
+Package pdftex.def Info: Images/Graphics/MediarSAM.pdf  used on input line 246.
+(pdftex.def)             Requested size: 380.26855pt x 213.8949pt.
+[35 <./Images/Graphics/MediarSAM.pdf>] [36] [37] [38] [39] [40]
+
+pdfTeX warning: pdflatex (file ./Images/Graphics/Cellpose3D.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<Images/Graphics/Cellpose3D.pdf, id=973, 963.6pt x 542.025pt>
+File: Images/Graphics/Cellpose3D.pdf Graphic file (type pdf)
+<use Images/Graphics/Cellpose3D.pdf>
+Package pdftex.def Info: Images/Graphics/Cellpose3D.pdf  used on input line 354.
+(pdftex.def)             Requested size: 380.26855pt x 213.8949pt.
+[41]
+<Images/Methods/3d_decoder_medsam.png, id=997, 1195.46625pt x 413.29407pt>
+File: Images/Methods/3d_decoder_medsam.png Graphic file (type png)
+<use Images/Methods/3d_decoder_medsam.png>
+Package pdftex.def Info: Images/Methods/3d_decoder_medsam.png  used on input line 393.
+(pdftex.def)             Requested size: 422.52348pt x 146.074pt.
+ [42 <./Images/Graphics/Cellpose3D.pdf>]) [43 <./Images/Methods/3d_decoder_medsam.png>]
+\openout2 = `Chapters/040_experiments.aux'.
+
+ (./Chapters/040_experiments.tex
+chapter 4.
+
+LaTeX Warning: Reference `3.2' on page 44 undefined on input line 3.
+
+[44
+
+
+
+
+]
+
+LaTeX Warning: Reference `datasets 3.1' on page 45 undefined on input line 66.
+
+
+LaTeX Warning: Reference `tab:4.2' on page 45 undefined on input line 67.
+
+[45]
+Underfull \hbox (badness 2080) in paragraph at lines 109--110
+[]|\T1/cmr/m/n/10 Loads im-ages and la-bels without ac-cu-mu-lat-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 112--113
+[]|\T1/cmr/m/n/10 Collapses re-peated chan-nels in la-bel map
+ []
+
+
+Underfull \hbox (badness 1701) in paragraph at lines 124--125
+[]|\T1/cmr/m/n/10 Gaussian smooth-ing: $\OML/cmm/m/it/10 ^^[$ \T1/cmr/m/n/10 along x-axis ran-domly
+ []
+
+[46]
+
+LaTeX Warning: Reference `chapter 3.1.2' on page 47 undefined on input line 150.
+
+[47] [48] [49]
+<Images/Experiments/CroppingTechniques.png, id=1120, 1642.63687pt x 1362.59062pt>
+File: Images/Experiments/CroppingTechniques.png Graphic file (type png)
+<use Images/Experiments/CroppingTechniques.png>
+Package pdftex.def Info: Images/Experiments/CroppingTechniques.png  used on input line 207.
+(pdftex.def)             Requested size: 422.52348pt x 350.48117pt.
+<Images/Experiments/TRIF_Artifacts.png, id=1122, 855.195pt x 475.02469pt>
+File: Images/Experiments/TRIF_Artifacts.png Graphic file (type png)
+<use Images/Experiments/TRIF_Artifacts.png>
+Package pdftex.def Info: Images/Experiments/TRIF_Artifacts.png  used on input line 217.
+(pdftex.def)             Requested size: 422.52348pt x 234.69217pt.
+ [50 <./Images/Experiments/CroppingTechniques.png>] [51 <./Images/Experiments/TRIF_Artifacts.png>]
+<Images/Experiments/Loss_chart_final.png, id=1138, 4015.0pt x 2258.4375pt>
+File: Images/Experiments/Loss_chart_final.png Graphic file (type png)
+<use Images/Experiments/Loss_chart_final.png>
+Package pdftex.def Info: Images/Experiments/Loss_chart_final.png  used on input line 256.
+(pdftex.def)             Requested size: 507.02689pt x 285.19872pt.
+ [52] [53 <./Images/Experiments/Loss_chart_final.png>]
+
+LaTeX Warning: Reference `todo' on page 54 undefined on input line 290.
+
+[54] [55] [56]
+
+LaTeX Warning: Citation `He' on page 57 undefined on input line 326.
+
+) [57]
+\openout2 = `Chapters/050_results.aux'.
+
+ (./Chapters/050_results.tex
+chapter 5.
+<Images/Results/Thresholds_SIM_merged.png, id=1180, 2207.99907pt x 2241.12282pt>
+File: Images/Results/Thresholds_SIM_merged.png Graphic file (type png)
+<use Images/Results/Thresholds_SIM_merged.png>
+Package pdftex.def Info: Images/Results/Thresholds_SIM_merged.png  used on input line 12.
+(pdftex.def)             Requested size: 422.52348pt x 428.86127pt.
+<Images/Results/Thresh_blasto_merged.png, id=1181, 2046.89719pt x 2046.89719pt>
+File: Images/Results/Thresh_blasto_merged.png Graphic file (type png)
+<use Images/Results/Thresh_blasto_merged.png>
+Package pdftex.def Info: Images/Results/Thresh_blasto_merged.png  used on input line 21.
+(pdftex.def)             Requested size: 422.52348pt x 422.52132pt.
+
+LaTeX Warning: Reference `' on page 58 undefined on input line 31.
+
+<Images/Results/ROI_SIM.png, id=1186, 1081.1592pt x 554.3109pt>
+File: Images/Results/ROI_SIM.png Graphic file (type png)
+<use Images/Results/ROI_SIM.png>
+Package pdftex.def Info: Images/Results/ROI_SIM.png  used on input line 36.
+(pdftex.def)             Requested size: 422.52348pt x 216.6202pt.
+<Images/Results/ROIplot_BLASTO.png, id=1187, 1348.5582pt x 645.3711pt>
+File: Images/Results/ROIplot_BLASTO.png Graphic file (type png)
+<use Images/Results/ROIplot_BLASTO.png>
+Package pdftex.def Info: Images/Results/ROIplot_BLASTO.png  used on input line 45.
+(pdftex.def)             Requested size: 422.52348pt x 202.19989pt.
+[58
+
+
+
+
+] [59 <./Images/Results/Thresholds_SIM_merged.png>] [60 <./Images/Results/Thresh_blasto_merged.png>]
+<Images/Results/Thresholds_DRO_merged.png, id=1206, 3993.67032pt x 1382.91656pt>
+File: Images/Results/Thresholds_DRO_merged.png Graphic file (type png)
+<use Images/Results/Thresholds_DRO_merged.png>
+Package pdftex.def Info: Images/Results/Thresholds_DRO_merged.png  used on input line 67.
+(pdftex.def)             Requested size: 422.52348pt x 146.29726pt.
+ [61 <./Images/Results/ROI_SIM.png> <./Images/Results/ROIplot_BLASTO.png>]
+<Images/Results/Thresholds_TRIC_merged.png, id=1213, 3984.63657pt x 1376.89406pt>
+File: Images/Results/Thresholds_TRIC_merged.png Graphic file (type png)
+<use Images/Results/Thresholds_TRIC_merged.png>
+Package pdftex.def Info: Images/Results/Thresholds_TRIC_merged.png  used on input line 76.
+(pdftex.def)             Requested size: 422.52348pt x 145.99629pt.
+ [62 <./Images/Results/Thresholds_DRO_merged.png> <./Images/Results/Thresholds_TRIC_merged.png>]
+<Images/Results/ROI_DRO.png, id=1221, 728.4816pt x 414.8298pt>
+File: Images/Results/ROI_DRO.png Graphic file (type png)
+<use Images/Results/ROI_DRO.png>
+Package pdftex.def Info: Images/Results/ROI_DRO.png  used on input line 87.
+(pdftex.def)             Requested size: 422.52348pt x 240.60144pt.
+<Images/Results/ROI_TRIC.png, id=1222, 875.9124pt x 505.89pt>
+File: Images/Results/ROI_TRIC.png Graphic file (type png)
+<use Images/Results/ROI_TRIC.png>
+Package pdftex.def Info: Images/Results/ROI_TRIC.png  used on input line 96.
+(pdftex.def)             Requested size: 422.52348pt x 244.02863pt.
+ [63 <./Images/Results/ROI_DRO.png>]
+<Images/Results/thresholds_Zebra.png, id=1230, 755.2215pt x 433.62pt>
+File: Images/Results/thresholds_Zebra.png Graphic file (type png)
+<use Images/Results/thresholds_Zebra.png>
+Package pdftex.def Info: Images/Results/thresholds_Zebra.png  used on input line 110.
+(pdftex.def)             Requested size: 422.52348pt x 242.59396pt.
+<Images/Results/Zebra_VIS.png, id=1233, 1503.9387pt x 848.4498pt>
+File: Images/Results/Zebra_VIS.png Graphic file (type png)
+<use Images/Results/Zebra_VIS.png>
+Package pdftex.def Info: Images/Results/Zebra_VIS.png  used on input line 121.
+(pdftex.def)             Requested size: 422.52348pt x 238.36699pt.
+ [64 <./Images/Results/ROI_TRIC.png>] [65 <./Images/Results/thresholds_Zebra.png> <./Images/Results/Zebra_VIS.png>]
+<Images/Results/runtimes.png, id=1248, 1334.8269pt x 601.2864pt>
+File: Images/Results/runtimes.png Graphic file (type png)
+<use Images/Results/runtimes.png>
+Package pdftex.def Info: Images/Results/runtimes.png  used on input line 134.
+(pdftex.def)             Requested size: 422.52348pt x 190.3237pt.
+) [66 <./Images/Results/runtimes.png>]
+\openout2 = `Chapters/060_Discussion_and_Future_Work.aux'.
+
+ (./Chapters/060_Discussion_and_Future_Work.tex
+chapter 6.
+) [67
+
+
+
+
+] [68] (./Thesis.bbl [1
+
+
+
+
+
+] [2] [3] [4]
+Underfull \hbox (badness 1527) in paragraph at lines 119--120
+[]\T1/cmr/m/n/12 M. Ma²ka, V. Ul-man, P. Delgado-Rodriguez, E. Gómez de Mar-iscal,
+ []
+
+
+Underfull \hbox (badness 1303) in paragraph at lines 138--140
+\T1/cmtt/m/n/12 datasets / lopuhin / kaggle-[]dsbowl-[]2018-[]dataset-[]fixes$[][]\T1/cmr/m/n/12 , 2018.  Kaggle
+ []
+
+[5] [6]) [7] [8
+
+
+]
+
+Class scrreprt Warning: You are using `\begin{appendix}...\end{appendix}'.
+(scrreprt)              You should note, that `\appendix' is a mostly globally
+(scrreprt)              working command not an enviroment with only local
+(scrreprt)              effects. Therefore `\end{appendix}' will neither
+(scrreprt)              switch back to normal section numbering nor finish
+(scrreprt)              every other effect of `\begin{appendix}'.
+(scrreprt)              Nevertheless, some effects may end with
+(scrreprt)              `\end{appendix}' and the document may become
+(scrreprt)              inconsistent.
+(scrreprt)              Because of this, you should remove `\end{appendix}'
+(scrreprt)              and replace `\begin{appendix}' by command
+(scrreprt)              `\appendix' on input line 261.
+
+\openout2 = `Chapters/090_appendix.aux'.
+
+(./Chapters/090_appendix.tex
+chapter A.
+<Images/Appendix/DRO_3D_VIS.png, id=1303, 1012.5328pt x 2162.8303pt>
+File: Images/Appendix/DRO_3D_VIS.png Graphic file (type png)
+<use Images/Appendix/DRO_3D_VIS.png>
+Package pdftex.def Info: Images/Appendix/DRO_3D_VIS.png  used on input line 53.
+(pdftex.def)             Requested size: 295.76514pt x 631.75903pt.
+
+LaTeX Warning: Float too large for page by 82.54568pt on input line 56.
+
+<Images/Appendix/DRO_2D_VIS.png, id=1304, 648.17157pt x 1318.9275pt>
+File: Images/Appendix/DRO_2D_VIS.png Graphic file (type png)
+<use Images/Appendix/DRO_2D_VIS.png>
+Package pdftex.def Info: Images/Appendix/DRO_2D_VIS.png  used on input line 63.
+(pdftex.def)             Requested size: 295.76514pt x 601.84372pt.
+
+LaTeX Warning: Float too large for page by 52.63037pt on input line 66.
+
+<Images/Appendix/DRO_2D_zeroshot_Vis.png, id=1305, 1300.86pt x 974.13937pt>
+File: Images/Appendix/DRO_2D_zeroshot_Vis.png Graphic file (type png)
+<use Images/Appendix/DRO_2D_zeroshot_Vis.png>
+Package pdftex.def Info: Images/Appendix/DRO_2D_zeroshot_Vis.png  used on input line 72.
+(pdftex.def)             Requested size: 549.28181pt x 411.33565pt.
+<Images/Appendix/TRIC_2D_slices.png, id=1306, 951.555pt x 1408.51219pt>
+File: Images/Appendix/TRIC_2D_slices.png Graphic file (type png)
+<use Images/Appendix/TRIC_2D_slices.png>
+Package pdftex.def Info: Images/Appendix/TRIC_2D_slices.png  used on input line 82.
+(pdftex.def)             Requested size: 422.52348pt x 625.4212pt.
+
+LaTeX Warning: Float too large for page by 35.40784pt on input line 85.
+
+<Images/Appendix/Blasto_Result.png, id=1307, 1517.67pt x 3288.285pt>
+File: Images/Appendix/Blasto_Result.png Graphic file (type png)
+<use Images/Appendix/Blasto_Result.png>
+Package pdftex.def Info: Images/Appendix/Blasto_Result.png  used on input line 91.
+(pdftex.def)             Requested size: 295.76514pt x 640.78651pt.
+
+Underfull \hbox (badness 1769) in paragraph at lines 92--92
+\T1/cmr/m/n/10.95 ori-ginal im-age. Left column: 'Blast_F2_008', Right column:
+ []
+
+
+LaTeX Warning: Float too large for page by 50.77315pt on input line 94.
+
+<Images/Appendix/SIM_results.png, id=1308, 1476.26532pt x 2018.29031pt>
+File: Images/Appendix/SIM_results.png Graphic file (type png)
+<use Images/Appendix/SIM_results.png>
+Package pdftex.def Info: Images/Appendix/SIM_results.png  used on input line 100.
+(pdftex.def)             Requested size: 422.52348pt x 577.65166pt.
+
+LaTeX Warning: Float too large for page by 1.2383pt on input line 103.
+
+) [9
+
+
+
+
+] [10] [11 <./Images/Appendix/DRO_3D_VIS.png>] [12 <./Images/Appendix/DRO_2D_VIS.png>] [13 <./Images/Appendix/DRO_2D_zeroshot_VIS.png>] [14 <./Images/Appendix/TRIC_2D_slices.png>] [15 <./Images/Appendix/Blasto_Result.png>] [16 <./Images/Appendix/SIM_results.png>] (./Thesis.aux (./Chapters/010_introduction.aux) (./Chapters/020_sota.aux) (./Chapters/030_methods.aux) (./Chapters/040_experiments.aux) (./Chapters/050_results.aux) (./Chapters/060_Discussion_and_Future_Work.aux) (./Chapters/090_appendix.aux))
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+ ***********
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package rerunfilecheck Info: File `Thesis.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+ ) 
+Here is how much of TeX's memory you used:
+ 49018 strings out of 474222
+ 1192774 string characters out of 5748733
+ 1955975 words of memory out of 5000000
+ 70095 multiletter control sequences out of 15000+600000
+ 588632 words of font info for 113 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 108i,21n,133p,10931b,1103s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx2488.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsl1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx2488.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on Thesis.pdf (94 pages, 43248107 bytes).
+PDF statistics:
+ 1700 PDF objects out of 1728 (max. 8388607)
+ 1371 compressed objects within 14 object streams
+ 380 named destinations out of 1000 (max. 500000)
+ 514 words of extra memory for PDF output out of 10000 (max. 10000000)
+
