@@ -1,7 +1,6 @@
 This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Thesis.aux
-A level-1 auxiliary file: Chapters/002_styleguidelines.aux
 A level-1 auxiliary file: Chapters/010_introduction.aux
 A level-1 auxiliary file: Chapters/020_sota.aux
 A level-1 auxiliary file: Chapters/030_methods.aux
@@ -15,49 +14,48 @@ Warning--I didn't find a database entry for "ctc"
 Warning--I didn't find a database entry for "Segformer"
 Warning--I didn't find a database entry for "CellposeSAM"
 Warning--I didn't find a database entry for "eschweiler"
-Warning--I didn't find a database entry for "Primus"
-Warning--I didn't find a database entry for "3dfeautreslicingpaper"
 Warning--I didn't find a database entry for ""
+Warning--I didn't find a database entry for "He"
 Warning--empty booktitle in inproceedings
-You've used 32 entries,
+You've used 39 entries,
             1876 wiz_defined-function locations,
-            653 strings with 16287 characters,
-and the built_in function-call counts, 12326 in all, are:
-= -- 597
-> -- 1638
+            680 strings with 18047 characters,
+and the built_in function-call counts, 14026 in all, are:
+= -- 701
+> -- 1814
 < -- 0
-+ -- 556
-- -- 524
-* -- 1287
-:= -- 2251
-add.period$ -- 32
-call.type$ -- 32
-change.case$ -- 31
++ -- 617
+- -- 578
+* -- 1445
+:= -- 2548
+add.period$ -- 39
+call.type$ -- 39
+change.case$ -- 38
 chr.to.int$ -- 0
-cite$ -- 33
-duplicate$ -- 303
-empty$ -- 696
-format.name$ -- 524
-if$ -- 2519
+cite$ -- 40
+duplicate$ -- 357
+empty$ -- 827
+format.name$ -- 578
+if$ -- 2888
 int.to.chr$ -- 0
-int.to.str$ -- 32
-missing$ -- 15
-newline$ -- 100
-num.names$ -- 36
-pop$ -- 174
+int.to.str$ -- 39
+missing$ -- 19
+newline$ -- 121
+num.names$ -- 43
+pop$ -- 206
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 244
+skip$ -- 275
 stack$ -- 0
-substring$ -- 242
-swap$ -- 109
+substring$ -- 270
+swap$ -- 121
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 1
-while$ -- 51
-width$ -- 34
-write$ -- 264
-(There were 9 warnings)
+while$ -- 60
+width$ -- 41
+write$ -- 320
+(There were 8 warnings)

@@ -1,7 +1,9 @@
 \chapter{Methods}
+\label{Methods}
 
+In this chapter, we introduce our approaches to tackle robust cell segmentation in 3D. First, we present all datasets used for pretraining, finetuning and evaluation of our resulting models, as the inductive bias incroperated from training has been shown to be as important as architectual design choices, to achieve generalizable models \cite{Pachitariu.2025}. For network design, we first sketch the outline of state-of-the-art networks on a high level, to present our architectual design choices made more intuitive. After inctroducing our proposed network designs, we dive into the training pipeline that we integrate for model pretraining and finetuning. Apart from the default pipeline, we will also propose a way to handle partially annotated training data. Finally, we will also discuss methods for true 3D training. 
 \section{Datasets}
-In this section, we introduce some important datasets used in this thesis for model training and performance evaluation. First, we present every datasets involved in pretraining of our models. For finetuning and inference, the most interesting dataset in the context of the research of this project is the 3D+t dataset of zebrafish embryo provided by the biologists at @todo.
+In this section, we introduce some important datasets used in this work for model training and performance evaluation. First, we present every datasets involved in pretraining of our models. After that, we introduce datasets for finetuning and performance evaluation.
 There are multiple challenges when working with these datasets. The most important challenge is the lack of annotated data. Even for fully annotated datasets, inter-annotator agreement is often an upper boundary for evaluation, as even for the specialist a clear annotation is sometimes not obvious. This can be due to a certain level of noise in the images or boundaries that are just inherently hard to define due to the cell type or imaging modality. This is especially the case for the non-synthetic data, provided by the Celltracking Challenge (CTC) \cite{ctc}. Next to limited annotations, 3D data can quickly blow up computational resources due to their large size. For this matter, some shifted window approach has to be considered, if the image size exceeds computational limits. Anisotropy can also can also lead to distortions in feature aquisition and performance impairments at inference, if not taken care of in each processing step. 
 
 \subsection{Pretraining Datasets}
@@ -75,7 +77,7 @@ The first dataset, \textit{BlastoSPIM 1.0}, primarily includes embryos from the 
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/Methods/BlastoSPIM.png}%
     }
-    \caption{Encoder embeddings of the train set clustered with k-mean and intuition of amlplified sampling \cite{LeCun.1989}.}
+    \caption{Encoder embeddings of the train set clustered with k-mean and intuition of amplified sampling \cite{LeCun.1989}.}
     \label{fig:slicing}
 \end{figure}
 
@@ -144,7 +146,7 @@ Another challenge with this dataset is not only that there is just one annotated
 
 
 \section{Mediar3D}
-
+\label{Mediar3D}
 In this section, we introduce a way of extending Mediar to 3D. First, we present a way of using predictions along different image reslices, to compute a 3D flow field, which can be post processed into 3D predictions. We will briefly introduce challenges that go along with this method and discuss the feasibility of extending Mediar to true 3D. This would correspond to an architecture that learns actual 3D features during training.
 
 \subsection{3D Flowfield Prediction}
@@ -221,18 +223,27 @@ D({\mathbf{F}_i}) = \hat{\mathbf{Y}} \in \mathbb{R}^{C\text{out} \times H \times
 
 where $C_\text{out}$ denotes the number of output channels, depending on the learning objective. In semantic segmentation, this corresponds to the number of semantic classes, with a softmax distribution assigning each pixel to a class. For cellular instance segmentation, the decoder instead maps the features to outputs such as flow fields or probability maps, which are subsequently post-processed into instance masks, as done in StarDist or Cellpose.
 
-Beyond this high-level network layout, which already involves many design decisions, each building block obviously contains numerous other parameters and layer configurations that must be carefully chosen. But focussing on the above mentioned high-level design criterions is important to keep track of the bigger picture when it comes to a large change in network layout, which will be presented in the following subsections. Understanding the changes made on the above described high-level layout, will make a seemingly completely new architecture, very tangible and the low-level design choices a lot more intuitive.
+Beyond this high-level network layout, which already involves many design decisions, each building block obviously contains numerous other parameters and layer configurations that must be carefully chosen. But focussing on the above mentioned high-level design criterions is important to keep track of the bigger picture when it comes to a large change in network layout, which will be presented in the following subsections. Understanding the changes made on the above described high-level layout, will make a seemingly completely new architecture, very tangible and the low-level design choices that go along with the new modules, a lot more intuitive.
 
-For instance, the authors of Cellpose launched a completely revised version of their network a few weeks after the start of my thesis. What seems to be a major rework of their repository, turns out to be just a few lines of code, as they barely touch the low-level components of the modules they take from established methods. So from a high-level view, they switched the CNN based encoder part of their network with the image encoder of SAM1, and used just a single 1x1 convolutional layer (along non-learnable layer to convert patch- to pixel space) to fuse their single resolutional feature map to the cellpose learning objective.
+For instance, the authors of Cellpose launched a completely revised version of their network a few weeks after the start of this project. What seems to be a major rework of their repository, turns out to be just a few lines of code, as they barely touch the low-level components of the modules they take from established methods. So from a high-level view, they switched the CNN based encoder part of their network with the image encoder of SAM1, and used just a single 1x1 convolutional layer (along non-learnable layer to convert patch- to pixel space) to fuse their single resolutional feature map to the cellpose learning objective.
 
 
 
 \subsection{SAM2 Encoder Registry}
 
+
 First, we want to setup experiments using the Hiera encoder of the SAM2 model instead of the SegFormer encoder blocks for the Mediar model. The SegFormer backbone blocks are composed of multiple Mix Transformer(MiT) blocks with consecutive overlapping patch merging, efficient self-attention and Mix-FFN, which provide multi-scale features due to the patch merging process at multiple stages. From a high-level perspective, the MiT B5 encoder blocks produce 4 feature maps with different channel sizes and spatial resolutions. 
-The Hiera image encoder is composed of standard ViT blocks, except global attention is replaced by Mask Unit Attention at shallow layers with high spatial resolution. A total of 3 pooling layers enables the encoder to output features at four different resolutions. This excatly matches the SegFormer encoder outputs on a high-level, except the feature maps produced by the Hiera encoder all have 256 channels, whereas the feature maps of the MiT B5 module all have increasing channel sizes for deeper feature maps. Note that also the default config used to build the SAM2 registry defines a parameter that makes the image encoder discard the lowest resolution feature after forwarding the neck, resulting in only 3 feature resolutions instead of 4. Hardcoding this value or editing the default registry config fixes this problem because the powerful pretrained weights from the SAM2 registry are not effected by the amount of feature outputs of the image encoder. This is because the features are computed in the forward pass regardless of the parameter that discards them afterwards by parameterized indexing in the neck forward function.
+
+The Hiera image encoder is composed of standard ViT blocks, except global attention is replaced by Mask Unit Attention at shallow layers with high spatial resolution. A total of 3 pooling layers enables the encoder to output features at four different resolutions. This excatly matches the SegFormer encoder outputs on a high-level, except the feature maps produced by the Hiera encoder wrapper of SAM2 converts all channel dimensions to 256, whereas the feature maps of the MiT B5 module all have increasing channel sizes for deeper feature maps. Note that also the default config used to build the SAM2 registry defines a parameter that makes the image encoder discard the lowest resolution feature after forwarding the neck, resulting in only 3 feature resolutions instead of 4. Hardcoding this value or editing the default registry config fixes this problem. This is possible without adapting any weights, as the features are computed in the forward pass regardless of the parameter that discards them afterwards by parameterized indexing in the neck forward function. Consequently, the powerful pretrained weights from the SAM2 Registry are not effected by the amount of feature outputs of the image encoder.
 
 \subsection{Merging SAM2 Image Encoder with Mediar}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Images/Graphics/MediarSAM.pdf}
+    \caption{Mediar + SAM2 Registry of Hiera Encoder. Figure adapted from \cite{lee2022mediarharmonydatacentricmodelcentric} \cite{ryali2023hierahierarchicalvisiontransformer}.}
+    \label{fig:myfigure}
+\end{figure}
 
 The actual integration of the SAM2 model into the Mediar network architecture is not too difficult if conducted carefully with debugging tools. Challenging aspects include dealing with cryptic, undocumented backend code of MA-Net and MixTransformer and more importantly, editing the MA-Net blocks with regard to numerical stability and compability with the SAM2 registry. Pseudo QKV operations in the PAB Block of the MA-Net decoder are now normed with respect to the embedding dimension as suggested in \ref{attentionisallyouneed}, to prevent float16 overflow in network training. Also, MA-Net assumes the first feature to be the encoder input image and thus discards the shallowest feature per default. This is now adjusted to match the backbone outputs from Hiera. Skip connections have been removed for the Decoder Block 1, as this block was connected to a dummy feature from the SegFormer output. 
 
@@ -246,7 +257,7 @@ The decoder blocks take a feature map as input and a skip connection from the en
 
 
 \section{Training Pipeline, Challenges and Solutions}
-
+\label{training pipeline}
 In this section we will analyse the training procedure of our networks. First, the general training pipeline is outlined, describing the main components. After setting the baseline for cellpose learning objective training, we will look into challenges that come along training with only partly annotated data. 
 
 \subsection{Training Pipeline}
@@ -332,13 +343,18 @@ While this approach sounds quite logical at first, there are a few issues. First
 
 \subsection{Feasibility of Extending Mediar to True 3D}
 
-Since the proposed network of Eschweiler et al. has shown great performance in learning true 3D features, by using 3D convolutional layers, it seems reasonable to extend the encoder and decoder components of Mediar to true 3D. While this would not be technically impossible, as previous work has successfully implemented 3D attention layers for image segmentation \cite{Primus}, global attention in 3D would severely influence computational complexity. More importantly, training these blocks from scratch would require a lot of annotated 3D training data, due to the lack of inductive bias in the architecture. We would ultimately lose the strong generalizable power from the heavily pretrained 2D encoders. Since pretraining data for 3D cellsegmentation is in the magnitudes of a few hundrets, this approach seems unlikely to succeed. As Carsen Stringer, the original author of cellpose suggests, CNNs would definetely be more suitable for training a true 3D cellpose variant from scratch because of the above mentioned reasons.
+Since the proposed network of Eschweiler et al. has shown great performance in learning true 3D features, by using 3D convolutional layers, it seems reasonable to extend the encoder and decoder components of Mediar to true 3D. While this would not be technically impossible, as previous work has successfully implemented 3D attention layers for image segmentation \cite{wald2025primusenforcingattentionusage}, global attention in 3D would severely influence computational complexity. More importantly, training these blocks from scratch would require a lot of annotated 3D training data, due to the lack of inductive bias in the architecture. We would ultimately lose the strong generalizable power from the heavily pretrained 2D encoders. Since pretraining data for 3D cellsegmentation is in the magnitudes of a few hundrets, this approach seems unlikely to succeed. As Carsen Stringer, the original author of cellpose suggests, CNNs would definetely be more suitable for training a true 3D cellpose variant from scratch because of the above mentioned reasons.
 
 \subsection{Hybrid Approach for Learning True 3D Features}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Images/Graphics/Cellpose3D.pdf}
+    \caption{3D feature network. Figure adapted from \cite{Stringer.2020} \cite{bui2024sam3dsegmentmodelvolumetric}.}
+    \label{fig:myfigure}
+\end{figure}
+In this subsection, we present a different approach for learning true 3D features. We adapt the design of xy et al \cite{bui2024sam3dsegmentmodelvolumetric}, who keep the strong pretaining power of a foundational encoder and train a seperate 3D convolutional decoder to learn 3D features based on the forwarded slices of the 2D encoder.
 
-In this subsection, we present a different approach for learning true 3D features. We adapt the design of xy et al \cite{3dfeautreslicingpaper}, who keep the strong pretaining power of a foundational encoder and train a seperate 3D convolutional decoder to learn 3D features based on the forwarded slices of the 2D encoder.
-
-Specifically, they used the SAM1 image encoder registry as the encoder and a lightweight decoder. The input image
+Specifically, they used the SAM1 image encoder registry as the encoder and a lightweight decoder, which is depicted in figure \ref{fig:3d_decoder_featurenet}. The input image
 \(
 I \in \mathbb{R}^{H \times W \times D}
 \) 
@@ -366,6 +382,18 @@ $\hat{Y} = \text{block}(F)$
 \RETURN $\hat{Y}$
 \end{algorithmic}
 \end{algorithm}
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/Methods/3d_decoder_medsam.png}%
+    }
+    \caption{Lightweight 3D decoder as presented in \cite{bui2024sam3dsegmentmodelvolumetric}.}
+    \label{fig:3d_decoder_featurenet}
+\end{figure}
+
+
 To further tailor this method for our purpose, we take not only the pretrained SAM1 image encoder registry, but also use the weights from the pretrained CellposeSAM encoder, that should already be quite potent for providing cell segmentation slice embeddings. We therefore dont need to train the encoder seperately and freeze the weights completely, while training the 3D decoder from scratch. 
+
 
 Although this approach performed well on medical image segmentation, there are still some potential drawbacks of this hybrid method. As the 3D decoder is trained from scratch, a lot of 3D annotated data will be needed which is not always available for specific datasets. Also, strong performance across multiple modalities, particularly on modalities not present during training, is not expected for the amount of pretraining data available. Potential cures for that matter could be diffusion models that synthesize large amounts of fully annotated training data. This has not yet been tested.

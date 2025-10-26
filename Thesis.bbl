@@ -46,8 +46,29 @@ M.~Pachitariu, M.~Rariden, and C.~Stringer, ``Cellpose-sam: superhuman generaliz
 \bibitem{LeCun.1989}
 Y.~LeCun, B.~Boser, J.~Denker, D.~Henderson, R.~Howard, W.~Hubbard, and L.~Jackel, ``Handwritten digit recognition with a back-propagation network,'' in {\em Advances in Neural Information Processing Systems} (D.~Touretzky, ed.), vol.~2, Morgan-Kaufmann, 1989.
 
+\bibitem{bui2024sam3dsegmentmodelvolumetric}
+N.-T. Bui, D.-H. Hoang, M.-T. Tran, G.~Doretto, D.~Adjeroh, B.~Patel, A.~Choudhary, and N.~Le, ``Sam3d: Segment anything model in volumetric medical images,'' 2024.
+
+\bibitem{fischmankeratinocytes}
+S.~Fischman, J.~Pérez~Anker, L.~Tognetti, A.~Naro, M.~Suppa, E.~Cinotti, T.~Viel, J.~Monnier, P.~Rubegni, V.~Del~Marmol, J.~Malvehy, S.~Puig, A.~Dubois, and J.~Perrot, ``Non-invasive scoring of cellular atypia in keratinocyte cancers in 3d lc-oct images using deep learning,'' {\em Scientific Reports}, vol.~12, 01 2022.
+
+\bibitem{Betjes2024.10.11.617799}
+M.~A. Betjes, S.~J. Tans, and J.~S. van Zon, ``Cell tracking with accurate error prediction,'' {\em bioRxiv}, 2024.
+
+\bibitem{Stegmaier16}
+J.~Stegmaier, F.~Amat, W.~Lemon, K.~McDole, Y.~Wan, G.~Teodoro, R.~Mikut, and P.~Keller, ``Real-time three-dimensional cell segmentation in large-scale microscopy data of developing embryos,'' {\em Developmental Cell}, vol.~36, pp.~225--240, 01 2016.
+
+\bibitem{Zhang2024.04.05.588365}
+X.~Zhang, Z.~Lin, L.~Wang, Y.~S. Chu, Y.~Yang, X.~Xiao, Y.~Lin, and Q.~Liu, ``Swincell: a transformer-based framework for dense 3d cellular segmentation,'' {\em bioRxiv}, 2024.
+
+\bibitem{inproceedings}
+S.~Beucher and C.~Lantuéjoul, ``Use of watersheds in contour detection,'' vol.~132, 01 1979.
+
 \bibitem{Krizhevsky.2012}
 A.~Krizhevsky, I.~Sutskever, and G.~E. Hinton, ``Imagenet classification with deep convolutional neural networks,'' in {\em Advances in Neural Information Processing Systems} ({F. Pereira}, {C.J. Burges}, {L. Bottou}, and {K.Q. Weinberger}, eds.), vol.~25, {Curran Associates, Inc}, 2012.
+
+\bibitem{he2018maskrcnn}
+K.~He, G.~Gkioxari, P.~Dollár, and R.~Girshick, ``Mask r-cnn,'' 2018.
 
 \bibitem{he2015deepresiduallearningimage}
 K.~He, X.~Zhang, S.~Ren, and J.~Sun, ``Deep residual learning for image recognition,'' 2015.
@@ -57,12 +78,6 @@ F.~Yu and V.~Koltun, ``Multi-scale context aggregation by dilated convolutions,'
 
 \bibitem{su2023boostingconvolutionalneuralnetworks}
 Z.~Su, J.~Zhang, T.~Liu, Z.~Liu, S.~Zhang, M.~Pietikäinen, and L.~Liu, ``Boosting convolutional neural networks with middle spectrum grouped convolution,'' 2023.
-
-\bibitem{he2018maskrcnn}
-K.~He, G.~Gkioxari, P.~Dollár, and R.~Girshick, ``Mask r-cnn,'' 2018.
-
-\bibitem{inproceedings}
-S.~Beucher and C.~Lantuéjoul, ``Use of watersheds in contour detection,'' vol.~132, 01 1979.
 
 \bibitem{openai2024gpt4technicalreport}
 OpenAI, J.~Achiam, S.~Adler, S.~Agarwal, L.~Ahmad, I.~Akkaya, F.~L. Aleman, D.~Almeida, J.~Altenschmidt, S.~Altman, S.~Anadkat, R.~Avila, I.~Babuschkin, S.~Balaji, V.~Balcom, P.~Baltescu, H.~Bao, M.~Bavarian, J.~Belgum, I.~Bello, J.~Berdine, G.~Bernadett-Shapiro, C.~Berner, L.~Bogdonoff, O.~Boiko, M.~Boyd, A.-L. Brakman, G.~Brockman, T.~Brooks, M.~Brundage, K.~Button, T.~Cai, R.~Campbell, A.~Cann, B.~Carey, C.~Carlson, R.~Carmichael, B.~Chan, C.~Chang, F.~Chantzis, D.~Chen, S.~Chen, R.~Chen, J.~Chen, M.~Chen, B.~Chess, C.~Cho, C.~Chu, H.~W. Chung, D.~Cummings, J.~Currier, Y.~Dai, C.~Decareaux, T.~Degry, N.~Deutsch, D.~Deville, A.~Dhar, D.~Dohan, S.~Dowling, S.~Dunning, A.~Ecoffet, A.~Eleti, T.~Eloundou, D.~Farhi, L.~Fedus, N.~Felix, S.~P. Fishman, J.~Forte, I.~Fulford, L.~Gao, E.~Georges, C.~Gibson, V.~Goel, T.~Gogineni, G.~Goh, R.~Gontijo-Lopes, J.~Gordon, M.~Grafstein, S.~Gray, R.~Greene, J.~Gross, S.~S. Gu, Y.~Guo, C.~Hallacy, J.~Han, J.~Harris, Y.~He, M.~Heaton, J.~Heidecke, C.~Hesse, A.~Hickey, W.~Hickey, P.~Hoeschele, B.~Houghton, K.~Hsu, S.~Hu, X.~Hu, J.~Huizinga, S.~Jain, S.~Jain, J.~Jang, A.~Jiang, R.~Jiang, H.~Jin, D.~Jin, S.~Jomoto, B.~Jonn, H.~Jun, T.~Kaftan, Łukasz Kaiser, A.~Kamali, I.~Kanitscheider, N.~S. Keskar, T.~Khan, L.~Kilpatrick, J.~W. Kim, C.~Kim, Y.~Kim, J.~H. Kirchner, J.~Kiros, M.~Knight, D.~Kokotajlo, Łukasz Kondraciuk, A.~Kondrich, A.~Konstantinidis, K.~Kosic, G.~Krueger, V.~Kuo, M.~Lampe, I.~Lan, T.~Lee, J.~Leike, J.~Leung, D.~Levy, C.~M. Li, R.~Lim, M.~Lin, S.~Lin, M.~Litwin, T.~Lopez, R.~Lowe, P.~Lue, A.~Makanju, K.~Malfacini, S.~Manning, T.~Markov, Y.~Markovski, B.~Martin, K.~Mayer, A.~Mayne, B.~McGrew, S.~M. McKinney, C.~McLeavey, P.~McMillan, J.~McNeil, D.~Medina, A.~Mehta, J.~Menick, L.~Metz, A.~Mishchenko, P.~Mishkin, V.~Monaco, E.~Morikawa, D.~Mossing, T.~Mu, M.~Murati, O.~Murk, D.~Mély, A.~Nair, R.~Nakano, R.~Nayak, A.~Neelakantan, R.~Ngo, H.~Noh, L.~Ouyang, C.~O'Keefe, J.~Pachocki, A.~Paino, J.~Palermo, A.~Pantuliano, G.~Parascandolo, J.~Parish, E.~Parparita, A.~Passos, M.~Pavlov, A.~Peng, A.~Perelman, F.~de~Avila Belbute~Peres, M.~Petrov, H.~P. de~Oliveira~Pinto, Michael, Pokorny, M.~Pokrass, V.~H. Pong, T.~Powell, A.~Power, B.~Power, E.~Proehl, R.~Puri, A.~Radford, J.~Rae, A.~Ramesh, C.~Raymond, F.~Real, K.~Rimbach, C.~Ross, B.~Rotsted, H.~Roussez, N.~Ryder, M.~Saltarelli, T.~Sanders, S.~Santurkar, G.~Sastry, H.~Schmidt, D.~Schnurr, J.~Schulman, D.~Selsam, K.~Sheppard, T.~Sherbakov, J.~Shieh, S.~Shoker, P.~Shyam, S.~Sidor, E.~Sigler, M.~Simens, J.~Sitkin, K.~Slama, I.~Sohl, B.~Sokolowsky, Y.~Song, N.~Staudacher, F.~P. Such, N.~Summers, I.~Sutskever, J.~Tang, N.~Tezak, M.~B. Thompson, P.~Tillet, A.~Tootoonchian, E.~Tseng, P.~Tuggle, N.~Turley, J.~Tworek, J.~F.~C. Uribe, A.~Vallone, A.~Vijayvergiya, C.~Voss, C.~Wainwright, J.~J. Wang, A.~Wang, B.~Wang, J.~Ward, J.~Wei, C.~Weinmann, A.~Welihinda, P.~Welinder, J.~Weng, L.~Weng, M.~Wiethoff, D.~Willner, C.~Winter, S.~Wolrich, H.~Wong, L.~Workman, S.~Wu, J.~Wu, M.~Wu, K.~Xiao, T.~Xu, S.~Yoo, K.~Yu, Q.~Yuan, W.~Zaremba, R.~Zellers, C.~Zhang, M.~Zhang, S.~Zhao, T.~Zheng, J.~Zhuang, W.~Zhuk, and B.~Zoph, ``Gpt-4 technical report,'' 2024.
@@ -96,5 +111,11 @@ J.~C. Caicedo, A.~Goodman, K.~W. Karhohs, B.~A. Cimini, J.~Ackerman, M.~Haghighi
 
 \bibitem{Stringer.2025}
 C.~Stringer and M.~Pachitariu, ``Benchmarking cellular segmentation methods against cellpose,'' {\em bioRxiv}, 2025.
+
+\bibitem{wald2025primusenforcingattentionusage}
+T.~Wald, S.~Roy, F.~Isensee, C.~Ulrich, S.~Ziegler, D.~Trofimova, R.~Stock, M.~Baumgartner, G.~Köhler, and K.~Maier-Hein, ``Primus: Enforcing attention usage for 3d medical image segmentation,'' 2025.
+
+\bibitem{eschweiler2022robust3dcellsegmentation}
+D.~Eschweiler, R.~S. Smith, and J.~Stegmaier, ``Robust 3d cell segmentation: Extending the view of cellpose,'' 2022.
 
 \end{thebibliography}

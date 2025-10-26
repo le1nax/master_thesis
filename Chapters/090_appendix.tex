@@ -1,9 +1,7 @@
 %\section{Appendix}
 
 
-\chapter{Erstes Anhang-Kapitel} \label{anhang_1}
-
-Tja, hier schreibst du halt deinen Anhang rein. Bei der Gelegenheit: Falls du mal Python-Code schreiben musst, dafür gibt es lustige Funktionen, die ich in der thesis.tex definiert habe. Zum Beispiel für \pythoninline{in line code ()} und auch für ein ganzes Listing:
+\chapter{Appendix} \label{anhang_1}
 
 
 \begin{algorithm}
@@ -46,3 +44,67 @@ Tja, hier schreibst du halt deinen Anhang rein. Bei der Gelegenheit: Falls du ma
 \RETURN $M$
 \end{algorithmic}
 \end{algorithm}
+
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=0.7\textwidth]{Images/Appendix/DRO_3D_VIS.png}%
+    }
+    \caption{3D Renderings of DRO 02 sequence, timstamp 000. All models have been trained on 1000 ROIs with masked loss. a: original image, b: Mediar3D + ext. pretraining (0.72 SEG), c: Mediar3D + SAM2 Encoder (0.72 SEG), d: Mediar3D + paper weights (0.78 SEG). Artifacts in this prediction are probably due to clipping edges from manual image cropping around the primordium, done by the challenge authors for smaller file sizes.}
+    \label{fig:DRO_3D_VIS}
+\end{figure}
+
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=0.7\textwidth]{Images/Appendix/DRO_2D_VIS.png}%
+    }
+    \caption{Z-slice 52 prediction overlays of DRO 02 sequence, timstamp 000. All models have been trained on 1000 ROIs with masked loss. a: original image, b: Mediar3D + ext. pretraining (0.72 SEG), c: Mediar3D + SAM2 Encoder (0.72 SEG), d: Mediar3D + paper weights (0.78 SEG). Artifacts in this prediction are probably due to clipping edges from manual image cropping around the primordium, done by the challenge authors for smaller file sizes.}
+    \label{fig:DRO_2D_Vis}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.3\textwidth]{Images/Appendix/DRO_2D_zeroshot_Vis.png}%
+    }
+    \caption{Zeroshot predictions on z-slice 52 of DRO 02 sequence, timstamp 000. a: Original Image, b: Mediar3D + ext. pretraining (0.74 SEG), c: Mediar3D + SAM2 Encoder (0.66 SEG), d: Mediar3D + paper weights (0.78 SEG), e: CellposeSAM (No SEG, as SEG is calculated as average from all labeled instances across all timestamps in the 02 sequence. Predicting all timestamps in the 02 sequence would be too expensive due to high inference time for CellposeSAM).}
+    \label{fig:DRO_2D_zeroshot_Vis}
+\end{figure}
+
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/Appendix/TRIC_2D_slices.png}%
+    }
+    \caption{Prediction overlay on z-slice 12 of TRIC 02 sequence, timstamp 001. Mediar3D + ext. pretraining: 0.81 SEG @10 ROIs finetuning, Mediar3D + SAM2 Encoder: 0.65 SEG @10,000 ROIs finetuning, Mediar3D + paper weights 0.81 SEG @10,000 ROIs finetuning}
+    \label{fig:TRIC_2D_slices.png}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=0.7\textwidth]{Images/Appendix/Blasto_Result.png}%
+    }
+    \caption{BlastoSPIM result images, 3D rendered predictions overlayed with original image. Left column: 'Blast\_F2\_008', Right column: 'Blast\_H1\_009'. model finetuning ROI stages and thresholds were manually selected for best case per model.}
+    \label{fig:BlastoResults.png}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \makebox[\textwidth]{%
+    \includegraphics[width=1.0\textwidth]{Images/Appendix/SIM_results.png}%
+    }
+    \caption{Synthetic CTC result images, 3D rendered predictions overlayed with original image. All models were trained on 100000 ROIs at were evaluated on a cellprobability threshold of 0.5. As statistics of the 01 and 02 sequences correlate a lot, all models achieved SEG scores around 0.85-0.90. }
+    \label{fig:SimResults.png}
+\end{figure}
+
+
+
+
+
+
+
