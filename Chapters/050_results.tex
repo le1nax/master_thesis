@@ -23,18 +23,18 @@ In this chapter, we present the results of the conducted experiments. First, we 
     \label{fig:Blasto_thresholds}
 \end{figure}
 
-First, we evaluate the performance of our models on the synthetic CTC and BlastoSPIM data. As suspected based on ongoing testing while developing the 3D extension for Mediar, the cellprobability threshold seems troubling the overall robustness of the network. We noticed a large spread in performance for different cellprobability values. We therefore evaluate the min, max and median SEG-scores for the CTC SIM and BlastoSPIM test set over a wide range of cellprobability thresholds. 
+First, we evaluate the performance of our models on the synthetic CTC and BlastoSPIM data. As suspected based on ongoing testing while developing the 3D extension for Mediar, the cellprobability threshold seems to trouble the overall robustness of the network. We noticed a large spread in performance for different cellprobability values. We therefore evaluate the min, max and median SEG-scores on the CTC SIM and BlastoSPIM test set over a wide range of cellprobability thresholds. 
 
 
 
 As depicted in Figure \ref{fig:SIM_thresholds} and \ref{fig:Blasto_thresholds}, all Mediar 3D extensions struggle with a certain range of thresholds. While general statements are difficult to conclude based on two test sets, the data suggests that higher thresholds (in the range of [0.1, 0.9]) for the models with extended pretraining (>25k images) seem to score the best performance. Mediar with weights from the paper, by contrast, appears to perform best for thresholds in range of (0, 0.01]. Surprisingly, CellposeSAM seems to be very robust for all thresholds. 
-Figure \ref{fig:SIM_thresholds} and \ref{fig:Blasto_thresholds} also show min and max ranges for inference on the test set. While outliers seem to be handled by longer training in the SIM data, some test images in the BlastoSPIM test set seem to remain difficult for all networks. Specifically, Blast\ 'F2\_008', 'H1\_009' and 'T1\_000' seem to have low correlation to the train image, as those images are mostly outliers in SEG-Scores. We decided to not remove them from the test set, because not all networks struggle with all images simultaneously. Mediar with extended pretraining for instance, has no heavy outliers for finetuned checkpoints at low thresholds, as well as the zero-shot model at higher thresholds. Interestingly, the Mediar model with the SAM2 encoder seems to not generalize to all test images even after a substantial amount of finetuning, while CellposeSAM even scores ~0 SEG-Scores on some test images for all training stages. The outlier cases can be seen in appendix Figure \ref{}
+Figure \ref{fig:SIM_thresholds} and \ref{fig:Blasto_thresholds} also show minimum and maximum ranges for inference on the test set. While outliers seem to be handled by longer training in the SIM data, some test images in the BlastoSPIM test set seem to remain difficult for all networks. Specifically, Blast\ 'F2\_008', 'H1\_009' and 'T1\_000' seem to have low correlation to the train image, as those images are mostly outliers in SEG-scores. We decided to not remove them from the test set, because not all networks struggle with all images simultaneously. Mediar with extended pretraining for instance, has no heavy outliers for finetuned checkpoints at low thresholds, as well as the zero-shot model at higher thresholds. Interestingly, the Mediar model with the SAM2 encoder seems to not generalize to all test images even after a substantial amount of finetuning, while CellposeSAM even scores ~0 SEG-scores on some test images for all training stages. The outlier cases are visualized in appendix Figure \ref{fig:BlastoResults}.
 \begin{figure}[!ht]
     \centering
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/Results/ROI_SIM.png}%
     }
-    \caption{Boxplots for network SEG-Scores for the CTC SIM test set, at different orders of magnitude of ROIs seen during training.}
+    \caption{Boxplots for network SEG-scores on the CTC SIM test set, at different orders of magnitude of ROIs seen during training.}
     \label{fig:ROI_SIM}
 \end{figure}
 
@@ -43,22 +43,56 @@ Figure \ref{fig:SIM_thresholds} and \ref{fig:Blasto_thresholds} also show min an
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/Results/ROIplot_BLASTO.png}%
     }
-    \caption{Boxplots for network SEG-Scores on the BlastoSPIM test set, at different orders of magnitude of ROIs seen during training.}
+    \caption{Boxplots for network SEG-scores on the BlastoSPIM test set, at different orders of magnitude of ROIs seen during training.}
     \label{fig:ROIplot_BLASTO}
 \end{figure}
 
+We compare the top performance of each model along with the zero-shot performance on the fully annotated datasets in table \ref{tab:results_fully_annotated}.
+\begin{table}[h]
+    \centering
+    \caption{Median SEG-scores on Fully Annotated Data}
+    \label{tab:results_fully_annotated}
+    \setlength{\tabcolsep}{8pt} 
+    
+    % The column definition: c | l c c | c c 
+    % The first column is for the vertical row descriptor.
+    \begin{tabular}{c|l c c !{\vrule width 1pt} c c} 
+        \toprule
+        \multirow{2}{*}{\makecell[c]{}} % Empty cell for the vertical descriptor column header
+        & \multirow{2}{*}{Model} & \multicolumn{2}{c}{\textbf{Fluo-N3DH-SIM}} & \multicolumn{2}{c}{\textbf{BlastoSPIM}} \\
+        \cmidrule(lr){3-4} \cmidrule(lr){5-6} % Note the column range change (starts from 3 now)
+        & & Finetuned & Zero-Shot & Finetuned & Zero-Shot \\
+        \midrule
+        
+        % --- MEDIAR BLOCK (2 ROWS) ---
+        \multirow{2}{*}{\rotatebox[origin=c]{90}{Mediar  }}
+        & Ext. Pretraining & \textbf{0.891} & 0.803 & 0.604 & \textbf{0.492} \\
+        % \cline{2-6} <--- REMOVED
+        & SAM2 Encoder & 0.885 & 0.774 & 0.483 & 0.284 \\
+        
+        & Paper Weights & 0.875 & 0.572 & \textbf{0.686} & 0.389 \\
+        \midrule
+        
+        % --- SECOND BLOCK (2 ROWS) ---
+        \multirow{2}{*}{\rotatebox[origin=c]{90}{}} % Changed rotation angle and added a label for clarity
+        % \cline{2-6} <--- REMOVED
+        & CellposeSAM & 0.887 & \textbf{0.823} & 0.532 & 0.392 \\
+        
+        \bottomrule
+    \end{tabular}
+\end{table}
+To illustrate generalization capabilities of the models, Figure \ref{fig:ROI_SIM} and \ref{fig:ROIplot_BLASTO} show the model SEG-score progression on the CTC SIM and BlastoSPIM test set at different orders of magnitudes for ROIs seen during training. As expected, all models fit well to the statistics of the training set for the synthetic CTC data, resulting in a high score after a few hundred ROIs of training. As the test set is highly correlated with the train set, there is also very low variance in performance and outliers are practically not existent anymore after a few training iterations. For the zero-shot performance, it can be seen that the Mediar extension with weights from the original paper is the only network that is significantly lower than the others. This is because the network tends to over-segment smaller shapes within instances. We believe that the high inductive bias from the extended pretraining conducted by the other networks handles this issue, although it is hard to trace which pretraining dataset is responsible for the matching statistics of the test dataset and the pretraining dataset. 
 
-To illustrate generalization capabilities of the models, Figure \ref{fig:ROI_SIM} and \ref{fig:ROIplot_BLASTO} show the model SEG-score progression on the CTC SIM and BlastoSPIM test set at different orders of magnitudes for ROIs seen during training. As expected, all models fit well to the statistics of the training set for the synthetic CTC data, resulting in a high score after a few hundred ROIs of training. As the test set is highly correlated with the train set, there is also very low variance in performance and outliers are practically not existent anymore after a few training iterations. For the zero-shot performance, it can be seen that the Mediar extension with weights from the original paper is the only network that is significantly lower than the others. This is because the network tends to oversegment smaller shapes within instances. We believe that the high inductive bias from the extended pretraining conducted by the other networks handles this issue, although it is hard to trace which pretraining dataset is responsible for the matching statistics of the test dataset and the pretraining dataset. 
 
 
+The BlastoSPIM test set, on the other hand, seems to have low correlation to the training image for some test instances. Even large amounts of finetuning iterations do not seem to teach the models the inductive bias needed to perform well on some test images, which is somewhat surprising, given that visually all images of the BlastoSPIM datasets look very similar to the human eye. Note that the variance of performance might look overly large, as it is possible that quartiles become thinner for a larger amount of test samples. Although unlikely, it is possible that the few existing images of the dataset that cause trouble are included in our small test set (N=10) and consequently results are skewed.
 
-The BlastoSPIM test set on the other hand, seems to have low correlation to the training image for some test instances. Even large amounts of finetuning iterations do not seem to teach the models the inductive bias needed to perform well on some test images, which is somewhat surprising, given that visually all images of the BlastoSPIM datasets look very similar to the human eye. Note, that the variance of performance might look overly large, as it is possible that quartiles become thinner for a larger amount of test samples. Although unlikely, it is possible that the few existing images of the dataset that cause trouble are included in our small test set (N=10) and consequently results are skewed.
 
 
 
 \section{Benchmarking on Partially Annotated Datasets}
 
-In this section we investigate the models trained on the partially labeled CTC datasets DRO and TRIC. Similar to our analyses on the fully annotated datasets, we first want to inspect network performances with varying cellprobability thresholds. In a similar fashion, we therefore plot min, max and median SEG-Scores on DRO and TRIC for a range of threshold values and models in Figure \ref{fig:Thresholds_DRO_merged} and \ref{fig:Thresholds_TRIC_merged}, respectively. 
+In this section we investigate the models trained on the partially labeled CTC datasets DRO and TRIC. Similarly to our analyses on the fully annotated datasets, we first want to inspect network performance with varying cellprobability thresholds. In a similar fashion, we therefore plot min, max and median SEG-scores on DRO and TRIC for a range of threshold values and models in Figure \ref{fig:Thresholds_DRO_merged} and \ref{fig:Thresholds_TRIC_merged}, respectively. 
 
 \begin{figure}[!ht]
     \centering
@@ -77,7 +111,7 @@ In this section we investigate the models trained on the partially labeled CTC d
     \caption{Network performance on the TRIC 02 sequence, evaluated for different cellprobability thresholds.}
     \label{fig:Thresholds_TRIC_merged}
 \end{figure}
-Most noticeably, the trend of highly unstable performance for different thresholds across the networks can be seen for the CTC data too. While the Mediar extensions with advanced pretraining (SAM2 Encoder extension and default Mediar, retrained from scratch) seem to all have a stable, well performing zero-shot accuracy at a threshold of 0.1, the performance for the Mediar network at paper checkpoint appears to have no stable threshold. For all models, fine-tuned statistics shift the performance for different thresholds to seemingly arbitrarily directions, depending on dataset, amount of training and training method. For DRO specifically, the network performance drops significantly at higher thresholds, for all models with 1000 ROIs finetuning, while improving accuracy compared to zero-shot, when post-processed at lower thresholds. A similar observation can be made for the TRIC sequence, where performance degrades compared to zero-shot for higher thresholds (0.3, 1] after 1000 ROIs seen during training. For the experiments conducted for the partially labeled trainings, it can be also concluded that peak performance (max performance at any threshold) is not always increased for all networks and datasets. While for lower thresholds, the networks appear to always improve, cases exist where the pretraining checkpoint (zero-shot) performs even better than the finetuned model trained with masked loss. This might also raise the question, if checkpointing with IoU based metrics are even suitable for network validation, as they seem to not represent peak performance at certain states, given they are fixed to one cellprobability threshold. Loss based checkpointing on the other hand, seems invariant to post-processing parameters like the cellprobability threshold. However, Figure \ref{fig:loss_progression} suggests definite network improvement based on losses. Note that validation is also masked due to incomplete annotations. Also, the ambiguity of the loss progression compared to test time performance might be because of untuned loss ratio scaling in combined loss training. It might be, that the flow head dominates the optimizer, although each feature contribution (flow, cellprobability map) is unclear, concerning actual segmentation performance after postprocessing. To cope with uncertainty of importance of each segmentation head regarding loss contributions, it might be advisable to balance the loss contributions dynamically in training.
+Most noticeably, the trend of highly unstable performance for different thresholds across the networks can be seen on the CTC data, too. While the Mediar extensions with advanced pretraining (SAM2 Encoder extension and default Mediar, retrained from scratch) seem to all have a stable, well performing zero-shot accuracy at a threshold of 0.1, the performance for the Mediar network at paper checkpoint appears to have no stable threshold. For all models, fine-tuned statistics shift the performance for different thresholds to seemingly arbitrary directions, depending on dataset, amount of training and training method. For DRO specifically, the network performance drops significantly at higher thresholds, for all models with 1000 ROIs finetuning, while improving accuracy compared to zero-shot, when post-processed at lower thresholds. A similar observation can be made for the TRIC sequence, where performance degrades compared to zero-shot for higher thresholds of (0.3, 1] after 1000 ROIs seen during training. For the experiments conducted for the partially labeled training, it can be also concluded that peak performance (max performance at any threshold) is not always increased for all networks and datasets. While for lower thresholds, the networks appear to always improve, cases exist where the pretraining checkpoint (zero-shot) performs even better than the finetuned model trained with masked loss. This might also raise the question, if checkpointing with IoU based metrics are even suitable for network validation, as they seem to not represent peak performance at certain states, given they are fixed to one cellprobability threshold. Loss based checkpointing on the other hand, seems invariant to post-processing parameters like the cellprobability threshold. However, Figure \ref{fig:loss_progression} suggests definite network improvement based on losses. Note that validation is also masked due to incomplete annotations. Also, the ambiguity of the loss progression compared to test time performance might be because of untuned loss ratio scaling in combined loss training. It might be, that the flow head dominates the optimizer, although each feature contribution (flow, cellprobability map) is unclear, concerning actual segmentation performance after postprocessing. To cope with the uncertainty of importance of each segmentation head regarding loss contributions, it might be advisable to balance the loss contributions dynamically in training.
 
 
 \begin{figure}[!ht]
@@ -85,7 +119,7 @@ Most noticeably, the trend of highly unstable performance for different threshol
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/Results/ROI_DRO.png}%
     }
-    \caption{Boxplots for network SEG-Scores on the DRO 02 sequence, at different orders of magnitude of ROIs seen during training.}
+    \caption{Boxplots for network SEG-scores on the DRO 02 sequence, at different orders of magnitude of ROIs seen during training.}
     \label{fig:ROI_DRO}
 \end{figure}
 
@@ -94,38 +128,68 @@ Most noticeably, the trend of highly unstable performance for different threshol
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/Results/ROI_TRIC.png}%
     }
-    \caption{Boxplots for network SEG-Scores on the TRIC 02 sequence, at different orders of magnitude of ROIs seen during training.}
+    \caption{Boxplots for network SEG-scores on the TRIC 02 sequence, at different orders of magnitude of ROIs seen during training.}
     \label{fig:ROI_TRIC}
 \end{figure}
 
-As for the fully annotated training, we also want to analyse segmentation performance for the masked loss training by comparing SEG boxplot statistics for pretrained and finetuned models. As depicted in Figure \ref{fig:ROI_DRO}, for the DRO sequence, it can be concluded that performance increases for small, fixed thresholds. Although the figure might be misleading, because it implies improving network performance for all configurations, it represents a proof of concept for partially labeled training. In general, a more representative way of showing progressive network improvement with masked training would be, to plot peak network performance over ROIs seen in training. While this cures the problem of mispresentation in case of higher network performance on other thresholds than the one picked for plotting, dynamically adjusting thresholds for different training stages would suggest that the knowledge of the peak performance is known for all training stage. The best solution would be, to auto-tune the threshold while training with a dedicated validation split. Consequently at test time, when no ground truth is known, the threshold can be picked based on the heuristics of the training. For the TRIC data, it can be seen that training barely improves network performance on the test data. After a few epochs, the training seems to improve a little. Drawing general conclusions on this dataset however is hard, due to the very limited training and test data. Nevertheless it can be concluded that performance is quite good compared to top submissions on the CTC benchmark which score  similar SEG-scores.  
+Similiar to our evaluation method for the fully annotated training, we also want to analyse segmentation performance for the masked loss training by comparing SEG boxplot statistics for pretrained and finetuned models. As depicted in Figure \ref{fig:ROI_DRO}, for the DRO sequence, it can be concluded that performance increases for small, fixed thresholds. Although the figure might be misleading, because it implies improving network performance for all configurations, it represents a proof of concept for partially labeled training.
+\begin{table}[h]
+    \centering
+    \caption{Median SEG-scores on Partially Annotated Data}
+    \label{tab:CTC_Tabel}
+    \setlength{\tabcolsep}{8pt} 
+    
+    % The column definition: c | l c c | c c 
+    % The first column is for the vertical row descriptor.
+    \begin{tabular}{c|l c c !{\vrule width 1pt} c c} 
+        \toprule
+        \multirow{2}{*}{\makecell[c]{}} % Empty cell for the vertical descriptor column header
+        & \multirow{2}{*}{Model} & \multicolumn{2}{c}{\textbf{Fluo-N3DL-TRIC}} & \multicolumn{2}{c}{\textbf{Fluo-N3DL-DRO}} \\
+        \cmidrule(lr){3-4} \cmidrule(lr){5-6}
+        
+        & & Finetuned & Zero-Shot & Finetuned & Zero-Shot \\
+        \midrule
+        
+        % --- MEDIAR BLOCK (2 ROWS) ---
+        \multirow{2}{*}{\rotatebox[origin=c]{90}{Mediar  }}
+        & Ext. Pretraining & 0.805 & 0.508 & 0.716 & 0.488 \\
+        & SAM2 Encoder & 0.656 & 0.502 & 0.483 & 0.493 \\
+        
+        & Paper Weights & \textbf{0.815} & \textbf{0.646} & \textbf{0.785} & \textbf{0.547} \\
+    
+        
+        \bottomrule
+    \end{tabular}
+\end{table}
+In Table \ref{tab:CTC_Tabel}, we listed the results for the TRIC and DRO predictions. Like we did for fully annotated data, we compared median peak performance and zero-shot predictions for all networks. In general, Mediar with weights from the original paper seems to perform best on both test sets. As we used the 02 sequence for testing, while the official benchmarks on these datasets is evaluated on a seperate challenge datatsets, comparing SEG-scores might not be representative. However, we believe that our top models have a good chance to achieve a high ranking on the leaderboard. For TRIC, our SEG-score is very close to the first place (0.815 vs. 0.821). For DRO, we score a even higher SEG-score (0.785 vs. 0.760).
+In general, a more representative way of showing progressive network improvement with masked training would be, to plot peak network performance over ROIs seen in training. While this cures the problem of misrepresentation in case of higher network performance on other thresholds than the one picked for plotting, dynamically adjusting thresholds for different training stages would suggest that the knowledge of the peak performance is known for all training stages. The best solution would be, to auto-tune the threshold while training with a dedicated validation split. Consequently, at test time, when no ground truth is known, the threshold can be picked based on the heuristics of the training. For the TRIC data, it can be seen that training barely improves network performance on the test data. After a few epochs, the training seems to improve a little. Drawing general conclusions on this dataset however is hard, due to the very limited training and test data. Nevertheless, it can be concluded that performance is quite good compared to top submissions on the CTC benchmark which score  similar SEG-scores.  
 
 \section{Benchmarking Zero-shot Performance}
 
-To further demonstrate the models generalization capabilities we perform zero-shot inference on the zebrafish primordium image. 
+To further demonstrate the models' generalization capabilities we perform zero-shot inference on the zebrafish primordium image. 
 \begin{figure}[!ht]
     \centering
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/Results/thresholds_Zebra.png}%
     }
-    \caption{Network SEG-Scores vs. Cellprobability Threshold for the Zebrafish Test Image}
+    \caption{Network SEG-scores vs. cellprobability threshold for the zebrafish test image}
     \label{fig:Zebra_Thresholds}
 \end{figure}
 
-As depicted in Figure \ref{fig:Zebra_Thresholds}, even without any finetuning, all models perform reasonably well in a certain interval of cellprobability thresholds. Note, that this chart may not be as representative as it seems, as there is only one labeled image existing in this dataset for testing. In Figure \ref{fig:ZEBRA_VIS}, 3D renderings are depicted for visualization purposes, along one z-slice with dense foreground cells.
+As depicted in Figure \ref{fig:Zebra_Thresholds}, even without any finetuning, all models perform reasonably well in a certain interval of cellprobability thresholds. Note that this chart may not be as representative as it seems, as there is only one labeled image existing in this dataset for testing. In Figure \ref{fig:ZEBRA_VIS}, 3D renderings are depicted for visualization purposes, along one z-slice with dense foreground cells. As described in Section \ref{Testing_Zebra}, false positives are filtered using kown detection masks. 
 
 \begin{figure}[!ht]
     \centering
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/Results/Zebra_VIS.png}%
     }
-    \caption{3D Visualization of Zebrafish Neuromasts Prediction (incl. Detection Mask Post-Processing)}
+    \caption{3D visualization of zebrafish neuromasts prediction (incl. detection mask post-processing)}
     \label{fig:ZEBRA_VIS}
 \end{figure}
 
 \section{Runtime Benchmarking}
 \label{section:benchmarking}
-As runtimes and computational resources can easily become bottlenecks for detailed tuning and grid testing in the 3D domain, we compare network inference times for different image sizes in \ref{fig:runtimes}. Hardware specifications for this experiment are listed in Table \ref{tab:4.6}.
+As runtimes and computational resources can easily become bottlenecks for detailed tuning and grid testing in the 3D domain, we compare network inference times for different image sizes in Figure \ref{fig:runtimes}. Hardware specifications for this experiment are listed in Table \ref{tab:4.6}.
 
 \begin{figure}[!ht]
     \centering

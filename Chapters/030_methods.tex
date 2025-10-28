@@ -1,13 +1,16 @@
 \chapter{Methods}
 \label{Methods}
 
-In this chapter, we introduce our approaches to tackle robust cell segmentation in 3D. First, we present all datasets used for pretraining, finetuning and evaluation of our resulting models, as the inductive bias incorporated from training has been shown to be as important as architectural design choices, to achieve generalizable models \cite{Pachitariu.2025}. For network design, we first sketch the outline of state-of-the-art networks on a high level, to present our architectural design choices made more intuitive. After introducing our proposed network designs, we dive into the training pipeline that we integrate for model pretraining and finetuning. Apart from the default pipeline, we will also propose a way to handle partially annotated training data. Finally, we will also discuss methods for true 3D training. 
+In this chapter, we introduce our approaches to tackle robust cell segmentation in 3D. First, we present all datasets used for pretraining, finetuning and evaluation of our resulting models, as the inductive bias incorporated from training has been shown to be as important as architectural design choices to achieve generalizable models \cite{Pachitariu.2025}. For network design, we first sketch the outline of state-of-the-art networks on a high level to present our architectural design choices in a more intuitive way. After introducing our proposed network designs, we dive into the training pipeline for model pretraining and finetuning. Apart from the default pipeline, we will also propose a way to handle partially annotated training data. Finally, we will also discuss methods for true 3D training. 
 \section{Datasets}
+
+
 In this section, we introduce some important datasets used in this work for model training and performance evaluation. First, we present every dataset involved in pretraining of our models. After that, we introduce datasets for finetuning and performance evaluation.
-There are multiple challenges when working with these datasets. The most important challenge is the lack of annotated data. Even for fully annotated datasets, inter-annotator agreement is often an upper boundary for evaluation, as even for the specialist a clear annotation is sometimes not obvious. This can be due to a certain level of noise in the images or boundaries that are just inherently hard to define due to the cell type or imaging modality. This is especially the case for the non-synthetic data, provided by the Celltracking Challenge (CTC) \cite{ctc}. In addition to limited annotations, 3D data can quickly blow up computational resources due to their large size. For this matter, some shifted window approach has to be considered, if the image size exceeds computational limits. Anisotropy can also lead to distortions in feature acquisition and performance impairments at inference, if not taken care of in each processing step. 
+There are multiple challenges when working with these datasets. The most important challenge is the lack of annotated data. Even for fully annotated datasets, inter-annotator agreement is often an upper boundary for evaluation, as even for the specialists a clear annotation is sometimes not obvious. This can be due to a certain level of noise in the images or boundaries that are just inherently hard to define due to the cell type or imaging modality. This is especially the case for the non-synthetic data, provided by the Cell Tracking Challenge (CTC) \cite{ctc}. In addition to limited annotations, 3D data can quickly blow up computational resources due to their large size. For this matter, a shifted window approach has to be considered if the image size exceeds computational limits. Anisotropy can also lead to distortions in feature acquisition and performance impairments at inference, if it is not taken care of in each processing step. 
 
 \subsection{Pretraining Datasets}
-For pretraining our models, we want to use as many 2D cell microscopy data as we can get. The modalities range from H\&E stained histology images from various organs, over fluorescence, phase-contrast and bright-field microscopy images. Cell types range from human organ cells, to bacteria, worms, yeast and animal embryo nuclei.
+\label{section_pretraining_datasets}
+For pretraining our models, we want to use as much 2D cell microscopy data as we can get. The modalities range from H\&E stained histology images from various organs to fluorescence, phase-contrast and bright-field microscopy images. Cell types range from human organ cells to bacteria, worms, yeast and animal embryo nuclei.
 
 \begin{itemize}
   \item BCCD\cite{BCCD}: The blood cell segmentation dataset consists of blood smear images taken with a light microscope 
@@ -18,13 +21,13 @@ For pretraining our models, we want to use as many 2D cell microscopy data as we
 
   \item CoNIC \cite{ConIC}: The CoNIC dataset consists of 4,981 H\&E images with labeled nuclei and nuclei classification 
   (\url{https://www.kaggle.com/datasets/aadimator/conic-challenge-dataset?select=data}). 
-  We sorted out the images without labels and ended up with 4,841 images which we used for training.
+  We sorted out the images without labels and ended up with 4,841 images, which we used for training.
 
-  \item CPM15+17\cite{CPM} \cite{TNBC}: CPM 15 and 17 consist of H\&E images with labeled nuclei. CPM 15 + 17 are from brain cancer patients, with 15 and 32 training images per dataset, respectively.
+  \item CPM15+17\cite{CPM}\cite{TNBC}: CPM 15 and 17 consist of H\&E images with labeled nuclei. CPM 15 + 17 are from brain cancer patients, with 15 and 32 training images per dataset, respectively.
 
   \item DataScienceBowl\cite{DSB18}: The 2018 DataScienceBowl dataset contains 841 images with 22 cell types and five visually similar groups. We used 670 images for training.
 
-  \item DeepBacs\cite{deepbacs}: We used the following segmentation datasets from DeepBacs: S. aureus bright-field and fluorescence with 66 training patches, E. coli bright-field with 34 training images, and B. subtilis fluorescence with 90; in total 190 training images.
+  \item DeepBacs\cite{deepbacs}: We used the following segmentation datasets from DeepBacs: S. aureus bright-field and fluorescence with 66 training patches, E. coli bright-field with 34 training images, and B. subtilis fluorescence with 90 images; in total 190 training images.
 
   \item IHC\_TMA\cite{ihctma}: The IHC TMA dataset consists of TMA sections from non-small cell lung cancer patients with labeled nuclei 
   (\url{https://doi.org/10.5281/zenodo.7647846}). 
@@ -64,8 +67,9 @@ microscopy images and discarded 118 worm images.
 \end{itemize}
 
 \subsection{Evaluation Datasets}
+\label{eval_datasets}
 
-To test the performance of our pretrained models, we collected datasets with fully annotated stacks and others that only have partially annotated images. Unlike the pretraining data, the evaluation datasets have to be 3D. This dramatically increases annotation costs, so finding public, fully annotated datasets here is hard. Again, DDPMs could substitute this labor-intensive task of annotating full 3D stacks. However, since we do not rely on true 3D-training data, the few datasets available for testing are sufficient.
+To test the performance of our pretrained models, we collected datasets with fully annotated stacks and others that only have partially annotated images. Unlike the pretraining data, the evaluation datasets have to be 3D. This dramatically increases annotation costs, so finding public, fully annotated datasets here is hard. Diffusion models, synthesizing annotated stacks could substitute this labor-intensive task of annotating full 3D stacks. However, since we do not rely on true 3D training data, the few datasets available for testing are sufficient.
 
 \subsubsection{BlastoSPIM}
 
@@ -77,20 +81,20 @@ The first dataset, \textit{BlastoSPIM 1.0}, primarily includes embryos from the 
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/Methods/BlastoSPIM.png}%
     }
-    \caption{Images and labels from the low SNR part of the BlastoSPIM Dataset.}
+    \caption{Images and labels from the low SNR part of the BlastoSPIM dataset.}
     \label{fig:BlastoSPIMDataset}
 \end{figure}
 
-Each image in the BlastoSPIM datasets has an xy-resolution of 0.208~µm and a z-resolution of 2.0~µm, capturing fine cellular structures across multiple focal planes. In total, 18,336 nuclei have been manually segmented, with contours drawn in every z-slice where each nucleus appears. This meticulous annotation provides precise 3D instance labels, making BlastoSPIM one of the most comprehensive resources for studying early embryogenesis and for training and evaluating segmentation models in 3D microscopy. 
+Each image in the BlastoSPIM datasets has an xy-resolution of 0.208~µm and a z-resolution of 2.0~µm, capturing fine cellular structures across multiple focal planes. In total, 18,336 nuclei have been manually segmented, with contours drawn in every z-slice where each nucleus appears. This meticulous annotation provides precise 3D instance labels, making BlastoSPIM one of the most comprehensive resources for studying early embryogenesis and for training and evaluating segmentation models in 3D microscopy. Some example image-label pairs are displayed in Figure \ref{fig:BlastoSPIMDataset}.
 
 
 
 \subsubsection{CTC Datasets}
-\label{cha:3.2} %todo
+\label{cha:3.2} 
 
 The CTC dataset provides both 2D and 3D time-lapse microscopy sequences. It includes recordings of fluorescently counterstained nuclei and cells, either migrating on top of or embedded within a substrate. In addition, the dataset contains 2D brightfield, phase contrast, and differential interference contrast (DIC) microscopy videos that capture the dynamics of cells moving on flat substrates. 
 
-Interesting, challenging datasets with very dense instances are the Fluo-N3DL datasets, which are light-sheet 3D+t images of developing insect embryo. Each image is really large and requires careful memory handling in inference. Due to the large size and density in cell instances, annotations are very limited. For every image, only a few z-slices have annotations, which usually only cover a tiny fraction of the cells present.
+Interesting, challenging datasets with very dense instances are the Fluo-N3DL datasets, which are light-sheet 3D+t images of developing insect embryos. Each image is really large and requires careful memory handling in inference. Due to the large size and density in cell instances, annotations are very limited. For every image, only a few z-slices have annotations, which usually only cover a tiny fraction of the cells present. Example images are shown in Figure \ref{fig:CTCData}.
 
 \begin{figure}[!ht]
     \centering
@@ -102,14 +106,14 @@ Interesting, challenging datasets with very dense instances are the Fluo-N3DL da
 \end{figure}
 
 
-We will also use some synthetic images from the Fluo-N3DH-SIM dataset, which simulates nuclei of HL60 cells stained with Hoechst. Due to the high level of noise in the data, clear boundaries are not really present, limiting the performance evaluation capabilities. 
+We will also use some synthetic images from the Fluo-N3DH-SIM dataset, which simulates nuclei of HL60 cells stained with Hoechst. Due to the high level of noise in the data, clear boundaries are not really present, limiting the performance evaluation capabilities. An example image is shown in Figure \ref{fig:CTCSIMdataset}.
 
 \begin{figure}[!ht]
     \centering
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/Methods/CTCsim.png}%
     }
-    \caption{Synthetic data from the CellTrackingChallenge.}
+    \caption{Example image-label pair of the synthetic dataset Fluo-N3DH-SIM, from the Cell Tracking Challenge.}
     \label{fig:CTCSIMdataset}
 \end{figure}
 
@@ -126,22 +130,22 @@ This dataset captures Zebrafish embryos' lateral line in 3D+t. In zebrafish embr
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/Methods/ZebrafishVol.png}%
     }
-    \caption{Zebrafish primordium 3D View.}
+    \caption{Zebrafish primordium 3D view.}
     \label{fig:ZebrafishVol}
 \end{figure}
 
-As depicted in Figure \ref{fig:ZebrafishVol}, the primordium cells can be recognized quite easily with the bare eye. This is not only due to favourable intensity contrasting, but also because of the unique shapes compared to the background cells. Nevertheless, if there is no bias towards the different types of cells, generalizable networks will not be able to differ foreground from background cells and thus produce a lot of false positives. Although there are a lot images at different timestamps and images for wildtype variations, there is just one single 3D image labeled. Although most of our models train on 2D slice inference anyway, testing and training on the same image at different slices is rather infeasible due to strong spatial correlations between test and train data.
+As depicted in Figure \ref{fig:ZebrafishVol}, the primordium cells can be recognized quite easily with the bare eye. This is not only due to favourable intensity contrast, but also because of the unique shapes compared to the background cells. Nevertheless, if there is no bias towards the different types of cells, generalizable networks will not be able to differ foreground from background cells and thus produce a lot of false positives. Although there are a lot of images at different timestamps and images for wildtype variations, there is just one single 3D image labeled. Although most of our models train on 2D slice inference anyway, testing and training on the same image at different slices is rather infeasible due to strong spatial correlations between test and training data.
 
 \begin{figure}[!ht]
     \centering
     \makebox[\textwidth]{%
     \includegraphics[width=1.0\textwidth]{Images/Methods/ZebrafishAnnotations3d.png}%
     }
-    \caption{Label noise in the Zebrafish Dataset.}
+    \caption{Label noise in the Zebrafish dataset.}
     \label{fig:ZebrafishAnnotations3d}
 \end{figure}
 
-Another challenge with this dataset is not only that there is just one annotated image, but that the segmentation quality is also impaired by the way the annotation was created. As it can be easily spotted in \ref{fig:ZebrafishAnnotations3d}, there are inconsistencies in cell annotations across different z slices. Most likely, the annotator marked cells just in the axial direction, leaving out annotations on some slices, while on some z slices further, they are marked again. Also, the boundary sizes are inconsistent over z. This is particularly crucial, as our models predict slices in axial, sagittal and coronal directions. Thus, when slicing through x, for example, the inconsistencies will create distortions in the flow feature space, which are aggregated from all inference directions.
+Another challenge with this dataset is not only that there is just one annotated image, but that the segmentation quality is also impaired by the way the annotation was created. As it can be easily spotted in Figure \ref{fig:ZebrafishAnnotations3d}, there are inconsistencies in cell annotations across different z slices. Most likely, the annotator marked cells just in the axial direction, leaving out annotations on some slices, while they are marked again on some further z slices. Also, the boundary sizes are inconsistent over z. This is particularly crucial, as our models predict slices in axial, sagittal and coronal directions. Thus, when slicing through x, for example, the inconsistencies will create distortions in the flow feature space, which are aggregated from all inference directions.
 
 
 
@@ -151,7 +155,7 @@ In this section, we introduce a way of extending Mediar to 3D. First, we present
 
 \subsection{3D Flowfield Prediction}
 
-For the extension to 3D flow predictions, we adapt the flow accumulation of Cellpose. For 2D inference, a two-dimensional vector field is predicted. A simple way to perform inference on 3D data would be to loop over the depth $z$ of the image, to obtain the vertical and horizontal flows $dx$ and $dy$ related to $z$. Now when permuting the spatial dimensions to slice over $x$ instead of $z$, essentially treating $x$ as the new depth dimension, one obtains the $dy$ and $dz$ flows. Finally, repeating this over the $y$ dimension grants $dx$ and $dz$. While this sounds very intuitive, it is important to keep track of the correct way of inversely permuting the flows back to the original coordinate system. This is achieved by accumulating them into a resulting 3D flow-field vector at the correct indices. To threshold invalid flows, predicted cell probabilities are accumulated along flows as well.
+For the extension to 3D flow predictions, we adapt the flow accumulation of Cellpose. For 2D inference, a two-dimensional vector field is predicted. A simple way to perform inference on 3D data would be to loop over the depth $z$ of the image, to obtain the vertical and horizontal flows $dx$ and $dy$ related to $z$. Now when permuting the spatial dimensions to slice over $x$ instead of $z$, essentially treating $x$ as the new depth dimension, one obtains the $dy$ and $dz$ flows. Finally, repeating this over the $y$ dimension grants $dx$ and $dz$. While this sounds very intuitive, it is important to keep track of the correct way of inversely permuting the flows back to the original coordinate system. This is achieved by accumulating them into a resulting 3D flow-field vector at the correct indices. To threshold invalid flows, predicted cell probabilities are accumulated along flows as well. The workflow is illustrated in Figure \ref{fig:cellpose_flow_accumulation}.
 
 \begin{algorithm}
 \caption{3D Flow Accumulation with Iterative Permutations}
@@ -180,7 +184,7 @@ For the extension to 3D flow predictions, we adapt the flow accumulation of Cell
     \includegraphics[width=1.0\textwidth]{Images/Methods/zflow.png}%
     }
     \caption{Flow and cellprobability accumulation approach, as presented in \cite{Stringer.2020}.}
-    \label{fig:slicing}
+    \label{fig:cellpose_flow_accumulation}
 \end{figure}
 
 \subsection{Post-Processing of 3D Flows} %todo, removebadflowmasks
@@ -203,7 +207,7 @@ Finally, masks that are larger than a fraction $\tau_s$ of the total image volum
 
 \section{Segmentation Network Design Choices}
 
-In this section, we introduce different approaches to improve the Mediar architecture by using different encoder and decoder building blocks. First, we will sketch the fundamental structure of our segmentation networks on a high-level view. Based on this concept, we will be build new models by modifying individual components. Inspired by the release of CellposeSAM, we will present a model that uses the SAM2 pretrained Hiera image encoder instead of the SegFormer MiT blocks for the Mediar Network. Furthermore, we will consider the use of plain convolutional decoder blocks instead of the MA-Net decoder. We will also attempt to reason the rationale behind these design choices and, in doing so, set our expectations for the resulting performance of the network modifications.
+In this section, we introduce different approaches to improve the Mediar architecture by using different encoder and decoder building blocks. First, we will sketch the fundamental structure of our segmentation networks on a high-level view. Based on this concept, we will build new models by modifying individual components. Inspired by the release of CellposeSAM, we will present a model that uses the SAM2 pretrained Hiera image encoder instead of the SegFormer MiT blocks for the Mediar network. Furthermore, we will consider the use of plain convolutional decoder blocks instead of the MA-Net decoder. We will also attempt to reason the rationale behind these design choices and, in doing so, set our expectations for the resulting performance of the network modifications.
 
 \subsection{High-Level Network Design}
 
@@ -226,16 +230,16 @@ D({\mathbf{F}_i}) = \hat{\mathbf{Y}} \in \mathbb{R}^{C\text{out} \times H \times
 
 where $C_\text{out}$ denotes the number of output channels, depending on the learning objective. In semantic segmentation, this corresponds to the number of semantic classes, with a softmax distribution assigning each pixel to a class. For cellular instance segmentation, the decoder instead maps the features to outputs such as flow fields or probability maps, which are subsequently post-processed into instance masks, as done in StarDist or Cellpose.
 
-Beyond this high-level network layout, which already involves many design decisions, each building block obviously contains numerous other parameters and layer configurations that must be carefully chosen. But focussing on the above mentioned high-level design criterions is important to keep track of the bigger picture when it comes to a large change in network layout, which will be presented in the following subsections. Understanding the changes made on the above described high-level layout, will make a seemingly completely new architecture, very tangible and the low-level design choices that go along with the new modules, a lot more intuitive.
+Beyond this high-level network layout, which already involves many design decisions, each building block obviously contains numerous other parameters and layer configurations that must be carefully chosen. But focussing on the above mentioned high-level design criteria is important to keep track of the bigger picture when it comes to a large change in network layout, which will be presented in the following subsections. Understanding the changes made on the above described high-level layout, will make a seemingly completely new architecture, very tangible and the low-level design choices that go along with the new modules, a lot more intuitive.
 
-For instance, the authors of Cellpose launched a completely revised version of their network a few weeks after the start of this project. What seems to be a major rework of their repository, turns out to be just a few lines of code, as they barely touch the low-level components of the modules they take from established methods. So from a high-level view, they switched the CNN-based encoder part of their network with the image encoder of SAM1, and used just a single 1x1 convolutional layer (along non-learnable layer to convert patch- to pixel space) to fuse their single resolutional feature map to the cellpose learning objective.
+For instance, the authors of Cellpose launched a completely revised version of their network a few weeks after the start of this project. What seems to be a major rework of their repository, turns out to be just a few lines of code, as they barely touch the low-level components of the modules they take from established methods. So from a high-level view, they switched the CNN-based encoder part of their network with the image encoder of SAM1, and used just a single $1\times1$ convolutional layer (along non-learnable layer to convert patch- to pixel space) to fuse their single resolutional feature map to the Cellpose learning objective.
 
 
 
 \subsection{SAM2 Encoder Registry}
 
 
-First, we want to setup experiments using the Hiera encoder of the SAM2 model instead of the SegFormer encoder blocks for the Mediar model. The SegFormer backbone blocks are composed of multiple Mix Transformer(MiT) blocks with consecutive overlapping patch merging, efficient self-attention and Mix-FFN, which provide multi-scale features due to the patch merging process at multiple stages. From a high-level perspective, the MiT B5 encoder blocks produce 4 feature maps with different channel sizes and spatial resolutions. 
+First, we want to set up experiments using the Hiera encoder of the SAM2 model instead of the SegFormer encoder blocks for the Mediar model. The SegFormer backbone blocks are composed of multiple Mix Transformer (MiT) blocks with consecutive overlapping patch merging, efficient self-attention and Mix-FFN, which provide multi-scale features due to the patch merging process at multiple stages. From a high-level perspective, the MiT B5 encoder blocks produce 4 feature maps with different channel sizes and spatial resolutions. 
 
 The Hiera image encoder is composed of standard ViT blocks, except global attention is replaced by Mask Unit Attention at shallow layers with high spatial resolution. A total of 3 pooling layers enables the encoder to output features at four different resolutions. This exactly matches the SegFormer encoder outputs on a high-level, except the feature maps produced by the Hiera encoder wrapper of SAM2 converts all channel dimensions to 256, whereas the feature maps of the MiT B5 module all have increasing channel sizes for deeper feature maps. Note that also the default config used to build the SAM2 registry defines a parameter that makes the image encoder discard the lowest resolution feature after forwarding the neck, resulting in only 3 feature resolutions instead of 4. Hardcoding this value or editing the default registry config fixes this problem. This is possible without adapting any weights, as the features are computed in the forward pass regardless of the parameter that discards them afterwards by parameterized indexing in the neck forward function. Consequently, the powerful pretrained weights from the SAM2 Registry are not affected by the amount of feature outputs of the image encoder.
 
@@ -244,24 +248,24 @@ The Hiera image encoder is composed of standard ViT blocks, except global attent
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.9\textwidth]{Images/Graphics/MediarSAM.pdf}
-    \caption{Mediar + SAM2 Registry of Hiera Encoder. Figure adapted from \cite{lee2022mediarharmonydatacentricmodelcentric} \cite{ryali2023hierahierarchicalvisiontransformer}.}
-    \label{fig:myfigure}
+    \caption{Mediar + SAM2 Registry of Hiera encoder. Figure adapted from \cite{lee2022mediarharmonydatacentricmodelcentric, ryali2023hierahierarchicalvisiontransformer}.}
+    \label{fig:SAM2Registry}
 \end{figure}
 
-The actual integration of the SAM2 model into the Mediar network architecture is not too difficult if conducted carefully with debugging tools. Challenging aspects include dealing with cryptic, undocumented backend code of MA-Net and MixTransformer and more importantly, editing the MA-Net blocks with regard to numerical stability and compatibility with the SAM2 registry. Pseudo QKV operations in the PAB Block of the MA-Net decoder are now normed with respect to the embedding dimension as suggested in \cite{vaswani2023attentionneed}, to prevent float16 overflow in network training. Also, MA-Net assumes the first feature to be the encoder input image and thus discards the shallowest feature per default. This is now adjusted to match the backbone outputs from Hiera. Skip connections have been removed for the Decoder Block 1, as this block was connected to a dummy feature from the SegFormer output. 
+The actual integration of the SAM2 model into the Mediar network architecture is not too difficult if conducted carefully with debugging tools. Challenging aspects include dealing with cryptic, undocumented backend code of MA-Net and MixTransformer and more importantly, editing the MA-Net blocks with regard to numerical stability and compatibility with the SAM2 registry. Pseudo QKV operations in the PAB Block of the MA-Net decoder are now normalized with respect to the embedding dimension as suggested in \cite{vaswani2023attentionneed}, to prevent float16 overflow in network training. Also, MA-Net assumes the first feature to be the encoder input image and thus discards the shallowest feature per default. This is now adjusted to match the backbone outputs from Hiera. Skip connections have been removed for the Decoder Block 1, as this block was connected to a dummy feature from the SegFormer output. The resulting network architecture is displayed in Figure \ref{fig:SAM2Registry}.
 
 \subsection{Lightweight Decoder}
 
-Many segmentation networks \cite{xie2021segformersimpleefficientdesign} \cite{Stringer.2020} \cite{bui2024sam3dsegmentmodelvolumetric} have shown great performance without relying on heavy-weight decoder modules. We therefore want to conduct experiments using lightweight decoder blocks and the SAM2 image encoder. 
+Many segmentation networks \cite{xie2021segformersimpleefficientdesign, Stringer.2020, bui2024sam3dsegmentmodelvolumetric} have shown great performance without relying on heavy-weight decoder modules. We therefore want to conduct experiments using lightweight decoder blocks and the SAM2 image encoder. 
 
-The decoder blocks take a feature map as input and a skip connection from the encoder if there it is not the center block. The input is first upsampled by a factor of two using nearest-neighbor interpolation. When a skip connection is provided, the upsampled features are concatenated with the skip features along the channel dimension, increasing the input dimensionality of the subsequent convolution. The combined tensor is then processed by two sequential conv2dReLU units, each consisting of a $3 \times 3$ convolution with padding of $1$, followed by a ReLU activation, and a batch normalization layer. The first convolution reduces the concatenated feature channels to the target output dimensionality, and the second further refines the representation while maintaining the same number of channels. This design focusses on spatial resolution recovery and integration of encoder features at corresponding scales, without using the pseudo attention modules of the MA-Net. 
+The decoder blocks take a feature map as input and a skip connection from the encoder if it is not the center block. The input is first upsampled by a factor of two using nearest-neighbor interpolation. When a skip connection is provided, the upsampled features are concatenated with the skip features along the channel dimension, increasing the input dimensionality of the subsequent convolution. The combined tensor is then processed by two sequential Conv2dReLU units, each consisting of a $3 \times 3$ convolution with padding of $1$, followed by a ReLU activation, and a batch normalization layer. The first convolution reduces the concatenated feature channels to the target output dimensionality, and the second further refines the representation while maintaining the same number of channels. This design focusses on spatial resolution recovery and integration of encoder features at corresponding scales, without using the pseudo attention modules of the MA-Net. 
 
 
 
 
 \section{Training Pipeline, Challenges and Solutions}
 \label{training pipeline}
-In this section we will analyse the training procedure of our networks. First, the general training pipeline is outlined, describing the main components. After setting the baseline for cellpose learning objective training, we will look into challenges that come along training with only partly annotated data. 
+In this section we will analyse the training procedure of our networks. First, the general training pipeline is outlined, describing the main components. After setting the baseline for Cellpose learning objective training, we will look into challenges that come along training with only partly annotated data. 
 
 \subsection{Training Pipeline}
 
@@ -271,10 +275,10 @@ Now we look into the general pipeline for our network training. In general, we w
 Since pretraining and finetuning share mostly the same pipeline, adjustments should be configured in a separate train config json file. The main difference between pretraining and finetuning configs lies the data preparation and sampling. Pretraining mainly focusses on using a very large, diverse dataset. This can also be improved, by the discovery of latent modalities, as the original Mediar paper suggests \ref{fig:latent_modalities}. By clustering the encoder embeddings from the phase-1 pretrained model using k-means with 40 clusters, they amplify the sampling ratio in favour of underrepresented modalities. We adapt this method as the majority of pretraining images are worm images from the Livecell-dataset. Other than the amount of data, it is also important to handle the dimensionality of the target data for the finetuning. Since we want to finetune our model to perform well on specific 3D data, we train our model to predict the 2D flows and cell probabilities on the 2D slices of the volume in each orientation. This requires to prepare slices of the 3D finetuning data for every direction. 
 
 
-Loading the training data into the training pipeline requires the mapping of train images and ground truth masks to json file. This is done via a modified version of the mediar mapping script, which enables the user to map multiple datasets at once, without naming constraints. The json files are loaded and split into train and validation data with a custom dataloader, that is configured via user inputs defined in a separate train config json file. Using the monai package, which is a precompiled library for biomedical image processing, certain train and validation transformations are defined in the dataloader to augment the batch data once its loaded in a training iteration.
+Loading the training data into the training pipeline requires the mapping of train images and ground truth masks to json file. This is done via a modified version of the Mediar mapping script, which enables the user to map multiple datasets at once, without naming constraints. The json files are loaded and split into train and validation data with a custom dataloader, that is configured via user inputs defined in a separate train config json file. Using the monai package, which is a precompiled library for biomedical image processing, certain train and validation transformations are defined in the dataloader to augment the batch data once its loaded in a training iteration.
 
 \subsubsection{Forward pass}
-After loading the batch data in each training epoch, the network forward pass predicts 2D flows and cellprobability logits, which are passed into the metric function to compute the loss. For the ground truth data, the flow representation is computed runtime. While this sounds very inefficient, precomputing the flow ground truths comes along with a few challenges. The precomputed flows have to be integrated into the dataloading pipeline. This includes applying the same spatially deforming augmentation transformations to the flows as the training data. Since the flow generation of ground truth data is not invariant to all spatial transformations, the precomputed flows do not match the flows computed at runtime after the transformation. The unit test for this matter has shown, that in most cases the reconstructed masks from the precomputed and runtime computed flows differed significantly, while the time costs saved was in the magnitude of a few milliseconds per epoch, partly because the dataloading and augmentation of the precomputed flow has to be substracted from the time it takes to generate the flows runtime. Although these few milliseconds scale up pretty quickly to a 1-2 hours for 80 epochs at 5500 iterations per epoch, the performance loss can not be justified. Eschweiler et al \cite{eschweiler2022robust3dcellsegmentation} suggested to simplify the learning objective to a variant of the tanh to speed up the expensive generation of flows at neglectable performance loss. While this might be a promising alternative, it has not been implemented and tested yet.
+After loading the batch data in each training epoch, the network forward pass predicts 2D flows and cellprobability logits, which are passed into the metric function to compute the loss. For the ground truth data, the flow representation is computed runtime. While this sounds very inefficient, precomputing the flow ground truths comes along with a few challenges. The precomputed flows have to be integrated into the dataloading pipeline. This includes applying the same spatially deforming augmentation transformations to the flows as the training data. Since the flow generation of ground truth data is not invariant to all spatial transformations, the precomputed flows do not match the flows computed at runtime after the transformation. The unit test for this matter has shown, that in most cases the reconstructed masks from the precomputed and runtime computed flows differed significantly, while the time costs saved were in the magnitude of a few milliseconds per epoch, partly because the dataloading and augmentation of the precomputed flow has to be subtracted from the time it takes to generate the flows runtime. Although these few milliseconds scale up pretty quickly to 1-2 hours for 80 epochs at 5500 iterations per epoch, the performance loss can not be justified. Eschweiler et al. \cite{eschweiler2022robust3dcellsegmentation} suggested to simplify the learning objective to a variant of the tanh to speed up the expensive generation of flows at neglectable performance loss. While this might be a promising alternative, it has not been implemented and tested yet.
 
 With runtime computed ground truth flows, the loss can be calculated after the forward pass with a binary cross-entropy term for the cell probabilities and a mean squared error term for the flow components:
 
@@ -283,17 +287,17 @@ With runtime computed ground truth flows, the loss can be calculated after the f
 \;+\; \mathcal{L}_{\text{BCE}} \bigl(\sigma(\hat{y}_2), P \bigr),
 \end{equation}
 
-Here, $\hat{y}_0$ and $\hat{y}_1$ denote the predicted horizontal and vertical flow channels, while $F_x$ and $F_y$ represent the corresponding ground-truth flow fields. The term $\hat{y}_2$ refers to the raw (logit) prediction of the cellprobability map, and $P$ denotes the ground-truth binary mask of cell locations. The function $\sigma(\cdot)$ corresponds to the sigmoid activation, which maps logits to probabilities, and $\mathcal{L}_{\text{BCE}}(\cdot,\cdot)$ is the binary cross-entropy loss between the predicted and ground-truth probabilities. The ground-truth flows are scaled by a factor of $5$ to match relative contribution of the L2 loss and cross-entropy loss. Although it may seem like a semantical error to scale the ground truth flows before substraction, it works well in practice. Unfortunetely, there was no explanation given in the paper on why they implemented it like this. A raised github issue addressing this issue remained unanswered. Usually, it is common to scale loss contributions after the whole loss component is calculated. Either way, experiments with a different way of scaling the loss contribution have shown no difference in performance.  
+Here, $\hat{y}_0$ and $\hat{y}_1$ denote the predicted horizontal and vertical flow channels, while $F_x$ and $F_y$ represent the corresponding ground-truth flow fields. The term $\hat{y}_2$ refers to the raw (logit) prediction of the cellprobability map, and $P$ denotes the ground-truth binary mask of cell locations. The function $\sigma(\cdot)$ corresponds to the sigmoid activation, which maps logits to probabilities, and $\mathcal{L}_{\text{BCE}}(\cdot,\cdot)$ is the binary cross-entropy loss between the predicted and ground-truth probabilities. The ground-truth flows are scaled by a factor of $5$ to match relative contribution of the L2 loss and cross-entropy loss. Although it may seem like a semantic error to scale the ground truth flows before subtraction, it works well in practice. Unfortunetaly, there was no explanation given in the paper on why they implemented it like this. A raised GitHub issue addressing this issue remained unanswered. Usually, it is common to scale loss contributions after the whole loss component is calculated. Either way, experiments with a different way of scaling the loss contribution have shown no difference in performance.  
 
 
 \subsubsection{Backward pass}
 
 
-In practice, we implemented separately computed individual loss components for logging purpose, which can be handy to tune the weighting of the loss components. Interestingly, the Mediar code logs the summed loss components as dice loss, although the dice loss is neither computed in valid epochs, nor in the training iterations. We log the loss to Weights and Biases, which is an interactive cli and webtool that can be integrated into the training pipeline to plot losses and performance while training. It can be used for free with an academic license. The per-pixel MSE flow and BCE cell probablity loss is aggregated into a scalar value with the built-in mean reduction method from torch and backpropagated with the AdamW optimizer.
+In practice, we implemented separately computed individual loss components for logging purpose, which can be handy to tune the weighting of the loss components. Interestingly, the Mediar code logs the summed loss components as Dice loss, although the Dice loss is neither computed in validation epochs, nor in the training iterations. We log the loss to Weights and Biases, which is an interactive CLI and webtool that can be integrated into the training pipeline to plot losses and performance while training. The per-pixel MSE flow and BCE cellprobability loss is aggregated into a scalar value with the built-in mean reduction method from torch and backpropagated with the AdamW optimizer.
 
 \subsubsection{Checkpointing}
 
-checkpointing usually refers to saving the state dict of the trained model at minima of validation losses. For certain challenge datasets, it can be more beneficial to use all data for training and not split a validation fraction in the first place. We noticed that in the Cellpose training pipeline, there is no checkpointing based on validation data at all. For comparing generalizability of different architectures, it is sufficient to checkpoint after a certain amount of iterations or regions of interests seen in training. However, for pretraining we added a metric based checkpointing to save the best model at validation phases. The default Mediar pipeline uses both cellcount and hold-out F1 score for checkpointing. We changed this method, as it was tailored for the Challenge dataset, that did not have labeled validation data. The authors therefore held out a random fraction of 10\% of the training images for validation and used a cellcount measure (assumed to be manually configured for the challenge validation dataset) for checkpointing. They log their validation loss as dice-loss, but essentially it is an addition of both segmentation head losses (binary cross entropy of cellprobability and mean-squared-error of flow predictions). In general, it is not advisable to checkpoint with respect to train and validation losses, but to the actual metric used in test time (IoU for example). The latent features flow and cellprobability are used to obtain cell instances after all, but the transformation from flow and cellprobability loss to actual IoU based measures is highly non-linear. We therefore implement checkpointing with and IoU based measure. In practice however, the cellprobability and flow loss correlate with IoU based measures sufficiently high.
+Checkpointing usually refers to saving the state dict of the trained model at minima of validation losses. For certain challenge datasets, it can be more beneficial to use all data for training and not split a validation fraction in the first place. We noticed that in the Cellpose training pipeline, there is no checkpointing based on validation data at all. For comparing generalizability of different architectures, it is sufficient to checkpoint after a certain amount of iterations or regions of interest seen in training. However, for pretraining we added a metric based checkpointing to save the best model at validation phases. The default Mediar pipeline uses both cell count and hold-out F1 score for checkpointing. We changed this method, as it was tailored for the challenge dataset, that did not have labeled validation data. The authors therefore held out a random fraction of 10\% of the training images for validation and used a cell count measure (assumed to be manually configured for the challenge validation dataset) for checkpointing. They log their validation loss as Dice-loss, but essentially it is an addition of both segmentation head losses (binary cross entropy of cellprobability and mean-squared-error of flow predictions). In general, it is not advisable to checkpoint with respect to train and validation losses, but to the actual metric used in test time (IoU for example). The latent features flow and cellprobability are used to obtain cell instances after all, but the transformation from flow and cellprobability loss to actual IoU based measures is highly non-linear. We therefore implement checkpointing with and IoU based measure. In practice however, the cellprobability and flow loss correlate with IoU based measures sufficiently high.
 
 
 \vspace{1em} % or 2em, adjust as needed
@@ -304,17 +308,17 @@ Since all networks share the same learning objective, the training pipeline can 
 
 Since 3D data labeling is an expensive task, many challenge or use-case datasets are only labeled partially, as described in \ref{cha:3.2}. Since oftentimes this is the only resource to significantly improve the zero-shot performance for these target datasets, we will look into ways to finetune our networks with limited annotations. 
 
-\subsubsection{Using Unsupervised Learning Methods}
+\subsubsection{Using unsupervised learning methods}
 
 Previous work has explored various strategies to incorporate large sets of unlabeled images into training. For example, the Mediar framework investigated several semi-supervised approaches, including consistency regularization with strong data augmentations, reconstruction losses with an auxiliary head (both restricted to the cell regions and over the full image), and pseudo-labeling from pretrained or fine-tuned models. However, these attempts did not yield improvements over training with labeled data alone, leading the authors to ultimately rely only on the annotated subset. This highlights the difficulty of leveraging unlabeled data effectively in training and motivates alternative approaches.
 
-\subsubsection{Masked Loss Function}
+\subsubsection{Masked loss function}
 
 Finetuning the models with limited annotations, requires careful evaluation of network forward passes. Naively applying BCE and MSE loss to the predictions will punish false positives a lot, in case only a few instances are labeled. Not only will the contour accuracy decrease, but the arbitrarily labeled instances will make it impossible for the network to make distinctions for true and false positives as epochs progress. To decrease gradient distortions of unlabeled areas, the image shown to the network in forward pass can be cropped to a ROI, corresponding to a bounding box of a few nearby instance labels, with some spare buffer spaces to provide some image context. While this heavily reduces the effects of the majority of the unlabeled image parts, this approach is still prone to gradient distortions in cases of dense cell regions, where a buffered bounding box can not be established without including unlabeled instances.
 
 To prevent false network weight gradient flow due to pseudo false positives completely, one could crop the image to individual cell instances without buffer space to prevent gradient distortions by unlabeled neighboring cells. While this is not always feasible, especially in really dense cell distributions, this also prevents the network to learn spatial context features of the cell instances. As the instance cropped images has to be padded severely to fit the input dimensions of the network, the network would mostly see zero values around the cell. This could lead to even worse feature learning, especially because the receptive field of transformer-based encoders can be global.
 
-Another way of dealing with the gradient contribution of unlabeled regions would be to define a supervision mask, that sets the loss to zero for regions, where no annotations are present. As there would be no false positive feedback loss contribution for the case that the loss is only calculated for positive regions, it is necessary to somehow extend the region of loss contribution beyond labeled regions. In order to not only get false negative feedback, the supervision mask for the loss could be extended with binary operations such as dilation. The kernel size for dilation and the amount of iterations for consecutive dilation, have to be carefully tuned, as potential pseudo false positive can be introduced again. This can be handled again by introducing some sort of distance weighting of the loss mask around the labeled region. The loss contribution could for example decay linearly by the cartesian distance, or even in a guassian manner. Note that the tuning of the parameters such as dilation iterations, kernel size and distance weighting are heavily dependent on the specific dataset.
+Another way of dealing with the gradient contribution of unlabeled regions would be to define a supervision mask, that sets the loss to zero for regions, where no annotations are present. As there would be no false positive feedback loss contribution for the case that the loss is only calculated for positive regions, it is necessary to somehow extend the region of loss contribution beyond labeled regions. In order to not only get false negative feedback, the supervision mask for the loss could be extended with binary operations such as dilation. The kernel size for dilation and the amount of iterations for consecutive dilation, have to be carefully tuned, as potential pseudo false positive can be introduced again. This can be handled again by introducing some sort of distance weighting of the loss mask around the labeled region. The loss contribution could for example decay linearly by the Cartesian distance, or even in a gaussian manner. Note that the tuning of the parameters such as dilation iterations, kernel size and distance weighting are heavily dependent on the specific dataset.
 
 
 
@@ -325,7 +329,7 @@ In this section, we investigate a few strategies to encourage the network to lea
 
 \subsection{3D Gradient Flow Training}
 
-We first look into a method of adapting the same 3D flow aggregation technique for training, as it used for inference. The idea of 3D flows is, to slice a volume into 2D slices for every cartesian direction $(x, y, z)$, forwarding them into the network to predict 2D flows for every direction, to then be able to aggregate them into 3D flows. This can be integrated into finetuning, given that 3D instance annotations are provided. The 3D flow loss requires multiple consecutive slices to be forwarded within one batch, to then calculate 3D flows and getting three MSE flow loss components. The algorithm is summarized in Algorithm~\ref{algo:3Dflowtraining}. In case of unlabeled regions, the same loss masking could be applied as described in the previous section.
+We first look into a method of adapting the same 3D flow aggregation technique for training, as it used for inference. The idea of 3D flows is, to slice a volume into 2D slices for every Cartesian direction $(x, y, z)$, forwarding them into the network to predict 2D flows for every direction, to then be able to aggregate them into 3D flows. This can be integrated into finetuning, given that 3D instance annotations are provided. The 3D flow loss requires multiple consecutive slices to be forwarded within one batch, to then calculate 3D flows and getting three MSE flow loss components. The algorithm is summarized in Algorithm~\ref{algo:3Dflowtraining}. In case of unlabeled regions, the same loss masking could be applied as described in the previous section.
 
 \begin{algorithm}[H]
 \caption{Training with masked 3D flow loss}
@@ -346,22 +350,22 @@ While this approach sounds quite logical at first, there are a few issues. First
 
 \subsection{Feasibility of Extending Mediar to True 3D}
 
-Since the proposed network of Eschweiler et al. has shown great performance in learning true 3D features, by using 3D convolutional layers, it seems reasonable to extend the encoder and decoder components of Mediar to true 3D. While this would not be technically impossible, as previous work has successfully implemented 3D attention layers for image segmentation \cite{wald2025primusenforcingattentionusage}, global attention in 3D would severely influence computational complexity. More importantly, training these blocks from scratch would require a lot of annotated 3D training data, due to the lack of inductive bias in the architecture. We would ultimately lose the strong generalizable power from the heavily pretrained 2D encoders. Since pretraining data for 3D cellsegmentation is in the magnitudes of a few hundreds, this approach seems unlikely to succeed. As Carsen Stringer, the original author of cellpose suggests, CNNs would definitely be more suitable for training a true 3D cellpose variant from scratch because of the above mentioned reasons.
+Since the proposed network of Eschweiler et al. has shown great performance in learning true 3D features, by using 3D convolutional layers, it seems reasonable to extend the encoder and decoder components of Mediar to true 3D. While this would not be technically impossible, as previous work has successfully implemented 3D attention layers for image segmentation \cite{wald2025primusenforcingattentionusage}, global attention in 3D would severely influence computational complexity. More importantly, training these blocks from scratch would require a lot of annotated 3D training data, due to the lack of inductive bias in the architecture. We would ultimately lose the strong generalizable power from the heavily pretrained 2D encoders. Since pretraining data for 3D cell segmentation is in the magnitudes of a few hundreds, this approach seems unlikely to succeed. As Carsen Stringer, the original author of Cellpose suggests, CNNs would definitely be more suitable for training a true 3D Cellpose variant from scratch because of the above mentioned reasons.
 
 \subsection{Hybrid Approach for Learning True 3D Features}
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.9\textwidth]{Images/Graphics/Cellpose3D.pdf}
-    \caption{3D feature network. Figure adapted from \cite{Stringer.2020} \cite{bui2024sam3dsegmentmodelvolumetric}.}
-    \label{fig:myfigure}
+    \caption{3D feature network. Figure adapted from \cite{Stringer.2020, bui2024sam3dsegmentmodelvolumetric}.}
+    \label{fig:sam3d}
 \end{figure}
-In this subsection, we present a different approach for learning true 3D features. We adapt the design of xy et al \cite{bui2024sam3dsegmentmodelvolumetric}, who keep the strong pretraining power of a foundational encoder and train a separate 3D convolutional decoder to learn 3D features based on the forwarded slices of the 2D encoder.
+In this subsection, we present a different approach for learning true 3D features. We adapt the design of Bui et al. \cite{bui2024sam3dsegmentmodelvolumetric}, who keep the strong pretraining power of a foundational encoder and train a separate 3D convolutional decoder to learn 3D features based on the forwarded slices of the 2D encoder.
 
 Specifically, they used the SAM1 image encoder registry as the encoder and a lightweight decoder, which is depicted in Figure \ref{fig:3d_decoder_featurenet}. The input image
 \(
 I \in \mathbb{R}^{H \times W \times D}
 \) 
-is sliced along the depth dimension, converted to a 3-channel image and forwarded through the encoder. The resulting slice embeddings $F = [f_1, f_2, \dots, f_D] \in \mathbb{R}^{\frac{H}{16} \times \frac{W}{16} \times D \times 256}$ are stacked to form a 3D feature volume \(F\), which is then processed by the 3D decoder to capture depth-wise relationships and map the features to the Cellpose learning objective. The forward pass is summarized in Algorithm~\ref{algo:sam3d_forward}.
+is sliced along the depth dimension, converted to a 3-channel image and forwarded through the encoder. The resulting slice embeddings $F = [f_1, f_2, \dots, f_D] \in \mathbb{R}^{\frac{H}{16} \times \frac{W}{16} \times D \times 256}$ are stacked to form a 3D feature volume \(F\), which is then processed by the 3D decoder to capture depth-wise relationships and map the features to the Cellpose learning objective. The forward pass is summarized in Algorithm~\ref{algo:sam3d_forward}. An overview of the architecture design is given in Figure \ref{fig:sam3d}.
 
 \begin{algorithm}[H]
 \caption{Hybrid 3D Feature Network Forward Pass}

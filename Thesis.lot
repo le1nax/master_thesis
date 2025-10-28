@@ -10,8 +10,10 @@
 \contentsline {table}{\numberline {4.5}{\ignorespaces Finetuning Setups}}{49}{table.caption.56}%
 \contentsline {table}{\numberline {4.6}{\ignorespaces Mean SEG (and mean IoU) scores for different cropping strategies.}}{50}{table.caption.57}%
 \contentsline {table}{\numberline {4.7}{\ignorespaces Finetuning Setups}}{52}{table.caption.60}%
-\contentsline {table}{\numberline {4.8}{\ignorespaces Hardware specifications of the system used for network runtime benchmarks.}}{56}{table.caption.64}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces Hardware specifications of the system used for network runtime benchmarks.}}{57}{table.caption.65}%
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Median SEG-scores on Fully Annotated Data}}{63}{table.caption.70}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Median SEG-scores on Partially Annotated Data}}{64}{table.caption.75}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

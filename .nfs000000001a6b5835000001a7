@@ -1,0 +1,79 @@
+\babel@toc {british}{}\relax 
+\contentsline {chapter}{List of Figures}{VII}{chapter*.3}%
+\contentsline {chapter}{List of Tables}{VII}{chapter*.4}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Related Work}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Convolutional Neural Networks (CNNs)}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}ImageNet}{3}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}U-Net Architecture}{4}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Image Segmentation}{6}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Semantic and Instance Segmentation}{6}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Cellpose}{7}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}SEG-Metric}{9}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Foundation Models}{10}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Transformer}{10}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}The Attention Mechanism}{10}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Transformer}{12}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Vision Transformer}{13}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}SegFormer}{13}{subsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}MA-Net: Multi-Scale Attention Network}{14}{subsection.2.4.5}%
+\contentsline {section}{\numberline {2.5}Masked Autoencoders}{17}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Segment Anything}{18}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Segment Anything 2}{20}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Hiera}{20}{subsection.2.6.2}%
+\contentsline {section}{\numberline {2.7}Mediar}{21}{section.2.7}%
+\contentsline {section}{\numberline {2.8}CellposeSAM}{23}{section.2.8}%
+\contentsline {chapter}{\numberline {3}Methods}{25}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Datasets}{25}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Pretraining Datasets}{25}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Evaluation Datasets}{27}{subsection.3.1.2}%
+\contentsline {subsubsection}{\nonumberline BlastoSPIM}{27}{subsubsection*.26}%
+\contentsline {subsubsection}{\nonumberline CTC Datasets}{28}{subsubsection*.29}%
+\contentsline {subsubsection}{\nonumberline Zebrafish Dataset}{28}{subsubsection*.33}%
+\contentsline {section}{\numberline {3.2}Mediar3D}{31}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}3D Flowfield Prediction}{31}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Post-Processing of 3D Flows}{32}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Segmentation Network Design Choices}{33}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}High-Level Network Design}{33}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}SAM2 Encoder Registry}{34}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Merging SAM2 Image Encoder with Mediar}{35}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Lightweight Decoder}{35}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Training Pipeline, Challenges and Solutions}{36}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Training Pipeline}{36}{subsection.3.4.1}%
+\contentsline {subsubsection}{\nonumberline Data preparation and sampling}{36}{subsubsection*.39}%
+\contentsline {subsubsection}{\nonumberline Forward pass}{37}{subsubsection*.41}%
+\contentsline {subsubsection}{\nonumberline Backward pass}{38}{subsubsection*.43}%
+\contentsline {subsubsection}{\nonumberline Checkpointing}{38}{subsubsection*.45}%
+\contentsline {subsection}{\numberline {3.4.2}Training with Limited Annotations}{39}{subsection.3.4.2}%
+\contentsline {subsubsection}{\nonumberline Using unsupervised learning methods}{39}{subsubsection*.47}%
+\contentsline {subsubsection}{\nonumberline Masked loss function}{39}{subsubsection*.49}%
+\contentsline {section}{\numberline {3.5}3D Feature Network}{40}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}3D Gradient Flow Training}{40}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Feasibility of Extending Mediar to True 3D}{41}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Hybrid Approach for Learning True 3D Features}{41}{subsection.3.5.3}%
+\contentsline {chapter}{\numberline {4}Experiments}{44}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Model Pretraining}{44}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Pre-Evaluation of Pretraining Results}{46}{subsection.4.1.1}%
+\contentsline {section}{\numberline {4.2}Model Finetuning}{48}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Finetuning on Fully Annotated Data}{48}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Finetuning on Partially Annotated Data}{49}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Model Inference}{53}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Post-Processing Parameters}{53}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Testing on synthetic Data}{54}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Testing on BlastoSPIM}{54}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Testing on CTC Data}{54}{subsection.4.3.4}%
+\contentsline {subsubsection}{\nonumberline Memory handling and runtime considerations}{54}{subsubsection*.64}%
+\contentsline {subsection}{\numberline {4.3.5}Testing on Zebrafish Data}{56}{subsection.4.3.5}%
+\contentsline {subsection}{\numberline {4.3.6}Runtime Benchmarking}{56}{subsection.4.3.6}%
+\contentsline {section}{\numberline {4.4}3D Feature Network}{56}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Pretraining}{57}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Testing}{57}{subsection.4.4.2}%
+\contentsline {chapter}{\numberline {5}Results}{59}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Benchmarking on Fully Annotated Datasets}{59}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Benchmarking on Partially Annotated Datasets}{62}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Benchmarking Zero-shot Performance}{66}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Runtime Benchmarking}{66}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Discussion and Future Work}{68}{chapter.6}%
+\contentsline {chapter}{Bibliography}{i}{chapter.6}%
+\contentsline {chapter}{\numberline {A}Appendix}{ix}{appendix.A}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

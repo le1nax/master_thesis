@@ -45,8 +45,8 @@
 \contentsline {subsubsection}{\nonumberline Backward pass}{38}{subsubsection*.43}%
 \contentsline {subsubsection}{\nonumberline Checkpointing}{38}{subsubsection*.45}%
 \contentsline {subsection}{\numberline {3.4.2}Training with Limited Annotations}{39}{subsection.3.4.2}%
-\contentsline {subsubsection}{\nonumberline Using Unsupervised Learning Methods}{39}{subsubsection*.47}%
-\contentsline {subsubsection}{\nonumberline Masked Loss Function}{39}{subsubsection*.49}%
+\contentsline {subsubsection}{\nonumberline Using unsupervised learning methods}{39}{subsubsection*.47}%
+\contentsline {subsubsection}{\nonumberline Masked loss function}{39}{subsubsection*.49}%
 \contentsline {section}{\numberline {3.5}3D Feature Network}{40}{section.3.5}%
 \contentsline {subsection}{\numberline {3.5.1}3D Gradient Flow Training}{40}{subsection.3.5.1}%
 \contentsline {subsection}{\numberline {3.5.2}Feasibility of Extending Mediar to True 3D}{41}{subsection.3.5.2}%
@@ -56,24 +56,24 @@
 \contentsline {subsection}{\numberline {4.1.1}Pre-Evaluation of Pretraining Results}{46}{subsection.4.1.1}%
 \contentsline {section}{\numberline {4.2}Model Finetuning}{48}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Finetuning on Fully Annotated Data}{48}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Finetuning on Partially Annotated Data}{48}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.2}Finetuning on Partially Annotated Data}{49}{subsection.4.2.2}%
 \contentsline {section}{\numberline {4.3}Model Inference}{53}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Post-Processing Parameters}{53}{subsection.4.3.1}%
 \contentsline {subsection}{\numberline {4.3.2}Testing on synthetic Data}{54}{subsection.4.3.2}%
 \contentsline {subsection}{\numberline {4.3.3}Testing on BlastoSPIM}{54}{subsection.4.3.3}%
 \contentsline {subsection}{\numberline {4.3.4}Testing on CTC Data}{54}{subsection.4.3.4}%
-\contentsline {subsubsection}{\nonumberline Memory handling and runtime considerations}{55}{subsubsection*.63}%
-\contentsline {subsection}{\numberline {4.3.5}Testing on Zebrafish Data}{55}{subsection.4.3.5}%
+\contentsline {subsubsection}{\nonumberline Memory handling and runtime considerations}{54}{subsubsection*.64}%
+\contentsline {subsection}{\numberline {4.3.5}Testing on Zebrafish Data}{56}{subsection.4.3.5}%
 \contentsline {subsection}{\numberline {4.3.6}Runtime Benchmarking}{56}{subsection.4.3.6}%
 \contentsline {section}{\numberline {4.4}3D Feature Network}{56}{section.4.4}%
 \contentsline {subsection}{\numberline {4.4.1}Pretraining}{57}{subsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.4.2}Testing}{57}{subsection.4.4.2}%
-\contentsline {chapter}{\numberline {5}Results}{58}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Benchmarking on Fully Annotated Datasets}{58}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Benchmarking on Partially Annotated Datasets}{61}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Benchmarking Zero-shot Performance}{64}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Runtime Benchmarking}{65}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Discussion and Future Work}{67}{chapter.6}%
+\contentsline {chapter}{\numberline {5}Results}{59}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Benchmarking on Fully Annotated Datasets}{59}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Benchmarking on Partially Annotated Datasets}{62}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Benchmarking Zero-shot Performance}{66}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Runtime Benchmarking}{67}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Discussion and Future Work}{69}{chapter.6}%
 \contentsline {chapter}{Bibliography}{i}{chapter.6}%
 \contentsline {chapter}{\numberline {A}Appendix}{ix}{appendix.A}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
